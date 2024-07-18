@@ -47,10 +47,11 @@
             "emv_terminal_id": 0,
             "emv_hashpan": "",
             "fermata": 0,
-            "codice fermata_tariffaria": 0,
-            "codice_linea": 0,
-            "latitude": 0,
-            "longitude": 0
+            "codice fermata_tariffaria": 292,
+            "codice_linea": "C63",
+            "latitude": 40.8530144619529,
+            "longitude": 14.2502167828155,
+            "last_stop_id": "IT:ITF3:ScheduledStopPoint:3119_ANM_2023_-_GOMMA"
         }
     ]
 }

@@ -43,7 +43,6 @@ def calculateLine(file):
     for sjp in root.findall(f".//{ns}ServiceJourneyPattern"):
         stops_sjp = {r.get("ref") for r in sjp.findall(f".//{ns}ScheduledStopPointRef")}
         if set(stops_id) <= set(stops_sjp):
-            #lines_ref = sjp.find(f".//{ns}LineRef")
             linee_id.append(sjp.find(f".//{ns}LineRef").get("ref"))
     
     unique_lines_id = list(set(linee_id))
@@ -99,7 +98,7 @@ def neighborhooded_stops(file):
 
 
 # Funzione per scoprire la fermata al quale il bus si ferma 
-def calculateStop_due_to_search(file):
+def calculateStop(file):
     params = open_json(1, file)
 
     netex = params["netex"]["netex_file_path"] + params["netex"]["netex_file_name"]
@@ -155,35 +154,132 @@ def calculateStop_due_to_search(file):
     open_json(0, file, params)
 
 
-# Funzione per scoprire la fermata collegata al tap
-def calculateStop_due_to_validation(file):
+############################################################################################
+# SEZIONE VALIDAZIONE TAP
+############################################################################################
+
+# Estrai il codice fermata
+def estract_stop_id(testo):
+    start_trim = testo.rfind(":")
+    end_trim = testo.find("_")
+
+    value = testo[start_trim + 1:end_trim]
+
+    return int(value)
+
+
+# Estrai il codice fermata tariffaria
+def estract_tariffzone_id(testo):
+    start_trim = testo.rfind(":")
+
+    value = testo[start_trim + 1:]
+
+    return int(value)
+
+
+# Estrai il codice fermata tariffaria
+def estract_line_id(testo):
+    start_trim = testo.rfind(":")
+
+    value = testo[start_trim + 1:]
+
+    return value
+
+
+# Funzione per scoprire le informazioni utili al tap
+def calculateValidation(file):
     params = open_json(1, file)
     netex = params["netex"]["netex_file_path"] + params["netex"]["netex_file_name"]
     ns = params["netex"]["namespace"]
+    validazioni = params["validazioni"]
 
-    if params["infomobility"]["line_id"] != "":
-        journeys = params["infomobility"]["journeys"]
+    if params["infomobility"]["line_id"] != "" and validazioni: # while
+        starting_reference_stop_id = params["validazioni"][0]["last_stop_id"]
+        lat = validazioni[0]["latitude"]
+        lon = validazioni[0]["longitude"]
+        delta = params["position_rt"]["range_meters_approx"]
+        line_id = params["infomobility"]["line_id"]
 
-        nearby_stops_id = neighborhooded_stops(file)
+        found = False
+        
+        root = ET.parse(netex)
 
+        for sjp in root.findall(f".//{ns}ServiceJourneyPattern"):
+            if sjp.find(f".//{ns}LineRef").get("ref") == line_id:
+                all_linked_stops_id = []
+                ref_idx = 0
+                for stop in sjp.findall(f".//{ns}ScheduledStopPointRef"):
+                    all_linked_stops_id.append(stop.get("ref"))
+                for stop_id in all_linked_stops_id:
+                    if stop_id == starting_reference_stop_id:
+                        ref_idx = all_linked_stops_id.index(stop_id)
+                while not found:
+                    linked_stops_distance = []
+                    buffer_idx = 0
+                    for i in range(3):
+                        if ref_idx+i >= len(all_linked_stops_id):
+                            stop = root.find(f".//{ns}ScheduledStopPoint[@id='{all_linked_stops_id[buffer_idx]}']")
+                            lat_stop = float(stop.findtext(f".//{ns}Latitude"))
+                            lon_stop = float(stop.findtext(f".//{ns}Longitude"))
+                            distance = calculate_distance(lat, lon, lat_stop, lon_stop)
+                            if distance <= delta:
+                                tariff_zone_id = stop.find(f".//{ns}TariffZoneRef").get("ref")
+                                params["validazioni"][0]["fermata"] = estract_stop_id(all_linked_stops_id[buffer_idx])
+                                params["validazioni"][0]["codice fermata_tariffaria"] = estract_tariffzone_id(tariff_zone_id)
+                                found = True 
+                            else:
+                                linked_stops_distance.append(distance)
+                            buffer_idx += 1
+                        else:
+                            stop = root.find(f".//{ns}ScheduledStopPoint[@id='{all_linked_stops_id[ref_idx+i]}']")
+                            lat_stop = float(stop.findtext(f".//{ns}Latitude"))
+                            lon_stop = float(stop.findtext(f".//{ns}Longitude"))
+                            distance = calculate_distance(lat, lon, lat_stop, lon_stop)
+                            if distance <= delta:
+                                tariff_zone_id = stop.find(f".//{ns}TariffZoneRef").get("ref")
+                                params["validazioni"][0]["fermata"] = estract_stop_id(all_linked_stops_id[ref_idx+i])
+                                params["validazioni"][0]["codice fermata_tariffaria"] = estract_tariffzone_id(tariff_zone_id)
+                                found = True 
+                                break
+                            else:
+                                linked_stops_distance.append(distance)
+                    if found:
+                        break
+                    #print(linked_stops_distance)
+                    if max(linked_stops_distance) == linked_stops_distance[2]:
+                        for link in root.findall(f".//{ns}ServiceLink"):
+                            if link.find(f"{ns}FromPointRef").get("ref") == all_linked_stops_id[ref_idx] and link.find(f"{ns}FromPointRef").get("ref") == all_linked_stops_id[ref_idx+1]:
+                                if validazioni["operazione"] == "check-in":
+                                    stop = root.find(f".//{ns}ScheduledStopPoint[@id='{all_linked_stops_id[ref_idx]}']")
+                                    tariff_zone_id = stop.find(f".//{ns}TariffZoneRef").get("ref")
+                                    params["validazioni"][0]["fermata"] = estract_stop_id(all_linked_stops_id[ref_idx])
+                                    params["validazioni"][0]["codice fermata_tariffaria"] = estract_tariffzone_id(tariff_zone_id)
+                                    found = True 
+                                elif validazioni["operazione"] == "check-out":
+                                    if ref_idx+1 >= len(all_linked_stops_id):
+                                        stop = root.find(f".//{ns}ScheduledStopPoint[@id='{all_linked_stops_id[0]}']")
+                                        params["validazioni"][0]["fermata"] = estract_stop_id(all_linked_stops_id[0])
+                                    else:
+                                        stop = root.find(f".//{ns}ScheduledStopPoint[@id='{all_linked_stops_id[ref_idx+1]}']")
+                                        params["validazioni"][0]["fermata"] = estract_stop_id(all_linked_stops_id[ref_idx+1])
+                                    tariff_zone_id = stop.find(f".//{ns}TariffZoneRef").get("ref")
+                                    params["validazioni"][0]["codice fermata_tariffaria"] = estract_tariffzone_id(tariff_zone_id)
+                                    found = True 
+                    elif max(linked_stops_distance) == linked_stops_distance[0]:
+                        if ref_idx+1 >= len(all_linked_stops_id):
+                            ref_idx = 0
+                        else:
+                            ref_idx += 1
 
-        # da lì cercare di capire se è la nostra meta oppure veniamo da lì
-        #else:
-            #fermate = root.findall(f".//{ns}ScheduledStopPoint")
-            #for fermata in fermate:
-                #stop_id = fermata.get("id")
-                #stop_name = fermata.findtext(f"{ns}Name")
-                #lat_stop = float(fermata.findtext(f".//{ns}Latitude"))
-                #lon_stop = float(fermata.findtext(f".//{ns}Longitude"))
-                #distanza = calculate_distance(lat, lon, lat_stop, lon_stop)
-                #if distanza < min_distance:
-                    #min_distance = distanza
-                    #closest_stop = {"id": stop_id, "name": stop_name}
+    params["validazioni"][0]["codice_linea"] = estract_line_id(line_id)
+    #params["validazioni"][0] = []
+    open_json(0, file, params)
 
 
 ############################################################################################
 # SEZIONE INFOMOBILITà ADMIN
 ############################################################################################
+
 
 # FUNZIONE LEGACY !!!!
 def getInfomobility(file):
