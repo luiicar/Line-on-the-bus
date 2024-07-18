@@ -49,11 +49,11 @@ def calculateLine(file):
     unique_lines_id = list(set(linee_id))
     if len(unique_lines_id) == 1:
         params["infomobility"]["line_id"] = unique_lines_id[0]
-        journeys = []
+        #params["infomobility"]["journeys"] = []
         open_json(0, file, params)
 
     elif len(unique_lines_id) == 0:
-        journeys = []
+        #params["infomobility"]["journeys"] = []
         open_json(0, file, params)
 
 
@@ -113,6 +113,7 @@ def calculateStop_due_to_search(file):
         lon = params["position_rt"]["longitude"]
         next_stops_distance_avg = []
         root = ET.parse(netex)
+        
         # Cerca tutte le fermate successive e calcola la distanza media dalla posizione attuale
         # una distanza media minore indica che il verso di percorrenza è quello
         for idx in range(len(nearby_stops_id)):
