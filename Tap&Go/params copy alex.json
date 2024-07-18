@@ -10,11 +10,10 @@
         "range_meters_approx": 5
     },
     "buffer": {
-        "search_line_by_journey_patterns": [{
-            "id": "",
-            "line_id": "",
-            "stops": []
-        }]
+        "nearby_stops_id": [
+            "IT:ITF3:ScheduledStopPoint:3582_ANM_2023_-_GOMMA",
+            "IT:ITF3:ScheduledStopPoint:3405_ANM_2023_-_GOMMA"
+        ]
     },
     "infomobility": {
         "Line": {

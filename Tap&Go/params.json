@@ -1,7 +1,7 @@
 {
     "netex": {
         "netex_file_name": "IT-IT-ITF3-ANM_GOMMANeTEx_L2.xml",
-        "netex_file_path": "C:/Users/Jalexus/Desktop/Tap&Go/",
+        "netex_file_path": "C:/Users/Jalexus/Desktop/Tap-Go/Tap&Go/",
         "namespace": "{http://www.netex.org.uk/netex}"
     },
     "position_rt": {
@@ -9,58 +9,27 @@
         "longitude": 14.256507,
         "range_meters_approx": 5
     },
+    "buffer": {
+        "nearby_stops_id": [
+            "IT:ITF3:ScheduledStopPoint:3582_ANM_2023_-_GOMMA",
+            "IT:ITF3:ScheduledStopPoint:3405_ANM_2023_-_GOMMA"
+        ]
+    },
     "infomobility": {
-        "Line": {
-            "id": "IT:ITF3:Line:C63",
-            "name": "C63"
-        },
-        "JourneyPattern": [
-            {
-                "id": "IT:ITF3:ServiceJourneyPattern:C63_4344_1_1_1_ANM_2023_-_GOMMA",
-                "direction": "inbound",
-                "stops": [
-                    {
-                        "id": "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
-                        "name": "GIOVAN BATTISTA VICO"
-                    },
-                    {
-                        "id": "IT:ITF3:ScheduledStopPoint:1373_ANM_2023_-_GOMMA",
-                        "name": "TANUCCI "
-                    },
-                    {
-                        "id": "IT:ITF3:ScheduledStopPoint:1203_ANM_2023_-_GOMMA",
-                        "name": "GUSSONE"
-                    },
-                    {
-                        "id": "IT:ITF3:ScheduledStopPoint:1006_ANM_2023_-_GOMMA",
-                        "name": "ARENACCIA - Ottocalli"
-                    },
-                    {
-                        "id": "IT:ITF3:ScheduledStopPoint:1453_ANM_2023_-_GOMMA",
-                        "name": "NICOLINI "
-                    },
-                    {
-                        "id": "IT:ITF3:ScheduledStopPoint:1456_ANM_2023_-_GOMMA",
-                        "name": "NICOLINI "
-                    },
-                    {
-                        "id": "IT:ITF3:ScheduledStopPoint:3900_ANM_2023_-_GOMMA",
-                        "name": "PONTI ROSSI 285"
-                    },
-                    {
-                        "id": "IT:ITF3:ScheduledStopPoint:1061_ANM_2023_-_GOMMA",
-                        "name": "DANTE - M1"
-                    }
-                ]
-            },
+        "line_id": "IT:ITF3:Line:C63",
+        "journeys": [
             {
                 "id": "",
-                "direction": "",
+                "direction": "unbound",
                 "stops": [
-                    {
-                        "id": "IT:ITF3:ScheduledStopPoint:3526_ANM_2023_-_GOMMA",
-                        "name": "PONTI ROSSI "
-                    }
+                    "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
+                    "IT:ITF3:ScheduledStopPoint:1373_ANM_2023_-_GOMMA",
+                    "IT:ITF3:ScheduledStopPoint:1203_ANM_2023_-_GOMMA",
+                    "IT:ITF3:ScheduledStopPoint:1006_ANM_2023_-_GOMMA",
+                    "IT:ITF3:ScheduledStopPoint:1453_ANM_2023_-_GOMMA",
+                    "IT:ITF3:ScheduledStopPoint:1456_ANM_2023_-_GOMMA",
+                    "IT:ITF3:ScheduledStopPoint:3900_ANM_2023_-_GOMMA",
+                    "IT:ITF3:ScheduledStopPoint:1061_ANM_2023_-_GOMMA"
                 ]
             }
         ]
