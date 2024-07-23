@@ -144,8 +144,9 @@
             "fermata": 0,
             "codice fermata_tariffaria": 0,
             "codice_linea": 0,
-            "latitude": 0,
-            "longitude": 0
+            "latitude": 40.8485604195264,
+            "longitude": 14.24963740275,
+            "last_stop_id": ""
         }
     ]
 }
