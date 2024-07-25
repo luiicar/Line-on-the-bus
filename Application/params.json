@@ -2,13 +2,14 @@
     "netex": {
         "netex_file_name": "IT-IT-ITF3-ANM_GOMMANeTEx_L2.xml",
         "netex_file_path": "C:/Users/Jalexus/Desktop/Tap-Go/Application/",
-        "namespace": "{http://www.netex.org.uk/netex}"
+        "namespace": "http://www.netex.org.uk/netex"
     },
     "position_rt": {
         "latitude": 40.869947,
         "longitude": 14.256507,
         "range_meters_approx": 5
     },
+    "time_min_approx": 45,
     "buffer": {
         "nearby_stops_id": [
             "IT:ITF3:ScheduledStopPoint:3582_ANM_2023_-_GOMMA",
@@ -21,6 +22,7 @@
             {
                 "id": "",
                 "direction": "unbound",
+                "last_stop_time": "",
                 "stops": [
                     "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
                     "IT:ITF3:ScheduledStopPoint:1373_ANM_2023_-_GOMMA",
@@ -36,7 +38,7 @@
     },
     "validazioni": [
         {
-            "data_validazione": "",
+            "data_validazione": "03/06/2024 10:00:25",
             "vettore_validazione": "ANM",
             "veicolo": "",
             "dispositivo": "",
@@ -47,11 +49,14 @@
             "emv_terminal_id": 0,
             "emv_hashpan": "",
             "fermata": 0,
-            "codice fermata_tariffaria": 292,
-            "codice_linea": "C63",
-            "latitude": 40.8530144619529,
-            "longitude": 14.2502167828155,
-            "last_stop_id": "IT:ITF3:ScheduledStopPoint:3119_ANM_2023_-_GOMMA"
+            "codice_fermata_tariffaria": 0,
+            "codice_linea": "",
+            "__added__":{
+                "latitude": 40.8530144619529,
+                "longitude": 14.2502167828155,
+                "last_stop_id": "IT:ITF3:ScheduledStopPoint:3119_ANM_2023_-_GOMMA",
+                "last_stop_time": "10:07:00"
+            }
         }
     ]
 }
