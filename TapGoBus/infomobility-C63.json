@@ -1,0 +1,572 @@
+{
+    "line": {
+        "id": "IT:ITF3:Line:C63",
+        "name": "C63"
+    },
+    "journeys": [
+        {
+            "id": "IT:ITF3:ServiceJourneyPattern:C63_4344_1_1_1_ANM_2023_-_GOMMA",
+            "direction": "inbound",
+            "departure/duration": {
+                "06:00:00": "PT0H40M0S",
+                "06:26:00": "PT0H40M0S",
+                "06:30:00": "PT0H40M0S",
+                "06:53:00": "PT0H40M0S",
+                "06:55:00": "PT0H40M0S",
+                "07:05:00": "PT0H30M0S",
+                "07:20:00": "PT0H35M0S",
+                "07:34:00": "PT0H45M0S",
+                "07:35:00": "PT0H40M0S",
+                "07:45:00": "PT0H35M0S",
+                "07:49:00": "PT0H45M0S",
+                "08:05:00": "PT0H35M0S",
+                "08:10:00": "PT0H35M0S",
+                "08:18:00": "PT0H45M0S",
+                "08:30:00": "PT0H35M0S",
+                "08:35:00": "PT0H45M0S",
+                "08:48:00": "PT0H45M0S",
+                "08:55:00": "PT0H35M0S",
+                "09:00:00": "PT0H35M0S",
+                "09:02:00": "PT0H45M0S",
+                "09:17:00": "PT0H45M0S",
+                "09:20:00": "PT0H35M0S",
+                "09:25:00": "PT0H35M0S",
+                "09:30:00": "PT0H45M0S",
+                "09:45:00": "PT0H35M0S",
+                "09:46:00": "PT0H45M0S",
+                "09:50:00": "PT0H35M0S",
+                "10:00:00": "PT0H45M0S",
+                "10:10:00": "PT0H35M0S",
+                "10:15:00": "PT0H45M0S",
+                "10:20:00": "PT0H35M0S",
+                "10:29:00": "PT0H45M0S",
+                "10:30:00": "PT0H45M0S",
+                "10:35:00": "PT0H35M0S",
+                "10:44:00": "PT0H45M0S",
+                "10:45:00": "PT0H35M0S",
+                "11:00:00": "PT0H35M0S",
+                "11:10:00": "PT0H35M0S",
+                "11:13:00": "PT0H45M0S",
+                "11:25:00": "PT0H35M0S",
+                "11:30:00": "PT0H45M0S",
+                "11:40:00": "PT0H35M0S",
+                "11:42:00": "PT0H45M0S",
+                "11:50:00": "PT0H35M0S",
+                "12:00:00": "PT0H50M0S",
+                "12:05:00": "PT0H35M0S",
+                "12:11:00": "PT0H45M0S",
+                "12:15:00": "PT0H35M0S",
+                "12:25:00": "PT0H50M0S",
+                "12:30:00": "PT0H35M0S",
+                "12:40:00": "PT0H40M0S",
+                "12:50:00": "PT0H50M0S",
+                "13:00:00": "PT0H35M0S",
+                "13:05:00": "PT0H45M0S",
+                "13:09:00": "PT0H45M0S",
+                "13:15:00": "PT0H50M0S",
+                "13:25:00": "PT0H35M0S",
+                "13:30:00": "PT0H45M0S",
+                "13:38:00": "PT0H45M0S",
+                "13:40:00": "PT0H50M0S",
+                "13:50:00": "PT0H35M0S",
+                "14:00:00": "PT0H35M0S",
+                "14:05:00": "PT0H50M0S",
+                "14:07:00": "PT0H45M0S",
+                "14:20:00": "PT0H35M0S",
+                "14:30:00": "PT0H45M0S",
+                "14:35:00": "PT0H35M0S",
+                "14:36:00": "PT0H45M0S",
+                "14:45:00": "PT0H35M0S",
+                "14:55:00": "PT0H45M0S",
+                "15:05:00": "PT0H45M0S",
+                "15:10:00": "PT0H35M0S",
+                "15:19:00": "PT0H45M0S",
+                "15:20:00": "PT0H45M0S",
+                "15:34:00": "PT0H45M0S",
+                "15:40:00": "PT0H40M0S",
+                "15:45:00": "PT0H35M0S",
+                "15:50:00": "PT0H45M0S",
+                "16:03:00": "PT0H45M0S",
+                "16:05:00": "PT0H40M0S",
+                "16:10:00": "PT0H35M0S",
+                "16:20:00": "PT0H45M0S",
+                "16:30:00": "PT0H40M0S",
+                "16:32:00": "PT0H45M0S",
+                "16:35:00": "PT0H30M0S",
+                "16:46:00": "PT0H45M0S",
+                "16:50:00": "PT0H45M0S",
+                "17:00:00": "PT0H35M0S",
+                "17:01:00": "PT0H45M0S",
+                "17:20:00": "PT0H45M0S",
+                "17:25:00": "PT0H35M0S",
+                "17:30:00": "PT0H45M0S",
+                "17:50:00": "PT0H45M0S",
+                "17:55:00": "PT0H45M0S",
+                "18:00:00": "PT0H45M0S",
+                "18:15:00": "PT0H45M0S",
+                "18:20:00": "PT0H45M0S",
+                "18:25:00": "PT0H45M0S",
+                "18:30:00": "PT0H45M0S",
+                "18:40:00": "PT0H35M0S",
+                "18:50:00": "PT0H45M0S",
+                "18:55:00": "PT0H45M0S",
+                "19:00:00": "PT0H45M0S",
+                "19:10:00": "PT0H35M0S",
+                "19:20:00": "PT0H45M0S",
+                "19:25:00": "PT0H45M0S",
+                "19:30:00": "PT0H45M0S",
+                "19:45:00": "PT0H35M0S",
+                "19:50:00": "PT0H45M0S",
+                "19:55:00": "PT0H45M0S",
+                "20:00:00": "PT0H45M0S",
+                "20:20:00": "PT0H45M0S",
+                "20:25:00": "PT0H45M0S",
+                "20:30:00": "PT0H35M0S",
+                "20:50:00": "PT0H40M0S",
+                "20:55:00": "PT0H35M0S",
+                "21:00:00": "PT0H45M0S",
+                "21:20:00": "PT0H35M0S",
+                "21:25:00": "PT0H45M0S",
+                "21:30:00": "PT0H35M0S",
+                "21:50:00": "PT0H35M0S",
+                "21:55:00": "PT0H45M0S"
+            },
+            "stops": [
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
+                    "Name": "GIOVAN BATTISTA VICO",
+                    "Longitude": 14.2651394166328,
+                    "Latitude": 40.8660101944463
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1373_ANM_2023_-_GOMMA",
+                    "Name": "TANUCCI ",
+                    "Longitude": 14.2668422985066,
+                    "Latitude": 40.8649265242471
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1203_ANM_2023_-_GOMMA",
+                    "Name": "GUSSONE",
+                    "Longitude": 14.26891439728,
+                    "Latitude": 40.8650612880382
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1006_ANM_2023_-_GOMMA",
+                    "Name": "ARENACCIA - Ottocall",
+                    "Longitude": 14.2687942167412,
+                    "Latitude": 40.8670873902078
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1453_ANM_2023_-_GOMMA",
+                    "Name": "NICOLINI ",
+                    "Longitude": 14.2674491478799,
+                    "Latitude": 40.8696191906539
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1456_ANM_2023_-_GOMMA",
+                    "Name": "NICOLINI ",
+                    "Longitude": 14.2668683532216,
+                    "Latitude": 40.8706334359021
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3900_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI 285",
+                    "Longitude": 14.2649666868008,
+                    "Latitude": 40.8722084026421
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3011_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI",
+                    "Longitude": 14.2634150250643,
+                    "Latitude": 40.8713419344618
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3533_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI ",
+                    "Longitude": 14.263430548391,
+                    "Latitude": 40.8732509578425
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3530_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI ",
+                    "Longitude": 14.2593896461771,
+                    "Latitude": 40.8724548747471
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3526_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI ",
+                    "Longitude": 14.2565126850603,
+                    "Latitude": 40.869990619872
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3528_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI ",
+                    "Longitude": 14.2543229566364,
+                    "Latitude": 40.868958549351
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3946_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI ",
+                    "Longitude": 14.2530439623673,
+                    "Latitude": 40.8668783701429
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3582_ANM_2023_-_GOMMA",
+                    "Name": "CAPODIMONTE - Museo ",
+                    "Longitude": 14.2518523409382,
+                    "Latitude": 40.8657401082392
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3121_ANM_2023_-_GOMMA",
+                    "Name": "CAPODIMONTE - Museo ",
+                    "Longitude": 14.2498536232711,
+                    "Latitude": 40.8654193010537
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3251_ANM_2023_-_GOMMA",
+                    "Name": "CAPODIMONTE",
+                    "Longitude": 14.2487291386592,
+                    "Latitude": 40.8670034880365
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3250_ANM_2023_-_GOMMA",
+                    "Name": "CAPODIMONTE - Basili",
+                    "Longitude": 14.2474519141417,
+                    "Latitude": 40.8655718542155
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3355_ANM_2023_-_GOMMA",
+                    "Name": "AMEDEO DI SAVOIA 269",
+                    "Longitude": 14.2483621239061,
+                    "Latitude": 40.8648301018892
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3356_ANM_2023_-_GOMMA",
+                    "Name": "AMEDEO DI SAVOIA 205",
+                    "Longitude": 14.2483680682904,
+                    "Latitude": 40.8629924511937
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3357_ANM_2023_-_GOMMA",
+                    "Name": "AMEDEO DI SAVOIA 193",
+                    "Longitude": 14.2483588234876,
+                    "Latitude": 40.8601367645623
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3118_ANM_2023_-_GOMMA",
+                    "Name": "S.TERESA DEGLI SCALZ",
+                    "Longitude": 14.2483617109324,
+                    "Latitude": 40.8585693411699
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3119_ANM_2023_-_GOMMA",
+                    "Name": "S.TERESA DEGLI SCALZ",
+                    "Longitude": 14.2483375216896,
+                    "Latitude": 40.8565107889753
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3120_ANM_2023_-_GOMMA",
+                    "Name": "S.TERESA DEGLI SCALZ",
+                    "Longitude": 14.249104255929,
+                    "Latitude": 40.8540159808226
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1253_ANM_2023_-_GOMMA",
+                    "Name": "PESSINA",
+                    "Longitude": 14.2499393958723,
+                    "Latitude": 40.8514990904389
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1061_ANM_2023_-_GOMMA",
+                    "Name": "DANTE - M1",
+                    "Longitude": 14.24963740275,
+                    "Latitude": 40.8485604195264
+                }
+            ]
+        },
+        {
+            "id": "IT:ITF3:ServiceJourneyPattern:C63_4344_1_1_2_ANM_2023_-_GOMMA",
+            "direction": "outbound",
+            "departure/duration": {
+                "06:40:00": "PT0H35M0S",
+                "07:00:00": "PT0H30M0S",
+                "07:05:00": "PT0H35M0S",
+                "07:06:00": "PT0H38M0S",
+                "07:10:00": "PT0H30M0S",
+                "07:30:00": "PT0H35M0S",
+                "07:33:00": "PT0H40M0S",
+                "07:35:00": "PT0H25M0S",
+                "07:55:00": "PT0H35M0S",
+                "08:05:00": "PT0H38M0S",
+                "08:10:00": "PT0H45M0S",
+                "08:15:00": "PT0H35M0S",
+                "08:19:00": "PT0H38M0S",
+                "08:20:00": "PT0H35M0S",
+                "08:34:00": "PT0H38M0S",
+                "08:35:00": "PT0H40M0S",
+                "08:40:00": "PT0H35M0S",
+                "08:45:00": "PT0H35M0S",
+                "08:55:00": "PT0H30M0S",
+                "09:03:00": "PT0H38M0S",
+                "09:05:00": "PT0H35M0S",
+                "09:10:00": "PT0H35M0S",
+                "09:20:00": "PT0H35M0S",
+                "09:30:00": "PT0H35M0S",
+                "09:33:00": "PT0H37M0S",
+                "09:35:00": "PT0H40M0S",
+                "09:45:00": "PT0H40M0S",
+                "09:47:00": "PT0H37M0S",
+                "09:55:00": "PT0H35M0S",
+                "10:00:00": "PT0H40M0S",
+                "10:02:00": "PT0H37M0S",
+                "10:15:00": "PT0H40M0S",
+                "10:20:00": "PT0H35M0S",
+                "10:25:00": "PT0H40M0S",
+                "10:31:00": "PT0H37M0S",
+                "10:45:00": "PT0H35M0S",
+                "10:55:00": "PT0H40M0S",
+                "11:00:00": "PT0H37M0S",
+                "11:10:00": "PT0H35M0S",
+                "11:14:00": "PT0H42M0S",
+                "11:15:00": "PT0H40M0S",
+                "11:20:00": "PT0H40M0S",
+                "11:29:00": "PT0H37M0S",
+                "11:35:00": "PT0H35M0S",
+                "11:45:00": "PT0H40M0S",
+                "11:58:00": "PT0H37M0S",
+                "12:00:00": "PT0H36M0S",
+                "12:15:00": "PT0H40M0S",
+                "12:25:00": "PT0H35M0S",
+                "12:27:00": "PT0H37M0S",
+                "12:40:00": "PT0H40M0S",
+                "12:50:00": "PT0H35M0S",
+                "12:56:00": "PT0H37M0S",
+                "13:05:00": "PT0H40M0S",
+                "13:15:00": "PT0H45M0S",
+                "13:20:00": "PT0H35M0S",
+                "13:25:00": "PT0H37M0S",
+                "13:35:00": "PT0H40M0S",
+                "13:40:00": "PT0H45M0S",
+                "13:50:00": "PT0H40M0S",
+                "13:54:00": "PT0H37M0S",
+                "14:00:00": "PT0H40M0S",
+                "14:05:00": "PT0H45M0S",
+                "14:15:00": "PT0H40M0S",
+                "14:23:00": "PT0H37M0S",
+                "14:25:00": "PT0H40M0S",
+                "14:30:00": "PT0H45M0S",
+                "14:35:00": "PT0H30M0S",
+                "14:52:00": "PT0H37M0S",
+                "14:55:00": "PT0H40M0S",
+                "15:10:00": "PT0H55M0S",
+                "15:15:00": "PT0H30M0S",
+                "15:20:00": "PT0H40M0S",
+                "15:21:00": "PT0H37M0S",
+                "15:40:00": "PT0H35M0S",
+                "15:45:00": "PT0H40M0S",
+                "15:50:00": "PT0H37M0S",
+                "16:04:00": "PT0H37M0S",
+                "16:05:00": "PT0H40M0S",
+                "16:19:00": "PT0H37M0S",
+                "16:20:00": "PT0H35M0S",
+                "16:35:00": "PT0H40M0S",
+                "16:45:00": "PT0H35M0S",
+                "16:48:00": "PT0H37M0S",
+                "17:05:00": "PT0H40M0S",
+                "17:10:00": "PT0H40M0S",
+                "17:17:00": "PT0H38M0S",
+                "17:31:00": "PT0H39M0S",
+                "17:35:00": "PT0H35M0S",
+                "17:45:00": "PT0H35M0S",
+                "17:46:00": "PT0H39M0S",
+                "18:00:00": "PT0H35M0S",
+                "18:05:00": "PT0H40M0S",
+                "18:10:00": "PT0H40M0S",
+                "18:15:00": "PT0H40M0S",
+                "18:25:00": "PT0H40M0S",
+                "18:35:00": "PT0H40M0S",
+                "18:40:00": "PT0H40M0S",
+                "18:45:00": "PT0H40M0S",
+                "18:50:00": "PT0H50M0S",
+                "19:00:00": "PT0H45M0S",
+                "19:05:00": "PT0H40M0S",
+                "19:10:00": "PT0H40M0S",
+                "19:15:00": "PT0H40M0S",
+                "19:35:00": "PT0H40M0S",
+                "19:40:00": "PT0H40M0S",
+                "19:45:00": "PT0H40M0S",
+                "20:05:00": "PT0H40M0S",
+                "20:10:00": "PT0H40M0S",
+                "20:15:00": "PT0H40M0S",
+                "20:20:00": "PT0H45M0S",
+                "20:35:00": "PT0H40M0S",
+                "20:40:00": "PT0H40M0S",
+                "20:45:00": "PT0H40M0S",
+                "20:55:00": "PT0H30M0S",
+                "21:05:00": "PT0H40M0S",
+                "21:10:00": "PT0H40M0S",
+                "21:15:00": "PT0H40M0S",
+                "21:30:00": "PT0H35M0S",
+                "21:40:00": "PT0H40M0S",
+                "21:45:00": "PT0H35M0S",
+                "21:55:00": "PT0H29M0S",
+                "22:05:00": "PT0H35M0S",
+                "22:10:00": "PT0H45M0S",
+                "22:25:00": "PT0H30M0S",
+                "22:40:00": "PT0H45M0S"
+            },
+            "stops": [
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1061_ANM_2023_-_GOMMA",
+                    "Name": "DANTE - M1",
+                    "Longitude": 14.24963740275,
+                    "Latitude": 40.8485604195264
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1062_ANM_2023_-_GOMMA",
+                    "Name": "DANTE - Port`Alba",
+                    "Longitude": 14.2500980283414,
+                    "Latitude": 40.8497930484765
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:5004_ANM_2023_-_GOMMA",
+                    "Name": "CONTE DI RUVO",
+                    "Longitude": 14.2515242998642,
+                    "Latitude": 40.8511483654749
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1130_ANM_2023_-_GOMMA",
+                    "Name": "COSTANTINOPOLI",
+                    "Longitude": 14.2517074873672,
+                    "Latitude": 40.8524796158747
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1246_ANM_2023_-_GOMMA",
+                    "Name": "MUSEO NAZIONALE",
+                    "Longitude": 14.2502167828155,
+                    "Latitude": 40.8530144619529
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3545_ANM_2023_-_GOMMA",
+                    "Name": "SANTA TERESA DEGLI S",
+                    "Longitude": 14.2490855620715,
+                    "Latitude": 40.8543581744077
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3116_ANM_2023_-_GOMMA",
+                    "Name": "S.TERESA DEGLI SCALZ",
+                    "Longitude": 14.2485362459667,
+                    "Latitude": 40.8557238580642
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3117_ANM_2023_-_GOMMA",
+                    "Name": "S.TERESA DEGLI SCALZ",
+                    "Longitude": 14.2485388560769,
+                    "Latitude": 40.8586425616594
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3352_ANM_2023_-_GOMMA",
+                    "Name": "AMEDEO DI SAVOIA 180",
+                    "Longitude": 14.248558058654,
+                    "Latitude": 40.8600930212182
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3353_ANM_2023_-_GOMMA",
+                    "Name": "AMEDEO DI SAVOIA ",
+                    "Longitude": 14.2485722263182,
+                    "Latitude": 40.8630388227739
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3354_ANM_2023_-_GOMMA",
+                    "Name": "AMEDEO DI SAVOIA 280",
+                    "Longitude": 14.248563524915,
+                    "Latitude": 40.8648584389568
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3422_ANM_2023_-_GOMMA",
+                    "Name": "TONDO DI CAPODIMONTE",
+                    "Longitude": 14.2488237718172,
+                    "Latitude": 40.8654546805364
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3248_ANM_2023_-_GOMMA",
+                    "Name": "CAPODIMONTE - Basili",
+                    "Longitude": 14.2473003776708,
+                    "Latitude": 40.8655933861456
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3249_ANM_2023_-_GOMMA",
+                    "Name": "CAPODIMONTE ",
+                    "Longitude": 14.2486874798032,
+                    "Latitude": 40.866489744891
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3253_ANM_2023_-_GOMMA",
+                    "Name": "CAPODIMONTE",
+                    "Longitude": 14.2492372897019,
+                    "Latitude": 40.8658762577599
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3405_ANM_2023_-_GOMMA",
+                    "Name": "CAPODIMONTE - Museo ",
+                    "Longitude": 14.2523546895874,
+                    "Latitude": 40.8659145227615
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3536_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI ",
+                    "Longitude": 14.2532036718287,
+                    "Latitude": 40.8671856857426
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3583_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI - Chiesa",
+                    "Longitude": 14.2546300543138,
+                    "Latitude": 40.8690866501293
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3523_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI ",
+                    "Longitude": 14.256629285527,
+                    "Latitude": 40.8699102969314
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3684_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI ",
+                    "Longitude": 14.2614899408617,
+                    "Latitude": 40.8730088379144
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3532_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI ",
+                    "Longitude": 14.2637007410249,
+                    "Latitude": 40.8729644182703
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:3947_ANM_2023_-_GOMMA",
+                    "Name": "PONTI ROSSI ",
+                    "Longitude": 14.2639080415877,
+                    "Latitude": 40.8711235494612
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1454_ANM_2023_-_GOMMA",
+                    "Name": "NICOLINI ",
+                    "Longitude": 14.2670420289505,
+                    "Latitude": 40.8699499106003
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1452_ANM_2023_-_GOMMA",
+                    "Name": "MINICHINI",
+                    "Longitude": 14.2660662171248,
+                    "Latitude": 40.8677680800801
+                },
+                {
+                    "id": "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
+                    "Name": "GIOVAN BATTISTA VICO",
+                    "Longitude": 14.2651394166328,
+                    "Latitude": 40.8660101944463
+                }
+            ]
+        }
+    ]
+}
