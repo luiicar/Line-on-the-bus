@@ -3,6 +3,8 @@ from lxml import etree
 from datetime import datetime
 from math import radians, degrees, sin, cos, atan2, sqrt
 import json
+import asyncio
+import gpsd
 
 
 file = "params.json" 
@@ -34,6 +36,22 @@ def open_json(mode, filename, data=""):
 ############################################################################################
 # SEZIONE COORDINATE
 ############################################################################################
+
+
+# Funzione per ottenere e stampare i dati GPS
+#gpsd.connect() # Connettersi al demone gpsd
+def get_gps_data():
+    # Ottenere il pacchetto GPS
+    packet = gpsd.get_current()
+    
+    params["position_rt"]["latitude"] = float(packet.lat)
+    params["position_rt"]["longitude"] = float(packet.lon)
+
+    print("Dati gps ottenuti: ")
+    print(f"Latitudine: {packet.lat}")
+    print(f"Longitudine: {packet.lon}")
+
+    open_json(0, file, params)
 
 
 # Calcolare la distanza tra due punti geografici
@@ -114,18 +132,24 @@ def calculate_line():
     return lines_id
 
 
-def calculateLine():
-    print("LINE: Calcolo linea in corso...")
-    lines_id = calculate_line()
-    # Se nella lista ci sta una sola linea, allora l'abbiamo trovata
-    if len(lines_id) == 1:
-        print("LINE: Il codice della linea è: " + lines_id[0])
-        params["infomobility"]["line_id"] = lines_id[0]       
-        #params["infomobility"]["journeys"] = [] 
-    else:
-        print("LINE: Troppe poche fermate conosciute.")
-        
-    open_json(0, file, params)
+async def calculateLine():
+    while True:
+        print("LINE: Calcolo linea in corso...")
+        lines_id = calculate_line()
+        # Se nella lista ci sta una sola linea, allora l'abbiamo trovata
+        if len(lines_id) == 1:
+            print("LINE: Il codice della linea è: " + lines_id[0])
+            params["infomobility"]["line_id"] = lines_id[0]       
+            #params["infomobility"]["journeys"] = [] 
+        elif len(lines_id) == 0:
+            print("LINE: Tratta inesistente. Cancellazione dati temporanei in corso...")
+            params["infomobility"]["line_id"] = ""
+            params["infomobility"]["stops"] = []
+        else:
+            print("LINE: Troppe poche fermate conosciute.")
+            
+        open_json(0, file, params)
+        await asyncio.sleep(300) # Attende 5 min prima di riattivarsi
 
 
 ############################################################################################
@@ -184,16 +208,20 @@ def calculate_stops():
     return stops
 
 
-def calculateStops():
-    print("STOPS: Calcolo fermate in corso...")
-    stops = calculate_stops()
-    if stops:
-        print("STOPS: I codici delle fermate sono: " + str(stops))
-        for idx in range(len(stops)):
-            params["infomobility"]["journey"]["stops"].append(stops[idx])
-        open_json(0, file, params)
-    else:
-        print("STOPS: Nessuna fermata trovata.")
+async def calculateStops():
+    while True:
+        print("STOPS: Calcolo fermate in corso...")
+        #get_gps_data()
+        stops = calculate_stops()
+        if stops:
+            print("STOPS: I codici delle fermate sono: " + str(stops))
+            params["infomobility"]["journey"]["last_stop_time"] = str(datetime.now().strftime("%H:%M:%S"))
+            for idx in range(len(stops)):
+                params["infomobility"]["journey"]["stops"].append(stops[idx])
+            open_json(0, file, params)
+        else:
+            print("STOPS: Nessuna fermata trovata.")
+        await asyncio.sleep(60) # Attende 1 min prima di riattivarsi
 
 ############################################################################################
 # SEZIONE VALIDAZIONE TAP
@@ -345,28 +373,30 @@ def calculate_validation(validation):
     return fermata_fisica, fermata_tariffaria
     
 
-def calculateValidations():
-    print("VALIDATIONS: Calcolo validazioni in corso...")
-    params = open_json(1, file)
-    validazioni = params["validazioni"]
-    line_id = params["infomobility"]["line_id"]
+async def calculateValidations():
+    while True:
+        print("VALIDATIONS: Calcolo validazioni in corso...")
+        params = open_json(1, file)
+        validazioni = params["validazioni"]
+        line_id = params["infomobility"]["line_id"]
 
-    if line_id == "":
-        print("VALIDATIONS: Operazione annullata. Linea ancora non trovata.")
-    elif not validazioni:
-        print("VALIDATIONS: Operazione annullata. Nessuna validazione da calcolare.")
+        if line_id == "":
+            print("VALIDATIONS: Operazione annullata. Linea ancora non trovata.")
+        elif not validazioni:
+            print("VALIDATIONS: Operazione annullata. Nessuna validazione da calcolare.")
 
-    if params["infomobility"]["line_id"] != "" and validazioni: #while
-        fermata_fisica, fermata_tariffaria = calculate_validation(validazioni[0])
-        params["validazioni"][0]["fermata"] = fermata_fisica
-        params["validazioni"][0]["codice_fermata_tariffaria"] = fermata_tariffaria
-        params["validazioni"][0]["codice_linea"] = estract_line_id(line_id)
-        #params["validazioni"][0].pop("__added__")
-        print("VALIDATIONS: Validazione in output!")
-        #params["validazioni"].pop(0)
-        open_json(0, file, params)
-        params["validazioni"][0].pop("__added__")
-        print(params["validazioni"][0])
+        if params["infomobility"]["line_id"] != "" and validazioni: #while
+            fermata_fisica, fermata_tariffaria = calculate_validation(validazioni[0])
+            params["validazioni"][0]["fermata"] = fermata_fisica
+            params["validazioni"][0]["codice_fermata_tariffaria"] = fermata_tariffaria
+            params["validazioni"][0]["codice_linea"] = estract_line_id(line_id)
+            #params["validazioni"][0].pop("__added__")
+            print("VALIDATIONS: Validazione in output!")
+            #params["validazioni"].pop(0)
+            open_json(0, file, params)
+            params["validazioni"][0].pop("__added__")
+            print(params["validazioni"][0])
+        await asyncio.sleep(1)  # Attende 1 sec prima di riattivarsi
 
 
 ############################################################################################
@@ -420,6 +450,20 @@ def getInfomobility():
             file["journeys"].append(journeyinfo)
     open_json(0, filename, file)
 
-            
+
+############################################################################################
+# SEZIONE THREADING & MAIN
+############################################################################################
 
 
+async def main():
+    # Crea i task per le due funzioni
+    line_task = asyncio.create_task(calculateLine())
+    stops_task = asyncio.create_task(calculateStops())
+    validations_task = asyncio.create_task(calculateValidations())
+
+     # Attende che entrambi i task vengano completati (in questo caso, non termineranno mai)
+    await asyncio.gather(line_task, stops_task, validations_task) 
+
+# Esegue il loop principale
+asyncio.run(main())

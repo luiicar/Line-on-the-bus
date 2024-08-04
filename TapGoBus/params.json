@@ -20,7 +20,7 @@
     "infomobility": {
         "line_id": "IT:ITF3:Line:C63",
         "journey": {
-            "last_stop_time": "",
+            "last_stop_time": "01:24:17",
             "stops": [
                 "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
                 "IT:ITF3:ScheduledStopPoint:1373_ANM_2023_-_GOMMA",
@@ -45,7 +45,7 @@
             "esito": "",
             "emv_terminal_id": 0,
             "emv_hashpan": "",
-            "fermata": 3117,
+            "fermata": 3116,
             "codice_fermata_tariffaria": 292,
             "codice_linea": "C63",
             "__added__": {
