@@ -64,43 +64,67 @@ def calculate_middlepoint(lat1, lon1, lat2, lon2):
 
 
 ############################################################################################
+# SEZIONE LXML
+############################################################################################
+
+# Ricerca nella struttura filtrando per id
+def search_by_id(node, path, id):
+    return node.find(f".//ns:{path}[@id='{id}']", namespaces=ns)
+
+# Ricerca nella struttura filtrando per ref
+def search_by_ref(node, path, subpath, ref):
+    lst = []
+    for elem in node.xpath(f".//ns:{path}", namespaces=ns):
+        if elem.xpath(f".//ns:{subpath}/@ref", namespaces=ns)[0] == ref:
+            lst.append(elem)
+    return lst
+
+# trova tutti gli elementi
+def search_all(node, path):
+    return node.xpath(f".//ns:{path}", namespaces=ns)
+
+# Salva un valore di una foglia
+def search_elem(node, path, value):
+    if value == "text":
+        return node.xpath(f".//ns:{path}/text()", namespaces=ns)[0]
+    elif value == "ref":
+        return node.xpath(f".//ns:{path}/@ref", namespaces=ns)[0]
+    elif value == "last":
+        return node.xpath(f".//ns:{path}[last()]", namespaces=ns)[0]
+
+
+############################################################################################
 # SEZIONE CALCOLO LINEA
 ############################################################################################
 
 
 # Trova il bus corrente e ne memorizza il valore
-def calculateLine():
+def calculate_line():
     params = open_json(1, file)
-    journeys = params["infomobility"]["journeys"]
-
     # Trova tutte le linee che condividono la stessa tratta parziale a partire dalle fermate trovate
     # Una tratta è tra quelle papabili se include tutte le fermate memorizzate fin ora
     lines_id = []
-    for journey in journeys:
-         if journey["direction"] == "unbound":
-            stops_id = journey["stops"]
-    for sjp in root.xpath(".//ns:ServiceJourneyPattern", namespaces=ns):
-        stops_sjp = {r.get("ref") for r in sjp.xpath(".//ns:ScheduledStopPointRef", namespaces=ns)}
+    stops_id = params["infomobility"]["journey"]["stops"]
+    for journey in search_all(root, "ServiceJourneyPattern"):
+        stops_sjp = []
+        for stop in search_all(journey, "ScheduledStopPointRef"):
+            stops_sjp.append(stop.get("ref"))
         if set(stops_id) <= set(stops_sjp):
-            lines_id.append(sjp.xpath(".//ns:LineRef/@ref", namespaces=ns)[0])
-    
+            lines_id.append(search_elem(journey, "LineRef", "ref"))
+    return lines_id
+
+
+def calculateLine():
+    print("LINE: Calcolo linea in corso...")
+    lines_id = calculate_line()
     # Se nella lista ci sta una sola linea, allora l'abbiamo trovata
     if len(lines_id) == 1:
+        print("LINE: Il codice della linea è: " + lines_id[0])
         params["infomobility"]["line_id"] = lines_id[0]       
         #params["infomobility"]["journeys"] = [] 
-
-    # Se la lista è vuota vuol dire che abbiamo catturato delle fermate sbagliate
-    # conviene ricominciare la ricerca
-    elif len(lines_id) == 0:
-        params["infomobility"]["line_id"] = []
-        params["infomobility"]["journeys"] = []
-        params["infomobility"]["journeys"].append({
-            "id": "",
-            "direction": "unbound",
-            "timestamp": "",
-            "stops": []
-        })
-    
+    else:
+        print("LINE: Troppe poche fermate conosciute.")
+        
     open_json(0, file, params)
 
 
@@ -108,76 +132,68 @@ def calculateLine():
 # SEZIONE CALCOLO FERMATA
 ############################################################################################
 
-
-# Trova le fermate più vicine al punto di riferimento
-def neighborhooded_stops():
+# Trova il codice della fermata legata alle info gps
+def calculate_stops():
     params = open_json(1, file)
+    stops = []
     lat = params["position_rt"]["latitude"]
     lon = params["position_rt"]["longitude"]
-    delta = params["position_rt"]["range_meters_approx"]
-
-    nearby = []
-    for stop in root.xpath(".//ns:ScheduledStopPoint", namespaces=ns):
-        lat_stop = float(stop.xpath(".//ns:Latitude/text()", namespaces=ns)[0])
-        lon_stop = float(stop.xpath(".//ns:Longitude/text()", namespaces=ns)[0])
-        distance = calculate_distance(lat, lon, lat_stop, lon_stop)
-        if distance <= delta:
-            nearby.append(stop.get("id"))
-    return nearby
-
-
-# Funzione per scoprire la fermata al quale il bus si ferma 
-def calculateStop():
-    params = open_json(1, file)
-    journeys = params["infomobility"]["journeys"]
 
     # Controlla se nel calcolo fermata precedente sono state trovate più fermate
     nearby_stops_id = params["buffer"]["nearby_stops_id"]
     if nearby_stops_id:
-        lat = params["position_rt"]["latitude"]
-        lon = params["position_rt"]["longitude"]
-        
         # Cerca tutte le fermate successive e calcola la distanza media dalla posizione attuale
         # una distanza media minore indica che il verso di percorrenza è quello
         next_stops_distance_avg = []
         for idx in range(len(nearby_stops_id)):
             distances = []
-            for sl in root.xpath(f".//ns:ServiceLink", namespaces=ns):
-                if sl.xpath(f"ns:FromPointRef/@ref", namespaces=ns)[0] == nearby_stops_id[idx]:
-                    next_stop_id = sl.xpath("ns:ToPointRef/@ref", namespaces=ns)[0]
-                    stop = root.find(f".//ns:ScheduledStopPoint[@id='{next_stop_id}']", namespaces=ns)
-                    lat_stop = float(stop.xpath(".//ns:Latitude/text()", namespaces=ns)[0])
-                    lon_stop = float(stop.xpath(".//ns:Longitude/text()", namespaces=ns)[0])
-                    distances.append(calculate_distance(lat, lon, lat_stop, lon_stop))
+            for link in search_by_ref(root, "ServiceLink", "FromPointRef", nearby_stops_id[idx]):
+                next_stop_id = search_elem(link, "ToPointRef", "ref")
+                stop = search_by_id(root, "ScheduledStopPoint", next_stop_id)
+                lat_stop = float(search_elem(stop, "Latitude", "text"))
+                lon_stop = float(search_elem(stop, "Longitude", "text"))
+                distances.append(calculate_distance(lat, lon, lat_stop, lon_stop))
             if distances:
                 next_stops_distance_avg.append(sum(distances) / len(distances))
             else:
                 next_stops_distance_avg.append(-1)
         if min(next_stops_distance_avg) > 0:
             index = next_stops_distance_avg.index(min(next_stops_distance_avg))
-            for idx in range(len(journeys)):
-                if journeys[idx]["direction"] == "unbound":
-                    journeys[idx]["stops"].append(nearby_stops_id[index])
-            #params["buffer"]["nearby_stops_id"] = []
+            stops.append(nearby_stops_id[index])
 
-    fermate_vicine = neighborhooded_stops()
+    # Trova le fermate più vicine al punto di riferimento
+    delta = params["position_rt"]["range_meters_approx"]
+    nearby = []
+    for stop in search_all(root, "ScheduledStopPoint"):
+        lat_stop = float(search_elem(stop, "Latitude", "text"))
+        lon_stop = float(search_elem(stop, "Longitude", "text"))
+        distance = calculate_distance(lat, lon, lat_stop, lon_stop)
+        if distance <= delta:
+            nearby.append(stop.get("id"))
 
     # Se trova una fermata la si memorizza (sperando sia giusta)
-    if len(fermate_vicine) == 1:
-        for idx in range(len(journeys)):
-            if journeys[idx]["direction"] == "unbound":
-                journeys[idx]["stops"].append(fermate_vicine[0])
+    if len(nearby) == 1:
+        stops.append(nearby_stops_id[index])
 
     # Se trovano più fermate si cerca di capire il verso del bus
     # le prossime coordinate gps ce lo diranno quindi per il momento salviamo in buffer le fermate
-    elif len(fermate_vicine) > 1:
-        params["buffer"]["nearby_stops_id"] = fermate_vicine
+    elif len(nearby) > 1:
+        params["buffer"]["nearby_stops_id"] = nearby
+        open_json(0, file, params)
+            
+    return stops
 
-    # Se non si trovano fermate non si può dire niente
-    # Se comunque resta il dubbio, non si memorizza nessuna fermata
-    
-    open_json(0, file, params)
 
+def calculateStops():
+    print("STOPS: Calcolo fermate in corso...")
+    stops = calculate_stops()
+    if stops:
+        print("STOPS: I codici delle fermate sono: " + str(stops))
+        for idx in range(len(stops)):
+            params["infomobility"]["journey"]["stops"].append(stops[idx])
+        open_json(0, file, params)
+    else:
+        print("STOPS: Nessuna fermata trovata.")
 
 ############################################################################################
 # SEZIONE VALIDAZIONE TAP
@@ -211,126 +227,146 @@ def estract_line_id(testo):
     return value
 
 
-# Funzione per scoprire le informazioni utili al tap
-def calculateValidation():
+# Converti codice StopPointInJourneyPattern nella forma corretta
+def trim_journey_stop_id(testo):
+    trim1 = testo.rfind(":")
+    trim2 = testo.find("_")
+    value1 = testo[:trim1 + 1]
+    value2 = testo[trim2 + 1:]
+    return value1 + value2
+
+
+# Ulteriore taglio di StopPointInJourneyPattern per problemi di compatibilità
+def more_trim_journey_stop_id(testo, vettore):
+    trim = testo.find(vettore)
+    value1 = testo[:trim - 2]
+    value2 = testo[trim:]
+    return value1 + value2
+
+
+# Trova i valori della fermata fisica e tariffaria legati al tap
+def calculate_validation(validation):
+    # STEP 1
+    line_id = params["infomobility"]["line_id"]
+    reference_stop_id = validation["__added__"]["last_stop_id"]
+    linked_stops = []
+    found = False
+    # Creazione delle liste di link per ogni tratta
+    for journey in search_by_ref(root, "ServiceJourneyPattern", "LineRef", line_id):
+        linked_stops. append({
+            "id": journey.get("id"),
+            "stops": search_all(journey, "ScheduledStopPointRef/@ref")
+        })
+        # Trovare StopPointInJourneyPattern della fermata di riferimento e del capolinea
+        for stop_in_journey in search_by_ref(journey, "StopPointInJourneyPattern", "ScheduledStopPointRef", reference_stop_id):
+            reference_journey_id = journey.get("id") # Prendo anche l'id della tratta
+            reference_journey_stop_id = trim_journey_stop_id(stop_in_journey.get("id"))
+            terminus_journey_stop = search_elem(journey, "StopPointInJourneyPattern", "last")
+            terminus_journey_stop_id = trim_journey_stop_id(terminus_journey_stop.get("id"))
+
+    # STEP 2
+    time_range = params["time_min_approx"]
+    last_stop_time = datetime.strptime(validation["__added__"]["last_stop_time"], "%H:%M:%S")
+    difference_times = []
+    # Calcola il tempo medio dalla fermata di riferimento al capolinea
+    # Considera solo i ServiceJourney della tratta di riferimento di quella fascia oraria
+    while not difference_times:
+        for service_journey in search_by_ref(root, "ServiceJourney", "ServiceJourneyPatternRef", reference_journey_id):
+            for timetable_r in search_by_ref(service_journey, "TimetabledPassingTime", "StopPointInJourneyPatternRef", reference_journey_stop_id):
+                stop_sj_time = datetime.strptime(search_elem(timetable_r, "DepartureTime", "text"), "%H:%M:%S")
+                difference = (abs(stop_sj_time - last_stop_time).total_seconds() % 3600) // 60 
+                if difference < time_range:
+                    for timetable_t in search_by_ref(service_journey, "TimetabledPassingTime", "StopPointInJourneyPatternRef", terminus_journey_stop_id):
+                        terminus_sj_time = datetime.strptime(search_elem(timetable_t, "DepartureTime", "text"), "%H:%M:%S")
+                        stop_to_terminus_difference = (terminus_sj_time - stop_sj_time).total_seconds() % 3600 // 60
+                        difference_times.append(stop_to_terminus_difference)
+        if difference_times:
+            time_stop_to_terminus_avg = sum(difference_times) / len(difference_times) 
+        else:
+            reference_journey_stop_id = more_trim_journey_stop_id(reference_journey_stop_id, params["vector"])
+            terminus_journey_stop_id = more_trim_journey_stop_id(terminus_journey_stop_id, params["vector"])
+
+    # STEP 3
+    # Capire qual'è la tratta di riferimento per il calcolo della validazione
+    # Se l'orario della validazione è minore del tempo medio per arrivare al capolinea, la tratta è quella, altrimenti è l'altra
+    validation_date_str = validation["data_validazione"]
+    start_trim = validation_date_str.rfind(" ")
+    validation_time_str = validation_date_str[start_trim + 1:]
+    validation_date_time = datetime.strptime(validation_time_str, "%H:%M:%S")
+    
+    last_stop_time = last_stop_time.hour * 60 + last_stop_time.minute
+    validation_date_time = validation_date_time.hour * 60 + validation_date_time.minute
+        
+    if last_stop_time + time_stop_to_terminus_avg < validation_date_time:
+        for item in linked_stops:
+            if item["id"] != reference_journey_id:
+                ref_linked = item["stops"]  
+    else:
+        for item in linked_stops:
+            if item["id"] == reference_journey_id:
+                ref_linked = item["stops"] 
+
+    # STEP 4
+    # Calcolo link e fermata legata al tap
+    lat = validation["__added__"]["latitude"]
+    lon = validation["__added__"]["longitude"]
+    delta = params["position_rt"]["range_meters_approx"]
+    link_distance = []
+    found = False
+
+    for idx in range(len(ref_linked)):
+        stop = search_by_id(root, "ScheduledStopPoint", ref_linked[idx])
+        lat_stop = float(search_elem(stop, "Latitude", "text"))
+        lon_stop = float(search_elem(stop, "Longitude", "text"))
+        distance = calculate_distance(lat, lon, lat_stop, lon_stop)
+        if distance <= delta:
+            tariff_zone_id = search_elem(stop, "TariffZoneRef", "ref")
+            fermata_fisica = estract_stop_id(ref_linked[idx])
+            fermata_tariffaria = estract_tariffzone_id(tariff_zone_id)
+            found = True
+            break
+        else:
+            if idx == 0:
+                stop_gps = {"lat": lat_stop, "lon": lon_stop}
+            else:
+                lat_middle, lon_middle = calculate_middlepoint(stop_gps["lat"], stop_gps["lon"], lat_stop, lon_stop)
+                distance = calculate_distance(lat, lon, lat_middle, lon_middle)
+                link_distance.append(distance)
+                stop_gps = {"lat": lat_stop, "lon": lon_stop}
+    if not found:
+        if validation["operazione"] == "check-in":
+            idx = link_distance.index(min(link_distance))
+        elif validation["operazione"] == "check-out":
+            idx = link_distance.index(min(link_distance)) + 1
+        stop = search_by_id(root, "ScheduledStopPoint", ref_linked[idx])
+        tariff_zone_id = search_elem(stop, "TariffZoneRef", "ref")
+        fermata_fisica = estract_stop_id(ref_linked[idx])
+        fermata_tariffaria = estract_tariffzone_id(tariff_zone_id)
+    return fermata_fisica, fermata_tariffaria
+    
+
+def calculateValidations():
+    print("VALIDATIONS: Calcolo validazioni in corso...")
     params = open_json(1, file)
     validazioni = params["validazioni"]
+    line_id = params["infomobility"]["line_id"]
 
-    if params["infomobility"]["line_id"] != "" and validazioni: # while
+    if line_id == "":
+        print("VALIDATIONS: Operazione annullata. Linea ancora non trovata.")
+    elif not validazioni:
+        print("VALIDATIONS: Operazione annullata. Nessuna validazione da calcolare.")
 
-        # Step 1
-        line_id = params["infomobility"]["line_id"]
-        ref_stop_id = params["validazioni"][0]["__added__"]["last_stop_id"]
-        
-        linked_stops_id = []
-        for sjp in root.xpath(".//ns:ServiceJourneyPattern", namespaces=ns):
-            # Creazione delle liste di link per ogni tratta
-            if sjp.xpath(".//ns:LineRef/@ref", namespaces=ns)[0] == line_id:
-                linked_stops_id. append({
-                    "id": sjp.get("id"),
-                    "stops": sjp.xpath(".//ns:ScheduledStopPointRef/@ref", namespaces=ns)
-                })
-                # Conversione codice ScheduledStopPoint a codice StopPointInJourneyPattern della fermata di riferimento
-                for spinjp in sjp.xpath(".//ns:StopPointInJourneyPattern", namespaces=ns):
-                    if spinjp.xpath(".//ns:ScheduledStopPointRef/@ref", namespaces=ns)[0] == ref_stop_id:
-                        ref_journey_id = sjp.get("id")
-                        
-                        journey_stop_id_raw = spinjp.get("id")
-                        trim1 = journey_stop_id_raw.rfind(":")
-                        trim2 = journey_stop_id_raw.find("_")
-                        value1 = journey_stop_id_raw[:trim1 + 1]
-                        value2 = journey_stop_id_raw[trim2 + 1:]
-                        journey_stop_id = value1 + value2
-        
-        # Step 2
-        time_range = params["time_min_approx"]
-        valid_stop_time = datetime.strptime(params["validazioni"][0]["__added__"]["last_stop_time"], "%H:%M:%S")
-        difference_times = []
-        # Calcola il tempo medio dalla fermata di riferimento al capolinea
-        # Considera solo i ServiceJourney della tratta di riferimento di quella fascia oraria
-        while not difference_times:
-            for sj in root.xpath(".//ns:ServiceJourney", namespaces=ns):
-                if sj.xpath(".//ns:ServiceJourneyPatternRef/@ref", namespaces=ns)[0] == ref_journey_id:
-                    for tpt in sj.xpath(".//ns:TimetabledPassingTime", namespaces=ns):
-                        if tpt.xpath("ns:StopPointInJourneyPatternRef/@ref", namespaces=ns)[0] == journey_stop_id:
-                            stop_sj_time_str = tpt.xpath("ns:DepartureTime/text()", namespaces=ns)[0]
-                            stop_sj_time = datetime.strptime(stop_sj_time_str, "%H:%M:%S")
-                            difference = abs(stop_sj_time - valid_stop_time)
-                            difference_min = (difference.seconds % 3600) // 60
-                            if difference_min < time_range:
-                                terminus_time_sj_str = sj.findtext(".//ns:DepartureTime[last()]", namespaces=ns)
-                                terminus_sj_time = datetime.strptime(terminus_time_sj_str, "%H:%M:%S")
-                                time_stop_to_terminus = terminus_sj_time - stop_sj_time
-                                time_stop_to_terminus_min = (time_stop_to_terminus.seconds % 3600) // 60
-                                difference_times.append(time_stop_to_terminus_min)
-            if difference_times:
-                time_stop_to_terminus_avg = sum(difference_times) / len(difference_times) 
-            else:
-                trim = journey_stop_id.find(params["vector"])
-                value1 = journey_stop_id[:trim - 2]
-                value2 = journey_stop_id[trim:]
-                journey_stop_id = value1 + value2
-
-
-        # Step 3
-        # Capire qual'è la tratta di riferimento per il calcolo della validazione
-        # Se l'orario della validazione è minore del tempo medio per arrivare al capolinea, la tratta è quella, altrimenti è l'altra
-        valid_date_str = params["validazioni"][0]["data_validazione"]
-        start_trim = valid_date_str.rfind(" ")
-        valid_time_str = valid_date_str[start_trim + 1:]
-        valid_date_time = datetime.strptime(valid_time_str, "%H:%M:%S")
-        
-        if stop_sj_time + time_stop_to_terminus_avg > valid_date_time:
-            for item in linked_stops_id:
-                if item["id"] != ref_journey_id:
-                    ref_linked = item["stops"]  
-        else:
-            for item in linked_stops_id:
-                if item["id"] == ref_journey_id:
-                    ref_linked = item["stops"]  
-
-        # Step 4
-        # Calcolo link e fermata legata al tap
-        lat = validazioni[0]["__added__"]["latitude"]
-        lon = validazioni[0]["__added__"]["longitude"]
-        delta = params["position_rt"]["range_meters_approx"]
-
-        link_distance = []
-        found = False
-
-        for idx in range(len(ref_linked)):
-            stop = root.find(f".//ns:ScheduledStopPoint[@id='{ref_linked[idx]}']", namespaces=ns)[0]
-            lat_stop = float(stop.xpath(".//ns:Latitude/text()", namespaces=ns)[0])
-            lon_stop = float(stop.xpath(".//ns:Longitude/text()", namespaces=ns)[0])
-            distance = calculate_distance(lat, lon, lat_stop, lon_stop)
-            if distance <= delta:
-                tariff_zone_id = stop.xpath(".//ns:TariffZoneRef/@ref", namespaces=ns)[0]
-                params["validazioni"][0]["fermata"] = estract_stop_id(ref_linked[idx])
-                params["validazioni"][0]["codice fermata_tariffaria"] = estract_tariffzone_id(tariff_zone_id)
-                found = True
-                break
-            else:
-                if idx == 0:
-                    stop_gps = {"lat": lat_stop, "lon": lon_stop}
-                else:
-                    lat_middle, lon_middle = calculate_middlepoint(stop_gps["lat"], stop_gps["lon"], lat_stop, lon_stop)
-                    distance = calculate_distance(lat, lon, lat_middle, lon_middle)
-                    link_distance.append(distance)
-                    stop_gps = {"lat": lat_stop, "lon": lon_stop}
-
-        if not found:
-            if validazioni[0]["operazione"] == "check-in":
-                idx = link_distance.index(min(link_distance))
-            elif validazioni[0]["operazione"] == "check-out":
-                idx = link_distance.index(min(link_distance)) + 1
-            stop = root.find(f".//ns:ScheduledStopPoint[@id='{ref_linked[idx]}']", namespaces=ns)[0]
-            tariff_zone_id = stop.xpath(".//ns:TariffZoneRef/@ref", namespaces=ns)[0]
-            params["validazioni"][0]["fermata"] = estract_stop_id(ref_linked[idx])
-            params["validazioni"][0]["codice fermata_tariffaria"] = estract_tariffzone_id(tariff_zone_id)
-
+    if params["infomobility"]["line_id"] != "" and validazioni: #while
+        fermata_fisica, fermata_tariffaria = calculate_validation(validazioni[0])
+        params["validazioni"][0]["fermata"] = fermata_fisica
+        params["validazioni"][0]["codice_fermata_tariffaria"] = fermata_tariffaria
         params["validazioni"][0]["codice_linea"] = estract_line_id(line_id)
-        #params["validazioni"][0] = []
+        #params["validazioni"][0].pop("__added__")
+        print("VALIDATIONS: Validazione in output!")
+        #params["validazioni"].pop(0)
         open_json(0, file, params)
+        params["validazioni"][0].pop("__added__")
+        print(params["validazioni"][0])
 
 
 ############################################################################################

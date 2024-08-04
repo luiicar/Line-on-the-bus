@@ -3,8 +3,8 @@ from tap_go_bus import *
 
 #getInfomobility()
 #calculateLine()
-#calculateStop()
-calculateValidation()
+#calculateStops()
+calculateValidations()
 
 
 

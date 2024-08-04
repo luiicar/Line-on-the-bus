@@ -19,27 +19,23 @@
     },
     "infomobility": {
         "line_id": "IT:ITF3:Line:C63",
-        "journeys": [
-            {
-                "id": "",
-                "direction": "unbound",
-                "last_stop_time": "",
-                "stops": [
-                    "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
-                    "IT:ITF3:ScheduledStopPoint:1373_ANM_2023_-_GOMMA",
-                    "IT:ITF3:ScheduledStopPoint:1203_ANM_2023_-_GOMMA",
-                    "IT:ITF3:ScheduledStopPoint:1006_ANM_2023_-_GOMMA",
-                    "IT:ITF3:ScheduledStopPoint:1453_ANM_2023_-_GOMMA",
-                    "IT:ITF3:ScheduledStopPoint:1456_ANM_2023_-_GOMMA",
-                    "IT:ITF3:ScheduledStopPoint:3900_ANM_2023_-_GOMMA",
-                    "IT:ITF3:ScheduledStopPoint:1061_ANM_2023_-_GOMMA"
-                ]
-            }
-        ]
+        "journey": {
+            "last_stop_time": "",
+            "stops": [
+                "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
+                "IT:ITF3:ScheduledStopPoint:1373_ANM_2023_-_GOMMA",
+                "IT:ITF3:ScheduledStopPoint:1203_ANM_2023_-_GOMMA",
+                "IT:ITF3:ScheduledStopPoint:1006_ANM_2023_-_GOMMA",
+                "IT:ITF3:ScheduledStopPoint:1453_ANM_2023_-_GOMMA",
+                "IT:ITF3:ScheduledStopPoint:1456_ANM_2023_-_GOMMA",
+                "IT:ITF3:ScheduledStopPoint:3900_ANM_2023_-_GOMMA",
+                "IT:ITF3:ScheduledStopPoint:1061_ANM_2023_-_GOMMA"
+            ]
+        }
     },
     "validazioni": [
         {
-            "data_validazione": "03/06/2024 10:00:25",
+            "data_validazione": "03/06/2024 10:30:00",
             "vettore_validazione": "ANM",
             "veicolo": "",
             "dispositivo": "",
@@ -49,12 +45,12 @@
             "esito": "",
             "emv_terminal_id": 0,
             "emv_hashpan": "",
-            "fermata": 0,
-            "codice_fermata_tariffaria": 0,
-            "codice_linea": "",
-            "__added__":{
-                "latitude": 40.8530144619529,
-                "longitude": 14.2502167828155,
+            "fermata": 3117,
+            "codice_fermata_tariffaria": 292,
+            "codice_linea": "C63",
+            "__added__": {
+                "latitude": 40.8565107889753,
+                "longitude": 14.2483375216896,
                 "last_stop_id": "IT:ITF3:ScheduledStopPoint:3119_ANM_2023_-_GOMMA",
                 "last_stop_time": "10:07:00"
             }
