@@ -32,6 +32,35 @@ def open_json(mode, filename, data=""):
         with open(filename, "w") as jsonfile:
             json.dump(data, jsonfile, indent=4)
 
+async def clear_params():
+    params = {
+        "vector": "ANM",
+        "netex": {
+            "netex_file_name": "IT-IT-ITF3-ANM_GOMMANeTEx_L2.xml",
+            "netex_file_path": "C:/Users/Jalexus/Desktop/Tap-Go/TapGoBus/",
+            "namespace": "http://www.netex.org.uk/netex"
+        },
+        "position_rt": {
+            "latitude": 0,
+            "longitude": 0,
+            "range_meters_approx": 5
+        },
+        "time_min_approx": 45,
+        "buffer": {
+            "nearby_stops_id": []
+        },
+        "infomobility": {
+            "line_id": "",
+            "journey": {
+                "last_stop_time": "",
+                "stops": []
+            }
+        },
+        "validazioni": []
+    }
+    open_json(1, file, params)
+    await asyncio.sleep(1)
+
 
 ############################################################################################
 # SEZIONE COORDINATE
@@ -405,13 +434,16 @@ async def calculateValidations():
 
 
 async def main():
-    # Crea i task per le due funzioni
+    #print("Inizializzazione Tap&Go on Bus in corso...")
+    init_task = asyncio.create_task(clear_params())
+    await init_task # Attende che il task sia completato
+    print("Inizializzazione Tap&Go on Bus competata!")
+
+    # Crea i task per le funzioni
     line_task = asyncio.create_task(calculateLine())
     stops_task = asyncio.create_task(calculateStops())
     validations_task = asyncio.create_task(calculateValidations())
-
-     # Attende che entrambi i task vengano completati (in questo caso, non termineranno mai)
-    await asyncio.gather(line_task, stops_task, validations_task) 
+    await asyncio.gather(line_task, stops_task, validations_task) # Attende che tutti i task sia completati
 
 # Esegue il loop principale
 asyncio.run(main())

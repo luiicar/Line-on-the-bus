@@ -18,9 +18,9 @@
         ]
     },
     "infomobility": {
-        "line_id": "IT:ITF3:Line:C63",
+        "line_id": "",
         "journey": {
-            "last_stop_time": "01:24:17",
+            "last_stop_time": "16:02:38",
             "stops": [
                 "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
                 "IT:ITF3:ScheduledStopPoint:1373_ANM_2023_-_GOMMA",
@@ -31,7 +31,8 @@
                 "IT:ITF3:ScheduledStopPoint:3900_ANM_2023_-_GOMMA",
                 "IT:ITF3:ScheduledStopPoint:1061_ANM_2023_-_GOMMA"
             ]
-        }
+        },
+        "stops": []
     },
     "validazioni": [
         {
