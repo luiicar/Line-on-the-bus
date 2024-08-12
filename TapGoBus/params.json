@@ -6,55 +6,24 @@
         "namespace": "http://www.netex.org.uk/netex"
     },
     "position_rt": {
-        "latitude": 40.869947,
-        "longitude": 14.256507,
+        "latitude": 40.8660101944463,
+        "longitude": 14.2651394166328,
         "range_meters_approx": 5
     },
     "time_min_approx": 45,
     "buffer": {
-        "nearby_stops_id": [
-            "IT:ITF3:ScheduledStopPoint:3582_ANM_2023_-_GOMMA",
-            "IT:ITF3:ScheduledStopPoint:3405_ANM_2023_-_GOMMA"
-        ]
+        "nearby_stops_id": [],
+        "validazioni_raw": []
     },
     "infomobility": {
-        "line_id": "",
+        "line_id": "IT:ITF3:Line:C63",
         "journey": {
-            "last_stop_time": "16:02:38",
+            "last_stop_time": "20:27:56",
             "stops": [
                 "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
-                "IT:ITF3:ScheduledStopPoint:1373_ANM_2023_-_GOMMA",
-                "IT:ITF3:ScheduledStopPoint:1203_ANM_2023_-_GOMMA",
-                "IT:ITF3:ScheduledStopPoint:1006_ANM_2023_-_GOMMA",
-                "IT:ITF3:ScheduledStopPoint:1453_ANM_2023_-_GOMMA",
-                "IT:ITF3:ScheduledStopPoint:1456_ANM_2023_-_GOMMA",
-                "IT:ITF3:ScheduledStopPoint:3900_ANM_2023_-_GOMMA",
-                "IT:ITF3:ScheduledStopPoint:1061_ANM_2023_-_GOMMA"
+                "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA"
             ]
-        },
-        "stops": []
-    },
-    "validazioni": [
-        {
-            "data_validazione": "03/06/2024 10:30:00",
-            "vettore_validazione": "ANM",
-            "veicolo": "",
-            "dispositivo": "",
-            "pnr_seriale": 0,
-            "supporto": "",
-            "operazione": "check-in",
-            "esito": "",
-            "emv_terminal_id": 0,
-            "emv_hashpan": "",
-            "fermata": 3116,
-            "codice_fermata_tariffaria": 292,
-            "codice_linea": "C63",
-            "__added__": {
-                "latitude": 40.8565107889753,
-                "longitude": 14.2483375216896,
-                "last_stop_id": "IT:ITF3:ScheduledStopPoint:3119_ANM_2023_-_GOMMA",
-                "last_stop_time": "10:07:00"
-            }
         }
-    ]
+    },
+    "validazioni": []
 }

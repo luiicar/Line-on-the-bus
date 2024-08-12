@@ -135,152 +135,152 @@
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
                     "Name": "GIOVAN BATTISTA VICO",
-                    "Longitude": 14.2651394166328,
-                    "Latitude": 40.8660101944463
+                    "latitude": 40.8660101944463,
+                    "longitude": 14.2651394166328
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1373_ANM_2023_-_GOMMA",
                     "Name": "TANUCCI ",
-                    "Longitude": 14.2668422985066,
-                    "Latitude": 40.8649265242471
+                    "latitude": 40.8649265242471,
+                    "longitude": 14.2668422985066
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1203_ANM_2023_-_GOMMA",
                     "Name": "GUSSONE",
-                    "Longitude": 14.26891439728,
-                    "Latitude": 40.8650612880382
+                    "latitude": 40.8650612880382,
+                    "longitude": 14.26891439728
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1006_ANM_2023_-_GOMMA",
                     "Name": "ARENACCIA - Ottocall",
-                    "Longitude": 14.2687942167412,
-                    "Latitude": 40.8670873902078
+                    "latitude": 40.8670873902078,
+                    "longitude": 14.2687942167412
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1453_ANM_2023_-_GOMMA",
                     "Name": "NICOLINI ",
-                    "Longitude": 14.2674491478799,
-                    "Latitude": 40.8696191906539
+                    "latitude": 40.8696191906539,
+                    "longitude": 14.2674491478799
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1456_ANM_2023_-_GOMMA",
                     "Name": "NICOLINI ",
-                    "Longitude": 14.2668683532216,
-                    "Latitude": 40.8706334359021
+                    "latitude": 40.8706334359021,
+                    "longitude": 14.2668683532216
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3900_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI 285",
-                    "Longitude": 14.2649666868008,
-                    "Latitude": 40.8722084026421
+                    "latitude": 40.8722084026421,
+                    "longitude": 14.2649666868008
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3011_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI",
-                    "Longitude": 14.2634150250643,
-                    "Latitude": 40.8713419344618
+                    "latitude": 40.8713419344618,
+                    "longitude": 14.2634150250643
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3533_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI ",
-                    "Longitude": 14.263430548391,
-                    "Latitude": 40.8732509578425
+                    "latitude": 40.8732509578425,
+                    "longitude": 14.263430548391
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3530_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI ",
-                    "Longitude": 14.2593896461771,
-                    "Latitude": 40.8724548747471
+                    "latitude": 40.8724548747471,
+                    "longitude": 14.2593896461771
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3526_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI ",
-                    "Longitude": 14.2565126850603,
-                    "Latitude": 40.869990619872
+                    "latitude": 40.869990619872,
+                    "longitude": 14.2565126850603
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3528_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI ",
-                    "Longitude": 14.2543229566364,
-                    "Latitude": 40.868958549351
+                    "latitude": 40.868958549351,
+                    "longitude": 14.2543229566364
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3946_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI ",
-                    "Longitude": 14.2530439623673,
-                    "Latitude": 40.8668783701429
+                    "latitude": 40.8668783701429,
+                    "longitude": 14.2530439623673
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3582_ANM_2023_-_GOMMA",
                     "Name": "CAPODIMONTE - Museo ",
-                    "Longitude": 14.2518523409382,
-                    "Latitude": 40.8657401082392
+                    "latitude": 40.8657401082392,
+                    "longitude": 14.2518523409382
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3121_ANM_2023_-_GOMMA",
                     "Name": "CAPODIMONTE - Museo ",
-                    "Longitude": 14.2498536232711,
-                    "Latitude": 40.8654193010537
+                    "latitude": 40.8654193010537,
+                    "longitude": 14.2498536232711
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3251_ANM_2023_-_GOMMA",
                     "Name": "CAPODIMONTE",
-                    "Longitude": 14.2487291386592,
-                    "Latitude": 40.8670034880365
+                    "latitude": 40.8670034880365,
+                    "longitude": 14.2487291386592
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3250_ANM_2023_-_GOMMA",
                     "Name": "CAPODIMONTE - Basili",
-                    "Longitude": 14.2474519141417,
-                    "Latitude": 40.8655718542155
+                    "latitude": 40.8655718542155,
+                    "longitude": 14.2474519141417
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3355_ANM_2023_-_GOMMA",
                     "Name": "AMEDEO DI SAVOIA 269",
-                    "Longitude": 14.2483621239061,
-                    "Latitude": 40.8648301018892
+                    "latitude": 40.8648301018892,
+                    "longitude": 14.2483621239061
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3356_ANM_2023_-_GOMMA",
                     "Name": "AMEDEO DI SAVOIA 205",
-                    "Longitude": 14.2483680682904,
-                    "Latitude": 40.8629924511937
+                    "latitude": 40.8629924511937,
+                    "longitude": 14.2483680682904
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3357_ANM_2023_-_GOMMA",
                     "Name": "AMEDEO DI SAVOIA 193",
-                    "Longitude": 14.2483588234876,
-                    "Latitude": 40.8601367645623
+                    "latitude": 40.8601367645623,
+                    "longitude": 14.2483588234876
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3118_ANM_2023_-_GOMMA",
                     "Name": "S.TERESA DEGLI SCALZ",
-                    "Longitude": 14.2483617109324,
-                    "Latitude": 40.8585693411699
+                    "latitude": 40.8585693411699,
+                    "longitude": 14.2483617109324
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3119_ANM_2023_-_GOMMA",
                     "Name": "S.TERESA DEGLI SCALZ",
-                    "Longitude": 14.2483375216896,
-                    "Latitude": 40.8565107889753
+                    "latitude": 40.8565107889753,
+                    "longitude": 14.2483375216896
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3120_ANM_2023_-_GOMMA",
                     "Name": "S.TERESA DEGLI SCALZ",
-                    "Longitude": 14.249104255929,
-                    "Latitude": 40.8540159808226
+                    "latitude": 40.8540159808226,
+                    "longitude": 14.249104255929
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1253_ANM_2023_-_GOMMA",
                     "Name": "PESSINA",
-                    "Longitude": 14.2499393958723,
-                    "Latitude": 40.8514990904389
+                    "latitude": 40.8514990904389,
+                    "longitude": 14.2499393958723
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1061_ANM_2023_-_GOMMA",
                     "Name": "DANTE - M1",
-                    "Longitude": 14.24963740275,
-                    "Latitude": 40.8485604195264
+                    "latitude": 40.8485604195264,
+                    "longitude": 14.24963740275
                 }
             ]
         },
@@ -419,152 +419,152 @@
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1061_ANM_2023_-_GOMMA",
                     "Name": "DANTE - M1",
-                    "Longitude": 14.24963740275,
-                    "Latitude": 40.8485604195264
+                    "latitude": 40.8485604195264,
+                    "longitude": 14.24963740275
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1062_ANM_2023_-_GOMMA",
                     "Name": "DANTE - Port`Alba",
-                    "Longitude": 14.2500980283414,
-                    "Latitude": 40.8497930484765
+                    "latitude": 40.8497930484765,
+                    "longitude": 14.2500980283414
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:5004_ANM_2023_-_GOMMA",
                     "Name": "CONTE DI RUVO",
-                    "Longitude": 14.2515242998642,
-                    "Latitude": 40.8511483654749
+                    "latitude": 40.8511483654749,
+                    "longitude": 14.2515242998642
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1130_ANM_2023_-_GOMMA",
                     "Name": "COSTANTINOPOLI",
-                    "Longitude": 14.2517074873672,
-                    "Latitude": 40.8524796158747
+                    "latitude": 40.8524796158747,
+                    "longitude": 14.2517074873672
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1246_ANM_2023_-_GOMMA",
                     "Name": "MUSEO NAZIONALE",
-                    "Longitude": 14.2502167828155,
-                    "Latitude": 40.8530144619529
+                    "latitude": 40.8530144619529,
+                    "longitude": 14.2502167828155
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3545_ANM_2023_-_GOMMA",
                     "Name": "SANTA TERESA DEGLI S",
-                    "Longitude": 14.2490855620715,
-                    "Latitude": 40.8543581744077
+                    "latitude": 40.8543581744077,
+                    "longitude": 14.2490855620715
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3116_ANM_2023_-_GOMMA",
                     "Name": "S.TERESA DEGLI SCALZ",
-                    "Longitude": 14.2485362459667,
-                    "Latitude": 40.8557238580642
+                    "latitude": 40.8557238580642,
+                    "longitude": 14.2485362459667
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3117_ANM_2023_-_GOMMA",
                     "Name": "S.TERESA DEGLI SCALZ",
-                    "Longitude": 14.2485388560769,
-                    "Latitude": 40.8586425616594
+                    "latitude": 40.8586425616594,
+                    "longitude": 14.2485388560769
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3352_ANM_2023_-_GOMMA",
                     "Name": "AMEDEO DI SAVOIA 180",
-                    "Longitude": 14.248558058654,
-                    "Latitude": 40.8600930212182
+                    "latitude": 40.8600930212182,
+                    "longitude": 14.248558058654
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3353_ANM_2023_-_GOMMA",
                     "Name": "AMEDEO DI SAVOIA ",
-                    "Longitude": 14.2485722263182,
-                    "Latitude": 40.8630388227739
+                    "latitude": 40.8630388227739,
+                    "longitude": 14.2485722263182
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3354_ANM_2023_-_GOMMA",
                     "Name": "AMEDEO DI SAVOIA 280",
-                    "Longitude": 14.248563524915,
-                    "Latitude": 40.8648584389568
+                    "latitude": 40.8648584389568,
+                    "longitude": 14.248563524915
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3422_ANM_2023_-_GOMMA",
                     "Name": "TONDO DI CAPODIMONTE",
-                    "Longitude": 14.2488237718172,
-                    "Latitude": 40.8654546805364
+                    "latitude": 40.8654546805364,
+                    "longitude": 14.2488237718172
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3248_ANM_2023_-_GOMMA",
                     "Name": "CAPODIMONTE - Basili",
-                    "Longitude": 14.2473003776708,
-                    "Latitude": 40.8655933861456
+                    "latitude": 40.8655933861456,
+                    "longitude": 14.2473003776708
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3249_ANM_2023_-_GOMMA",
                     "Name": "CAPODIMONTE ",
-                    "Longitude": 14.2486874798032,
-                    "Latitude": 40.866489744891
+                    "latitude": 40.866489744891,
+                    "longitude": 14.2486874798032
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3253_ANM_2023_-_GOMMA",
                     "Name": "CAPODIMONTE",
-                    "Longitude": 14.2492372897019,
-                    "Latitude": 40.8658762577599
+                    "latitude": 40.8658762577599,
+                    "longitude": 14.2492372897019
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3405_ANM_2023_-_GOMMA",
                     "Name": "CAPODIMONTE - Museo ",
-                    "Longitude": 14.2523546895874,
-                    "Latitude": 40.8659145227615
+                    "latitude": 40.8659145227615,
+                    "longitude": 14.2523546895874
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3536_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI ",
-                    "Longitude": 14.2532036718287,
-                    "Latitude": 40.8671856857426
+                    "latitude": 40.8671856857426,
+                    "longitude": 14.2532036718287
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3583_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI - Chiesa",
-                    "Longitude": 14.2546300543138,
-                    "Latitude": 40.8690866501293
+                    "latitude": 40.8690866501293,
+                    "longitude": 14.2546300543138
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3523_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI ",
-                    "Longitude": 14.256629285527,
-                    "Latitude": 40.8699102969314
+                    "latitude": 40.8699102969314,
+                    "longitude": 14.256629285527
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3684_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI ",
-                    "Longitude": 14.2614899408617,
-                    "Latitude": 40.8730088379144
+                    "latitude": 40.8730088379144,
+                    "longitude": 14.2614899408617
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3532_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI ",
-                    "Longitude": 14.2637007410249,
-                    "Latitude": 40.8729644182703
+                    "latitude": 40.8729644182703,
+                    "longitude": 14.2637007410249
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:3947_ANM_2023_-_GOMMA",
                     "Name": "PONTI ROSSI ",
-                    "Longitude": 14.2639080415877,
-                    "Latitude": 40.8711235494612
+                    "latitude": 40.8711235494612,
+                    "longitude": 14.2639080415877
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1454_ANM_2023_-_GOMMA",
                     "Name": "NICOLINI ",
-                    "Longitude": 14.2670420289505,
-                    "Latitude": 40.8699499106003
+                    "latitude": 40.8699499106003,
+                    "longitude": 14.2670420289505
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1452_ANM_2023_-_GOMMA",
                     "Name": "MINICHINI",
-                    "Longitude": 14.2660662171248,
-                    "Latitude": 40.8677680800801
+                    "latitude": 40.8677680800801,
+                    "longitude": 14.2660662171248
                 },
                 {
                     "id": "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
                     "Name": "GIOVAN BATTISTA VICO",
-                    "Longitude": 14.2651394166328,
-                    "Latitude": 40.8660101944463
+                    "latitude": 40.8660101944463,
+                    "longitude": 14.2651394166328
                 }
             ]
         }

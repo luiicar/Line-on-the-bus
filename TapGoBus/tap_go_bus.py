@@ -9,12 +9,6 @@ import gpsd
 
 file = "params.json" 
 
-with open(file, "r") as jsonfile:
-    params = json.load(jsonfile)
-netex = params["netex"]["netex_file_path"] + params["netex"]["netex_file_name"]
-ns = {'ns': params["netex"]["namespace"]}
-root = etree.parse(netex) # Carica il file XML
-
 
 ############################################################################################
 # SEZIONE FILEs
@@ -32,33 +26,20 @@ def open_json(mode, filename, data=""):
         with open(filename, "w") as jsonfile:
             json.dump(data, jsonfile, indent=4)
 
+# Ripulisci il file params.json
 async def clear_params():
-    params = {
-        "vector": "ANM",
-        "netex": {
-            "netex_file_name": "IT-IT-ITF3-ANM_GOMMANeTEx_L2.xml",
-            "netex_file_path": "C:/Users/Jalexus/Desktop/Tap-Go/TapGoBus/",
-            "namespace": "http://www.netex.org.uk/netex"
-        },
-        "position_rt": {
-            "latitude": 0,
-            "longitude": 0,
-            "range_meters_approx": 5
-        },
-        "time_min_approx": 45,
-        "buffer": {
-            "nearby_stops_id": []
-        },
-        "infomobility": {
-            "line_id": "",
-            "journey": {
-                "last_stop_time": "",
-                "stops": []
-            }
-        },
-        "validazioni": []
-    }
-    open_json(1, file, params)
+    params = open_json(1, file)
+    
+    params["position_rt"]["latitude"] = 0
+    params["position_rt"]["longitude"] = 0
+    params["buffer"]["nearby_stops_id"] = []
+    params["buffer"]["validazioni_raw"] = []
+    params["infomobility"]["line_id"] = ""
+    params["infomobility"]["journey"]["last_stop_time"] = ""
+    params["infomobility"]["journey"]["stops"] = []
+    params["validazioni"] = []
+    
+    open_json(0, file, params)
     await asyncio.sleep(1)
 
 
@@ -70,6 +51,7 @@ async def clear_params():
 # Funzione per ottenere e stampare i dati GPS
 #gpsd.connect() # Connettersi al demone gpsd
 def get_gps_data():
+    params = open_json(1, file)
     # Ottenere il pacchetto GPS
     packet = gpsd.get_current()
     
@@ -81,7 +63,6 @@ def get_gps_data():
     print(f"Longitudine: {packet.lon}")
 
     open_json(0, file, params)
-
 
 # Calcolare la distanza tra due punti geografici
 # Formula di Haversine
@@ -113,6 +94,17 @@ def calculate_middlepoint(lat1, lon1, lat2, lon2):
 ############################################################################################
 # SEZIONE LXML
 ############################################################################################
+
+
+# Inizializza il root 
+async def init_lxml():
+    global ns, root
+    with open(file, "r") as jsonfile:
+        params = json.load(jsonfile)
+    netex = params["netex"]["netex_file_path"] + params["netex"]["netex_file_name"]
+    ns = {'ns': params["netex"]["namespace"]}
+    root = etree.parse(netex) # Carica il file XML
+    await asyncio.sleep(1)
 
 # Ricerca nella struttura filtrando per id
 def search_by_id(node, path, id):
@@ -163,7 +155,8 @@ def calculate_line():
 
 async def calculateLine():
     while True:
-        print("LINE: Calcolo linea in corso...")
+        params = open_json(1, file)
+        #print("LINE: Calcolo linea in corso...")
         lines_id = calculate_line()
         # Se nella lista ci sta una sola linea, allora l'abbiamo trovata
         if len(lines_id) == 1:
@@ -224,9 +217,9 @@ def calculate_stops():
         if distance <= delta:
             nearby.append(stop.get("id"))
 
-    # Se trova una fermata la si memorizza (sperando sia giusta)
+    # Se trova una fermata la si memorizza
     if len(nearby) == 1:
-        stops.append(nearby_stops_id[index])
+        stops.append(nearby[0])
 
     # Se trovano più fermate si cerca di capire il verso del bus
     # le prossime coordinate gps ce lo diranno quindi per il momento salviamo in buffer le fermate
@@ -239,7 +232,8 @@ def calculate_stops():
 
 async def calculateStops():
     while True:
-        print("STOPS: Calcolo fermate in corso...")
+        params = open_json(1, file)
+        #print("STOPS: Calcolo fermate in corso...")
         #get_gps_data()
         stops = calculate_stops()
         if stops:
@@ -303,6 +297,7 @@ def more_trim_journey_stop_id(testo, vettore):
 
 # Trova i valori della fermata fisica e tariffaria legati al tap
 def calculate_validation(validation):
+    params = open_json(1, file)
     # STEP 1
     line_id = params["infomobility"]["line_id"]
     reference_stop_id = validation["__added__"]["last_stop_id"]
@@ -314,6 +309,7 @@ def calculate_validation(validation):
             "id": journey.get("id"),
             "stops": search_all(journey, "ScheduledStopPointRef/@ref")
         })
+
         # Trovare StopPointInJourneyPattern della fermata di riferimento e del capolinea
         for stop_in_journey in search_by_ref(journey, "StopPointInJourneyPattern", "ScheduledStopPointRef", reference_stop_id):
             reference_journey_id = journey.get("id") # Prendo anche l'id della tratta
@@ -404,28 +400,71 @@ def calculate_validation(validation):
 
 async def calculateValidations():
     while True:
-        print("VALIDATIONS: Calcolo validazioni in corso...")
+        #print("VALIDATIONS: Calcolo validazioni in corso...")
         params = open_json(1, file)
         validazioni = params["validazioni"]
         line_id = params["infomobility"]["line_id"]
 
         if line_id == "":
-            print("VALIDATIONS: Operazione annullata. Linea ancora non trovata.")
+            pass
+            #print("VALIDATIONS: Operazione annullata. Linea ancora non trovata.")
         elif not validazioni:
-            print("VALIDATIONS: Operazione annullata. Nessuna validazione da calcolare.")
+            pass
+            #print("VALIDATIONS: Operazione annullata. Nessuna validazione da calcolare.")
 
         if params["infomobility"]["line_id"] != "" and validazioni: #while
             fermata_fisica, fermata_tariffaria = calculate_validation(validazioni[0])
             params["validazioni"][0]["fermata"] = fermata_fisica
             params["validazioni"][0]["codice_fermata_tariffaria"] = fermata_tariffaria
             params["validazioni"][0]["codice_linea"] = estract_line_id(line_id)
-            #params["validazioni"][0].pop("__added__")
-            print("VALIDATIONS: Validazione in output!")
-            #params["validazioni"].pop(0)
-            open_json(0, file, params)
             params["validazioni"][0].pop("__added__")
+            print("VALIDATIONS: Validazione in output!")
             print(params["validazioni"][0])
+            params["validazioni"].pop(0)
+            open_json(0, file, params)
         await asyncio.sleep(1)  # Attende 1 sec prima di riattivarsi
+
+async def define_tap():
+    while True:
+        params = open_json(1, file)
+        validazioni_raw = params["buffer"]["validazioni_raw"]
+        if validazioni_raw:
+            if validazioni_raw[0] not in ["check-in", "check-out", 0, 1]:
+                print("TAP: Tap non riconosciuto.")
+            else:
+                if validazioni_raw[0] in ["check-in", 0]:
+                    operazione = "check-in"
+                else:
+                    operazione = "check-out"
+                #get_gps_data()
+                params["validazioni"].append(
+                    {
+                        "data_validazione": str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
+                        "vettore_validazione": "ANM",
+                        "veicolo": "",
+                        "dispositivo": "",
+                        "pnr_seriale": 0,
+                        "supporto": "",
+                        "operazione": operazione,
+                        "esito": "",
+                        "emv_terminal_id": 0,
+                        "emv_hashpan": "",
+                        "fermata": 0,
+                        "codice_fermata_tariffaria": 0,
+                        "codice_linea": "",
+                        "__added__": {
+                            "latitude": params["position_rt"]["latitude"],
+                            "longitude": params["position_rt"]["longitude"],
+                            "last_stop_id": params["infomobility"]["journey"]["stops"][-1],
+                            "last_stop_time": params["infomobility"]["journey"]["last_stop_time"]
+                        }
+                    }
+                )
+                print("TAP: Tap registato correttamente.")
+
+            params["buffer"]["validazioni_raw"].pop(0)
+            open_json(0, file, params)
+        await asyncio.sleep(1) # Attende 1 secondo prima di riattivarsi
 
 
 ############################################################################################
@@ -434,16 +473,19 @@ async def calculateValidations():
 
 
 async def main():
-    #print("Inizializzazione Tap&Go on Bus in corso...")
-    init_task = asyncio.create_task(clear_params())
-    await init_task # Attende che il task sia completato
+    print("Inizializzazione Tap&Go on Bus in corso...")
+    init_params_task = asyncio.create_task(clear_params())
+    await init_params_task # Attende che il task sia completato
+    init_lxml_task = asyncio.create_task(init_lxml())
+    await init_lxml_task # Attende che il task sia completato
     print("Inizializzazione Tap&Go on Bus competata!")
 
     # Crea i task per le funzioni
     line_task = asyncio.create_task(calculateLine())
     stops_task = asyncio.create_task(calculateStops())
     validations_task = asyncio.create_task(calculateValidations())
-    await asyncio.gather(line_task, stops_task, validations_task) # Attende che tutti i task sia completati
+    tap_task = asyncio.create_task(define_tap())
+    await asyncio.gather(line_task, stops_task, validations_task, tap_task) # Attende che tutti i task sia completati
 
 # Esegue il loop principale
 asyncio.run(main())

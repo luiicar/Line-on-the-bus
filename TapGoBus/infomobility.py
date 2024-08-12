@@ -64,8 +64,8 @@ def getInfomobility():
                 stopinfo = {
                     "id": sspref,
                     "Name": stop.xpath("ns:ShortName/text()", namespaces=ns)[0],
-                    "Longitude": float(stop.xpath(".//ns:Longitude/text()", namespaces=ns)[0]),
-                    "Latitude": float(stop.xpath(".//ns:Latitude/text()", namespaces=ns)[0])
+                    "latitude": float(stop.xpath(".//ns:Latitude/text()", namespaces=ns)[0]),
+                    "longitude": float(stop.xpath(".//ns:Longitude/text()", namespaces=ns)[0])
                 }
                 stops.append(stopinfo)
             for sj in root.xpath(f".//ns:ServiceJourney", namespaces=ns):
