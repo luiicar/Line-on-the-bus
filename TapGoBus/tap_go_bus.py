@@ -487,5 +487,6 @@ async def main():
     tap_task = asyncio.create_task(define_tap())
     await asyncio.gather(line_task, stops_task, validations_task, tap_task) # Attende che tutti i task sia completati
 
+
 # Esegue il loop principale
 asyncio.run(main())
