@@ -1,0 +1,10 @@
+2024-08-20 22:26:04,399 - Inizializzazione Tap&Go on Bus in corso...
+2024-08-20 22:26:08,159 - Inizializzazione Tap&Go on Bus competata!
+2024-08-20 22:26:08,289 - [ LINE ] Troppe poche fermate conosciute.
+2024-08-20 22:26:08,517 - [ STOPS ] Nessuna fermata trovata.
+2024-08-20 22:27:08,956 - [ STOPS ] I codici delle fermate sono: IT:ScheduledStopPoint:_x0031_062_ANM_x0020_2023-24_x0020_-_x0020_GOMMA
+2024-08-20 22:28:08,448 - [ LINE ] Troppe poche fermate conosciute.
+2024-08-20 22:28:09,181 - [ STOPS ] I codici delle fermate sono: IT:ScheduledStopPoint:_x0031_253_ANM_x0020_2023-24_x0020_-_x0020_GOMMA
+2024-08-20 22:29:09,429 - [ STOPS ] I codici delle fermate sono: IT:ScheduledStopPoint:_x0031_253_ANM_x0020_2023-24_x0020_-_x0020_GOMMA
+2024-08-20 22:30:08,589 - [ LINE ] Il codice della linea è: IT:Line:_x0033_M
+2024-08-20 22:30:09,656 - [ STOPS ] I codici delle fermate sono: IT:ScheduledStopPoint:_x0031_253_ANM_x0020_2023-24_x0020_-_x0020_GOMMA

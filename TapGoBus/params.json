@@ -2,7 +2,7 @@
     "vector": "ANM",
     "netex_file": {
         "name": "IT-IT-ITF3-ANM_GOMMANeTEx_L1.xml",
-        "path":{
+        "path": {
             "win": "C:/Users/Jalexus/Desktop/Tap-Go/TapGoBus/",
             "linux": "/home/debian/Tap-Go/TapGoBus/",
             "mac": ""
@@ -11,8 +11,8 @@
         "publication_timestamp": "2024-03-25T00:00:00+01:00"
     },
     "position_rt": {
-        "latitude": 40.8485604256587,
-        "longitude": 14.2496372153882,
+        "latitude": 40.851499096574,
+        "longitude": 14.2499392084145,
         "range_meters_approx": 5
     },
     "time_min_approx": 45,
@@ -26,11 +26,14 @@
         "validazioni_raw": []
     },
     "infomobility": {
-        "line_id": "",
+        "line_id": "IT:Line:_x0033_M",
         "journey": {
-            "last_stop_time": "03:28:45",
+            "last_stop_time": "22:30:09",
             "stops": [
-                "IT:ScheduledStopPoint:_x0031_061_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
+                "IT:ScheduledStopPoint:_x0031_062_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0031_253_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0031_253_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0031_253_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
             ]
         }
     },
