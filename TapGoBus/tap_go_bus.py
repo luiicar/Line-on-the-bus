@@ -179,7 +179,7 @@ async def calculateLine():
         # Se nella lista ci sta una sola linea, allora l'abbiamo trovata
         if len(lines_id) == 1:
             #print("LINE: Il codice della linea è: " + lines_id[0])
-            logging.info("[ LINE ] Il codice della linea è: %s", lines_id[0])
+            logging.info("[ LINE ] Il codice della linea: %s", lines_id[0])
             params["infomobility"]["line_id"] = lines_id[0]    
         elif len(lines_id) == 0:
             logging.info("[ LINE ] Tratta inesistente. Cancellazione dati temporanei sulle fermate in corso...")
