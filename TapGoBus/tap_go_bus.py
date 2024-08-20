@@ -106,9 +106,9 @@ async def init_lxml():
     if os == "Windows":
         netex = params["netex_file"]["path"]["win"] + params["netex_file"]["name"]
     elif os == "Linux":
-        netex = params["netex_file"]["path"]["linux"] + params["netex_file"]["netex_file_name"]
+        netex = params["netex_file"]["path"]["linux"] + params["netex_file"]["name"]
     elif os == "Darwin":
-        netex = params["netex_file"]["path"]["mac"] + params["netex_file"]["netex_file_name"]
+        netex = params["netex_file"]["path"]["mac"] + params["netex_file"]["name"]
     ns = {'ns': params["netex_file"]["namespace"]}
     root = etree.parse(netex) # Carica il file XML
     await asyncio.sleep(params["repetition_wait_seconds"]["default"])

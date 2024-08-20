@@ -4,7 +4,7 @@
         "name": "IT-IT-ITF3-ANM_GOMMANeTEx_L1.xml",
         "path":{
             "win": "C:/Users/Jalexus/Desktop/Tap-Go/TapGoBus/",
-            "linux": "home/debian/Tap-Go/TapGoBus/",
+            "linux": "/home/debian/Tap-Go/TapGoBus/",
             "mac": ""
         },
         "namespace": "http://www.netex.org.uk/netex",
