@@ -1,27 +1,36 @@
 {
     "vector": "ANM",
-    "netex": {
-        "netex_file_name": "IT-IT-ITF3-ANM_GOMMANeTEx_L2.xml",
-        "netex_file_path": "C:/Users/Jalexus/Desktop/Tap-Go/TapGoBus/",
-        "namespace": "http://www.netex.org.uk/netex"
+    "netex_file": {
+        "name": "IT-IT-ITF3-ANM_GOMMANeTEx_L1.xml",
+        "path":{
+            "win": "C:/Users/Jalexus/Desktop/Tap-Go/TapGoBus/",
+            "linux": "home/debian/Tap-Go/TapGoBus/",
+            "mac": ""
+        },
+        "namespace": "http://www.netex.org.uk/netex",
+        "publication_timestamp": "2024-03-25T00:00:00+01:00"
     },
     "position_rt": {
-        "latitude": 40.8660101944463,
-        "longitude": 14.2651394166328,
+        "latitude": 40.8485604256587,
+        "longitude": 14.2496372153882,
         "range_meters_approx": 5
     },
     "time_min_approx": 45,
+    "repetition_wait_seconds": {
+        "default": 1,
+        "calculate_stops": 60,
+        "calculate_line": 300
+    },
     "buffer": {
         "nearby_stops_id": [],
         "validazioni_raw": []
     },
     "infomobility": {
-        "line_id": "IT:ITF3:Line:C63",
+        "line_id": "",
         "journey": {
-            "last_stop_time": "20:27:56",
+            "last_stop_time": "03:28:45",
             "stops": [
-                "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA",
-                "IT:ITF3:ScheduledStopPoint:1425_ANM_2023_-_GOMMA"
+                "IT:ScheduledStopPoint:_x0031_061_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
             ]
         }
     },

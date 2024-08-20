@@ -30,7 +30,7 @@ def open_json(mode, filename, data=""):
 
 
 ############################################################################################
-# SEZIONE INFOMOBILITà ----- PER TEST SIMULATI
+# SEZIONE INFOMOBILITà
 ############################################################################################
 
 
@@ -64,6 +64,7 @@ def getInfomobility():
                 stopinfo = {
                     "id": sspref,
                     "Name": stop.xpath("ns:ShortName/text()", namespaces=ns)[0],
+                    "Code": stop.xpath("ns:PublicCode/text()", namespaces=ns)[0],
                     "latitude": float(stop.xpath(".//ns:Latitude/text()", namespaces=ns)[0]),
                     "longitude": float(stop.xpath(".//ns:Longitude/text()", namespaces=ns)[0])
                 }
@@ -73,7 +74,7 @@ def getInfomobility():
                     temporal_info[sj.xpath("ns:DepartureTime/text()", namespaces=ns)[0]] = sj.xpath("ns:JourneyDuration/text()", namespaces=ns)[0]
             journeyinfo = {
                 "id": sjp.get("id"),
-                "direction": sjp.xpath("ns:DirectionType/text()", namespaces=ns)[0],
+                #"direction": sjp.xpath("ns:DirectionType/text()", namespaces=ns)[0],
                 "departure/duration": dict(sorted(temporal_info.items())),
                 "stops": stops
             }

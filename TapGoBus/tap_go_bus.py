@@ -5,6 +5,7 @@ from math import radians, degrees, sin, cos, atan2, sqrt
 import json
 import asyncio
 import gpsd
+import platform
 
 
 file = "params.json" 
@@ -40,7 +41,7 @@ async def clear_params():
     params["validazioni"] = []
     
     open_json(0, file, params)
-    await asyncio.sleep(1)
+    await asyncio.sleep(params["repetition_wait_seconds"]["default"])
 
 
 ############################################################################################
@@ -101,10 +102,16 @@ async def init_lxml():
     global ns, root
     with open(file, "r") as jsonfile:
         params = json.load(jsonfile)
-    netex = params["netex"]["netex_file_path"] + params["netex"]["netex_file_name"]
-    ns = {'ns': params["netex"]["namespace"]}
+    os = platform.system()
+    if os == "Windows":
+        netex = params["netex_file"]["path"]["win"] + params["netex_file"]["name"]
+    elif os == "Linux":
+        netex = params["netex_file"]["path"]["linux"] + params["netex_file"]["netex_file_name"]
+    elif os == "Darwin":
+        netex = params["netex_file"]["path"]["mac"] + params["netex_file"]["netex_file_name"]
+    ns = {'ns': params["netex_file"]["namespace"]}
     root = etree.parse(netex) # Carica il file XML
-    await asyncio.sleep(1)
+    await asyncio.sleep(params["repetition_wait_seconds"]["default"])
 
 # Ricerca nella struttura filtrando per id
 def search_by_id(node, path, id):
@@ -114,7 +121,11 @@ def search_by_id(node, path, id):
 def search_by_ref(node, path, subpath, ref):
     lst = []
     for elem in node.xpath(f".//ns:{path}", namespaces=ns):
-        if elem.xpath(f".//ns:{subpath}/@ref", namespaces=ns)[0] == ref:
+        try:
+            element = elem.xpath(f".//ns:{subpath}/@ref", namespaces=ns)[0]
+        except:
+            element = None
+        if element == ref:
             lst.append(elem)
     return lst
 
@@ -124,12 +135,16 @@ def search_all(node, path):
 
 # Salva un valore di una foglia
 def search_elem(node, path, value):
-    if value == "text":
-        return node.xpath(f".//ns:{path}/text()", namespaces=ns)[0]
-    elif value == "ref":
-        return node.xpath(f".//ns:{path}/@ref", namespaces=ns)[0]
-    elif value == "last":
-        return node.xpath(f".//ns:{path}[last()]", namespaces=ns)[0]
+    try:
+        if value == "text":
+            element = node.xpath(f".//ns:{path}/text()", namespaces=ns)[0]
+        elif value == "ref":
+            element = node.xpath(f".//ns:{path}/@ref", namespaces=ns)[0]
+        elif value == "last":
+            element = node.xpath(f".//ns:{path}[last()]", namespaces=ns)[0]
+    except:
+        element = None
+    return element
 
 
 ############################################################################################
@@ -171,7 +186,7 @@ async def calculateLine():
             print("LINE: Troppe poche fermate conosciute.")
             
         open_json(0, file, params)
-        await asyncio.sleep(300) # Attende 5 min prima di riattivarsi
+        await asyncio.sleep(params["repetition_wait_seconds"]["calculate_line"]) # Attende prima di riattivarsi
 
 
 ############################################################################################
@@ -244,55 +259,11 @@ async def calculateStops():
             open_json(0, file, params)
         else:
             print("STOPS: Nessuna fermata trovata.")
-        await asyncio.sleep(60) # Attende 1 min prima di riattivarsi
+        await asyncio.sleep(params["repetition_wait_seconds"]["calculate_stops"]) # Attende prima di riattivarsi
 
 ############################################################################################
 # SEZIONE VALIDAZIONE TAP
 ############################################################################################
-
-# Estrai il codice fermata
-def estract_stop_id(testo):
-    start_trim = testo.rfind(":")
-    end_trim = testo.find("_")
-
-    value = testo[start_trim + 1:end_trim]
-
-    return int(value)
-
-
-# Estrai il codice fermata tariffaria
-def estract_tariffzone_id(testo):
-    start_trim = testo.rfind(":")
-
-    value = testo[start_trim + 1:]
-
-    return int(value)
-
-
-# Estrai il codice fermata tariffaria
-def estract_line_id(testo):
-    start_trim = testo.rfind(":")
-
-    value = testo[start_trim + 1:]
-
-    return value
-
-
-# Converti codice StopPointInJourneyPattern nella forma corretta
-def trim_journey_stop_id(testo):
-    trim1 = testo.rfind(":")
-    trim2 = testo.find("_")
-    value1 = testo[:trim1 + 1]
-    value2 = testo[trim2 + 1:]
-    return value1 + value2
-
-
-# Ulteriore taglio di StopPointInJourneyPattern per problemi di compatibilità
-def more_trim_journey_stop_id(testo, vettore):
-    trim = testo.find(vettore)
-    value1 = testo[:trim - 2]
-    value2 = testo[trim:]
-    return value1 + value2
 
 
 # Trova i valori della fermata fisica e tariffaria legati al tap
@@ -313,9 +284,9 @@ def calculate_validation(validation):
         # Trovare StopPointInJourneyPattern della fermata di riferimento e del capolinea
         for stop_in_journey in search_by_ref(journey, "StopPointInJourneyPattern", "ScheduledStopPointRef", reference_stop_id):
             reference_journey_id = journey.get("id") # Prendo anche l'id della tratta
-            reference_journey_stop_id = trim_journey_stop_id(stop_in_journey.get("id"))
+            reference_journey_stop_id = stop_in_journey.get("id")
             terminus_journey_stop = search_elem(journey, "StopPointInJourneyPattern", "last")
-            terminus_journey_stop_id = trim_journey_stop_id(terminus_journey_stop.get("id"))
+            terminus_journey_stop_id = terminus_journey_stop.get("id")
 
     # STEP 2
     time_range = params["time_min_approx"]
@@ -323,21 +294,16 @@ def calculate_validation(validation):
     difference_times = []
     # Calcola il tempo medio dalla fermata di riferimento al capolinea
     # Considera solo i ServiceJourney della tratta di riferimento di quella fascia oraria
-    while not difference_times:
-        for service_journey in search_by_ref(root, "ServiceJourney", "ServiceJourneyPatternRef", reference_journey_id):
-            for timetable_r in search_by_ref(service_journey, "TimetabledPassingTime", "StopPointInJourneyPatternRef", reference_journey_stop_id):
-                stop_sj_time = datetime.strptime(search_elem(timetable_r, "DepartureTime", "text"), "%H:%M:%S")
-                difference = (abs(stop_sj_time - last_stop_time).total_seconds() % 3600) // 60 
-                if difference < time_range:
-                    for timetable_t in search_by_ref(service_journey, "TimetabledPassingTime", "StopPointInJourneyPatternRef", terminus_journey_stop_id):
-                        terminus_sj_time = datetime.strptime(search_elem(timetable_t, "DepartureTime", "text"), "%H:%M:%S")
-                        stop_to_terminus_difference = (terminus_sj_time - stop_sj_time).total_seconds() % 3600 // 60
-                        difference_times.append(stop_to_terminus_difference)
-        if difference_times:
-            time_stop_to_terminus_avg = sum(difference_times) / len(difference_times) 
-        else:
-            reference_journey_stop_id = more_trim_journey_stop_id(reference_journey_stop_id, params["vector"])
-            terminus_journey_stop_id = more_trim_journey_stop_id(terminus_journey_stop_id, params["vector"])
+    for service_journey in search_by_ref(root, "ServiceJourney", "ServiceJourneyPatternRef", reference_journey_id):
+        for timetable_r in search_by_ref(service_journey, "TimetabledPassingTime", "StopPointInJourneyPatternRef", reference_journey_stop_id):
+            stop_sj_time = datetime.strptime(search_elem(timetable_r, "DepartureTime", "text"), "%H:%M:%S")
+            difference = (abs(stop_sj_time - last_stop_time).total_seconds() % 3600) // 60 
+            if difference < time_range:
+                for timetable_t in search_by_ref(service_journey, "TimetabledPassingTime", "StopPointInJourneyPatternRef", terminus_journey_stop_id):
+                    terminus_sj_time = datetime.strptime(search_elem(timetable_t, "DepartureTime", "text"), "%H:%M:%S")
+                    stop_to_terminus_difference = (terminus_sj_time - stop_sj_time).total_seconds() % 3600 // 60
+                    difference_times.append(stop_to_terminus_difference)
+    time_stop_to_terminus_avg = sum(difference_times) / len(difference_times) 
 
     # STEP 3
     # Capire qual'è la tratta di riferimento per il calcolo della validazione
@@ -374,8 +340,9 @@ def calculate_validation(validation):
         distance = calculate_distance(lat, lon, lat_stop, lon_stop)
         if distance <= delta:
             tariff_zone_id = search_elem(stop, "TariffZoneRef", "ref")
-            fermata_fisica = estract_stop_id(ref_linked[idx])
-            fermata_tariffaria = estract_tariffzone_id(tariff_zone_id)
+            tariff_zone = search_by_id(root, "TariffZone", tariff_zone_id)
+            fermata_tariffaria = int(search_elem(tariff_zone, "Name", "text") or 000)
+            fermata_fisica = int(search_elem(stop, "PublicCode", "text") or 0000)
             found = True
             break
         else:
@@ -393,9 +360,12 @@ def calculate_validation(validation):
             idx = link_distance.index(min(link_distance)) + 1
         stop = search_by_id(root, "ScheduledStopPoint", ref_linked[idx])
         tariff_zone_id = search_elem(stop, "TariffZoneRef", "ref")
-        fermata_fisica = estract_stop_id(ref_linked[idx])
-        fermata_tariffaria = estract_tariffzone_id(tariff_zone_id)
-    return fermata_fisica, fermata_tariffaria
+        tariff_zone = search_by_id(root, "TariffZone", tariff_zone_id)
+        fermata_tariffaria = int(search_elem(tariff_zone, "Name", "text") or 000)
+        fermata_fisica = int(search_elem(stop, "PublicCode", "text") or 0000)
+    line = search_by_id(root, "Line", line_id)
+    linea = search_elem(line, "Name", "text")
+    return fermata_fisica, fermata_tariffaria, linea
     
 
 async def calculateValidations():
@@ -412,23 +382,23 @@ async def calculateValidations():
             pass
             #print("VALIDATIONS: Operazione annullata. Nessuna validazione da calcolare.")
 
-        if params["infomobility"]["line_id"] != "" and validazioni: #while
-            fermata_fisica, fermata_tariffaria = calculate_validation(validazioni[0])
+        if params["infomobility"]["line_id"] != "" and validazioni:
+            fermata_fisica, fermata_tariffaria, linea = calculate_validation(validazioni[0])
             params["validazioni"][0]["fermata"] = fermata_fisica
             params["validazioni"][0]["codice_fermata_tariffaria"] = fermata_tariffaria
-            params["validazioni"][0]["codice_linea"] = estract_line_id(line_id)
+            params["validazioni"][0]["codice_linea"] = linea
             params["validazioni"][0].pop("__added__")
             print("VALIDATIONS: Validazione in output!")
             print(params["validazioni"][0])
             params["validazioni"].pop(0)
             open_json(0, file, params)
-        await asyncio.sleep(1)  # Attende 1 sec prima di riattivarsi
+        await asyncio.sleep(params["repetition_wait_seconds"]["default"])  # Attende prima di riattivarsi
 
 async def define_tap():
     while True:
         params = open_json(1, file)
         validazioni_raw = params["buffer"]["validazioni_raw"]
-        if validazioni_raw:
+        if validazioni_raw and params["infomobility"]["journey"]["stops"]:
             if validazioni_raw[0] not in ["check-in", "check-out", 0, 1]:
                 print("TAP: Tap non riconosciuto.")
             else:
@@ -464,7 +434,7 @@ async def define_tap():
 
             params["buffer"]["validazioni_raw"].pop(0)
             open_json(0, file, params)
-        await asyncio.sleep(1) # Attende 1 secondo prima di riattivarsi
+        await asyncio.sleep(params["repetition_wait_seconds"]["default"]) # Attende prima di riattivarsi
 
 
 ############################################################################################
