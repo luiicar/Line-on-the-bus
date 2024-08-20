@@ -1,0 +1,14 @@
+[Unit]
+Description=Esegui script Python all'avvio
+After=network.target
+
+[Service]
+ExecStart=/home/debian/Tap-Go/TapGoBus/venv/bin/python /home/debian/Tap-Go/TapGoBus/tap_go_bus.py
+WorkingDirectory=/home/debian/Tap-Go/TapGoBus/venv/bin/python
+Restart=always
+User=debian
+StandardOutput=file:/home/debian/Tap-Go/TapGoBus/output.log
+StandardError=file:/home/debian/Tap-Go/TapGoBus/error.log
+
+[Install]
+WantedBy=multi-user.target
