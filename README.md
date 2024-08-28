@@ -23,3 +23,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable tap_go_bus
 sudo systemctl start tap_go_bus
 sudo systemctl stop tap_go_bus
+
+Sia in caso 1 che in caso 2 riavviare la VM.
+
+sudo reboot now
