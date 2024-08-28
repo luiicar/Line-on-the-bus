@@ -35,13 +35,21 @@ def open_json(mode, filename, data=""):
 async def clear_params():
     params = open_json(1, file_params)
     
+    operator = search_all(root, "Operator")
+    params["vector"] = search_elem(operator, "ShortName", "text")
+
+    params["netex_file"]["publication_timestamp"] = search_elem(root, "PublicationTimestamp", "text")
+
     params["position_rt"]["latitude"] = 0
     params["position_rt"]["longitude"] = 0
+
     params["buffer"]["nearby_stops_id"] = []
     params["buffer"]["validazioni_raw"] = []
+
     params["infomobility"]["line_id"] = ""
     params["infomobility"]["journey"]["last_stop_time"] = ""
     params["infomobility"]["journey"]["stops"] = []
+
     params["validazioni"] = []
     
     open_json(0, file_params, params)
@@ -54,7 +62,7 @@ async def clear_params():
 
 
 # Funzione per ottenere e stampare i dati GPS
-#gpsd.connect() # Connettersi al demone gpsd
+#gpsd.connect() # Connettersi al gpsd deamon
 def get_gps_data():
     params = open_json(1, file_params)
     # Ottenere il pacchetto GPS
@@ -134,7 +142,11 @@ def search_by_ref(node, path, subpath, ref):
 
 # trova tutti gli elementi
 def search_all(node, path):
-    return node.xpath(f".//ns:{path}", namespaces=ns)
+    elems = node.xpath(f".//ns:{path}", namespaces=ns)
+    if len(elems) == 1:
+        return elems[0]
+    else:
+        return elems
 
 # Salva un valore di una foglia
 def search_elem(node, path, value):
@@ -457,10 +469,10 @@ async def main():
     with open(file_log, 'w') as file: pass # Ripulisci il file log
     logging.info("Inizializzazione Tap&Go on Bus in corso...")
     #print("Inizializzazione Tap&Go on Bus in corso...")
-    init_params_task = asyncio.create_task(clear_params())
-    await init_params_task # Attende che il task sia completato
     init_lxml_task = asyncio.create_task(init_lxml())
     await init_lxml_task # Attende che il task sia completato
+    init_params_task = asyncio.create_task(clear_params())
+    await init_params_task # Attende che il task sia completato
     logging.info("Inizializzazione Tap&Go on Bus competata!")
     #print("Inizializzazione Tap&Go on Bus competata!")
 

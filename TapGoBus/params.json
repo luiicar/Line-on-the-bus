@@ -26,13 +26,10 @@
         "validazioni_raw": []
     },
     "infomobility": {
-        "line_id": "IT:Line:_x0033_M",
+        "line_id": "",
         "journey": {
-            "last_stop_time": "22:30:09",
+            "last_stop_time": "18:25:28",
             "stops": [
-                "IT:ScheduledStopPoint:_x0031_062_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0031_253_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0031_253_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
                 "IT:ScheduledStopPoint:_x0031_253_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
             ]
         }

@@ -1,14 +1,21 @@
 #import xml.etree.ElementTree as ET
 from lxml import etree
 import json
+import platform
 
 
 file = "params.json" 
 
 with open(file, "r") as jsonfile:
     params = json.load(jsonfile)
-netex = params["netex"]["netex_file_path"] + params["netex"]["netex_file_name"]
-ns = {'ns': params["netex"]["namespace"]}
+    os = platform.system()
+    if os == "Windows":
+        netex = params["netex_file"]["path"]["win"] + params["netex_file"]["name"]
+    elif os == "Linux":
+        netex = params["netex_file"]["path"]["linux"] + params["netex_file"]["name"]
+    elif os == "Darwin":
+        netex = params["netex_file"]["path"]["mac"] + params["netex_file"]["name"]
+ns = {'ns': params["netex_file"]["namespace"]}
 root = etree.parse(netex) # Carica il file XML
 
 
@@ -41,6 +48,14 @@ def getInfomobility():
     file["journeys"] = []
 
     exist = False
+    #linee = root.xpath(".//ns:Line/Name/text()", namespaces=ns)
+    linee = []
+
+    for l in root.xpath(".//ns:Line", namespaces=ns):
+        linee.append(l.xpath("ns:Name/text()", namespaces=ns)[0])
+    print("Lista degli autobus:")
+    print(linee)
+
     while not exist:
         name = input("Inserire il nome del bus: ").upper()
         filename = "infomobility-" + name + ".json"
