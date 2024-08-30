@@ -17,6 +17,8 @@ git fetch
 git reset --hard HEAD
 git merge '@{u}'
 
+--------
+
 Caso 2: Il file systemd service è modificato o bisogna intervenire sul processo.
 
 cp /home/debian/Tap-Go/tap_go_bus.service /etc/systemd/system/tap_go_bus.service
@@ -26,6 +28,17 @@ sudo systemctl start tap_go_bus
 sudo systemctl stop tap_go_bus (per stoppare il processo)
 sudo systemctl restart tap_go_bus (per riavviare il processo)
 sudo systemctl status tap_go_bus (per monitorare lo stato del processo)
+
+--------
+
+Caso 3: Bisogna riclonare il git in VM.
+
+git clone --no-checkout https://github.com/luiicar/Tap-Go.git
+cd Tap-Go
+git config core.sparseCheckout true
+nano .git/info/sparse-checkout (e scrivere al suo interno incolonnati i file e cartelle da clonare)
+git checkout
+
 
 
 N.B.: è buona norma, in ogni caso, riavviare la VM.
