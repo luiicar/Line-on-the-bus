@@ -8,11 +8,12 @@
             "mac": ""
         },
         "namespace": "http://www.netex.org.uk/netex",
-        "publication_timestamp": "2024-03-25T00:00:00+01:00"
+        "publication_timestamp": "2024-03-25T00:00:00+01:00",
+        "valid_untill": "2024-03-31T00:00:00"
     },
     "position_rt": {
-        "latitude": 40.851499096574,
-        "longitude": 14.2499392084145,
+        "latitude": 0,
+        "longitude": 0,
         "range_meters_approx": 5
     },
     "time_min_approx": 45,
@@ -23,15 +24,14 @@
     },
     "buffer": {
         "nearby_stops_id": [],
+        "count_divide": 1,
         "validazioni_raw": []
     },
     "infomobility": {
         "line_id": "",
         "journey": {
-            "last_stop_time": "18:25:28",
-            "stops": [
-                "IT:ScheduledStopPoint:_x0031_253_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
-            ]
+            "last_stop_time": "2024-08-30 12:35:09",
+            "stops": []
         }
     },
     "validazioni": []
