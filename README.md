@@ -44,8 +44,10 @@ rm -r venv
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+chmod +x tap_go_bus.py
+chmod +x infomobility
 source venv/bin/deactivate
-
+chmod 777 /etc/systemd/system/tap_go_bus.service
 cd /home/debian
 
 git clone --no-checkout https://github.com/luiicar/Tap-Go.git

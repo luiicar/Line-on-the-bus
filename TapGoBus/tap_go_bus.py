@@ -508,7 +508,7 @@ async def main():
     await init_lxml_task # Attende che il task sia completato
     init_params_task = asyncio.create_task(clear_params())
     await init_params_task # Attende che il task sia completato
-    logging.info("Inizializzazione Tap&Go on Bus competata!")
+    logging.info("Inizializzazione Tap&Go on Bus completata!")
 
     # Crea i task per le funzioni
     line_task = asyncio.create_task(calculateLine())
