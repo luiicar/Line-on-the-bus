@@ -8,6 +8,10 @@ Estrarre il file e aggiungerlo alla cartella /Tap-Go/TapGoBus.
 
 Nota: cambia il path e il nome del file netex se necessario!
 
+per Debian:
+user: Debian
+pw: debian
+
 
 
 ---- Comandi utili aggiuntivi ----
@@ -21,7 +25,7 @@ git merge '@{u}'
 
 Caso 2: Il file systemd service è modificato o bisogna intervenire sul processo.
 
-cp /home/debian/Tap-Go/tap_go_bus.service /etc/systemd/system/tap_go_bus.service
+sudo cp /home/debian/Tap-Go/tap_go_bus.service /etc/systemd/system/tap_go_bus.service
 sudo systemctl daemon-reload
 sudo systemctl enable tap_go_bus
 sudo systemctl start tap_go_bus
@@ -32,6 +36,17 @@ sudo systemctl status tap_go_bus (per monitorare lo stato del processo)
 --------
 
 Caso 3: Bisogna riclonare il git in VM.
+
+sudo apt install python 3
+sudo apt install pip
+cd /home/debian/Tap-Go/TapGoBus/
+rm -r venv
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+source venv/bin/deactivate
+
+cd /home/debian
 
 git clone --no-checkout https://github.com/luiicar/Tap-Go.git
 cd Tap-Go
