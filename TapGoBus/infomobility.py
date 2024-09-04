@@ -1,109 +1,80 @@
-#import xml.etree.ElementTree as ET
-from lxml import etree
-import json
-import platform
+import asyncio
 
-
-file = "params.json" 
-
-with open(file, "r") as jsonfile:
-    params = json.load(jsonfile)
-    os = platform.system()
-    if os == "Windows":
-        netex = params["netex_file"]["path"]["win"] + params["netex_file"]["name"]
-    elif os == "Linux":
-        netex = params["netex_file"]["path"]["linux"] + params["netex_file"]["name"]
-    elif os == "Darwin":
-        netex = params["netex_file"]["path"]["mac"] + params["netex_file"]["name"]
-ns = {'ns': params["netex_file"]["namespace"]}
-root = etree.parse(netex) # Carica il file XML
-
-
-############################################################################################
-# SEZIONE FILEs
-############################################################################################
-
-
-# Apre il lettura o scrittura i file JSON
-def open_json(mode, filename, data=""):
-    if mode: # 1 lettura
-        with open(filename, "r") as jsonfile:
-            data = json.load(jsonfile)
-            return data
-        
-    else: # 0 scrittura
-        with open(filename, "w") as jsonfile:
-            json.dump(data, jsonfile, indent=4)
-
-
-############################################################################################
-# SEZIONE INFOMOBILITà
-############################################################################################
+from tapgobuspackage.file_opener import open_json
+from tapgobuspackage.parser import init_lxml, get_root, search_all, search_elem, search_by_id
 
 
 # Crea un file json che, dato in input il nome di un bus, ci da tutte le informaziono utili
-def getInfomobility():
+async def main():
+    await init_lxml()
     file, file["line"] = {}, {}
     file["line"]["id"] = "None"
     file["journeys"] = []
 
     exist = False
-    #linee = root.xpath(".//ns:Line/Name/text()", namespaces=ns)
     linee = []
 
-    for l in root.xpath(".//ns:Line", namespaces=ns):
-        linee.append(l.xpath("ns:Name/text()", namespaces=ns)[0])
+    lines = search_all(get_root(), "Line")
+    for line in lines:
+        linee.append(search_elem(line, "Name", "text"))
     print("Lista degli autobus:")
     print(linee)
 
     while not exist:
-        name = input("Inserire il nome del bus: ").upper()
+        name = input(">>> Inserire il nome del bus: ").upper()
         filename = "infomobility-" + name + ".json"
 
-        for l in root.xpath(".//ns:Line", namespaces=ns):
-            if l.xpath("ns:Name/text()", namespaces=ns)[0] == name:
-                file["line"]["id"] = l.get("id")
-                file["line"]["name"] = l.xpath("ns:Name/text()", namespaces=ns)[0]
+        for line in lines:
+            if search_elem(line, "Name", "text") == name:
+                file["line"]["id"] = line.get("id")
+                file["line"]["name"] = name
                 break
         if file["line"]["id"] == "None":
             print("Autobus non trovato")
         else:
             exist = True
 
-    for sjp in root.xpath(".//ns:ServiceJourneyPattern", namespaces=ns):
-        if sjp.xpath(".//ns:LineRef/@ref", namespaces=ns)[0] == file["line"]["id"]:
+    departure = input(">>> Stampare elenco departure/duration? [y/N] ").upper()
+
+    patterns = search_all(get_root(), "ServiceJourneyPattern")
+    for pattern in patterns:
+        if search_elem(pattern, "LineRef", "ref") == file["line"]["id"]:
             stops = []
             temporal_info = {}
-            for sspref in sjp.xpath(".//ns:ScheduledStopPointRef/@ref", namespaces=ns):
-                stop = root.find(f".//ns:ScheduledStopPoint[@id='{sspref}']", namespaces=ns)
+            stops_pattern = search_all(pattern, "ScheduledStopPointRef/@ref")
+            for stop_pattern in stops_pattern:
+                stop = search_by_id(get_root(), "ScheduledStopPoint", stop_pattern)
                 stopinfo = {
-                    "id": sspref,
-                    "Name": stop.xpath("ns:ShortName/text()", namespaces=ns)[0],
-                    "Code": stop.xpath("ns:PublicCode/text()", namespaces=ns)[0],
-                    "latitude": float(stop.xpath(".//ns:Latitude/text()", namespaces=ns)[0]),
-                    "longitude": float(stop.xpath(".//ns:Longitude/text()", namespaces=ns)[0])
+                    "id": stop.get("id"),
+                    "Name": search_elem(stop, "ShortName", "text"),
+                    "Code": search_elem(stop, "PublicCode", "text"),
+                    "latitude": float(search_elem(stop, "Latitude", "text")),
+                    "longitude": float(search_elem(stop, "Longitude", "text"))
                 }
                 stops.append(stopinfo)
-            for sj in root.xpath(f".//ns:ServiceJourney", namespaces=ns):
-                if sj.xpath(f"ns:ServiceJourneyPatternRef/@ref", namespaces=ns)[0] == sjp.get("id"):
-                    temporal_info[sj.xpath("ns:DepartureTime/text()", namespaces=ns)[0]] = sj.xpath("ns:JourneyDuration/text()", namespaces=ns)[0]
-            journeyinfo = {
-                "id": sjp.get("id"),
-                #"direction": sjp.xpath("ns:DirectionType/text()", namespaces=ns)[0],
-                "departure/duration": dict(sorted(temporal_info.items())),
-                "stops": stops
-            }
+            
+            if departure == "Y":
+                service_journeys = search_all(get_root(), "ServiceJourney")
+                for service_journey in service_journeys:
+                    if search_elem(service_journey, "ServiceJourneyPatternRef", "ref") == pattern.get("id"):
+                        temporal_info[search_elem(service_journey, "DepartureTime", "text")] = search_elem(service_journey, "JourneyDuration", "text")
+                journeyinfo = {
+                    "id": pattern.get("id"),
+                    #"direction": sjp.xpath("ns:DirectionType/text()", namespaces=ns)[0],
+                    "departure/duration": dict(sorted(temporal_info.items())),
+                    "stops": stops
+                }
+            else:
+                journeyinfo = {
+                    "id": stop_pattern,
+                    #"direction": sjp.xpath("ns:DirectionType/text()", namespaces=ns)[0],
+                    "departure/duration": {},
+                    "stops": stops
+                }
             file["journeys"].append(journeyinfo)
     open_json(0, filename, file)
 
 
-############################################################################################
-# SEZIONE MAIN
-############################################################################################
 
-
-def main():
-    getInfomobility()
-
-if __name__ == "__main__":
-    main()
+# Esegue il loop principale
+asyncio.run(main())

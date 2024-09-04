@@ -9,11 +9,11 @@
         },
         "namespace": "http://www.netex.org.uk/netex",
         "publication_timestamp": "2024-03-25T00:00:00+01:00",
-        "valid_untill": "2024-03-31T00:00:00"
+        "valid_until": "2024-03-31T00:00:00"
     },
     "position_rt": {
-        "latitude": 0,
-        "longitude": 0,
+        "latitude": 40.8660102006954,
+        "longitude": 14.2651392252182,
         "range_meters_approx": 5
     },
     "time_min_approx": 45,
@@ -30,8 +30,10 @@
     "infomobility": {
         "line_id": "",
         "journey": {
-            "last_stop_time": "",
-            "stops": []
+            "last_stop_time": "2024-09-04 06:13:03",
+            "stops": [
+                "IT:ScheduledStopPoint:_x0031_425_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
+            ]
         }
     },
     "validazioni": []
