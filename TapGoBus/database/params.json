@@ -20,8 +20,8 @@
         }
     },
     "position_rt": {
-        "latitude": 40.8660102006954,
-        "longitude": 14.2651392252182,
+        "latitude": 0,
+        "longitude": 0,
         "range_meters_approx": 5
     },
     "time_min_approx": 45,
@@ -36,12 +36,10 @@
         "validazioni_raw": []
     },
     "infomobility": {
-        "line_id": "IT:Line:C63",
+        "line_id": "",
         "journey": {
-            "last_stop_time": "2024-09-05 04:37:57",
-            "stops": [
-                "IT:ScheduledStopPoint:_x0031_425_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
-            ]
+            "last_stop_time": "2024-09-05 05:20:06",
+            "stops": []
         }
     },
     "validazioni": []
