@@ -4,7 +4,7 @@ Progetto per Unico Campania
 
 Per l'uso del codice è necessario scaricare in locale il codice in XML a questo link: https://www.cciss.it/nap/mmtis/public/catalog/Dataset/1481.
 
-Estrarre il file e aggiungerlo alla cartella /Tap-Go/TapGoBus.
+Estrarre il file e aggiungerlo alla cartella /Tap-Go/TapGoBus/database.
 
 Nota: cambia il path e il nome del file netex se necessario!
 
@@ -25,7 +25,7 @@ git merge '@{u}'
 
 Caso 2: Il file systemd service è modificato o bisogna intervenire sul processo.
 
-sudo cp /home/debian/Tap-Go/tap_go_bus.service /etc/systemd/system/tap_go_bus.service
+sudo cp /home/debian/Tap-Go/TapGoBus/vm/tap_go_bus.service /etc/systemd/system/tap_go_bus.service
 sudo systemctl daemon-reload
 sudo systemctl enable tap_go_bus
 sudo systemctl start tap_go_bus
@@ -45,7 +45,7 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 chmod +x tap_go_bus.py
-chmod +x infomobility
+chmod +x infomobility.py
 source venv/bin/deactivate
 chmod 777 /etc/systemd/system/tap_go_bus.service
 cd /home/debian

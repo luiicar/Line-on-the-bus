@@ -1,9 +1,9 @@
 [Unit]
-Description=Esegui Tap-Go on Bus all'avvio
+Description=Esegui Tap&Go on Bus all'avvio
 After=network.target
 
 [Service]
-ExecStart=/home/debian/Tap-Go/tap_go_bus.sh
+ExecStart=/home/debian/Tap-Go/vm/tap_go_bus.sh
 WorkingDirectory=/home/debian/Tap-Go
 Restart=always
 User=debian
