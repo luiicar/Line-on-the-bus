@@ -16,7 +16,7 @@ async def define_tap():
         validazioni_raw = params["buffer"]["validazioni_raw"]
         if validazioni_raw and params["infomobility"]["journey"]["stops"]:
             if validazioni_raw[0] not in ["check-in", "check-out", 0, 1]:
-                logger.info("[ TAP ] Tap non riconosciuto.")
+                logger.info("Tap non riconosciuto.")
             else:
                 if validazioni_raw[0] in ["check-in", 0]:
                     operazione = "check-in"
@@ -46,7 +46,7 @@ async def define_tap():
                         }
                     }
                 )
-                logger.info("[ TAP ] Tap memorizzato correttamente.")
+                logger.info("Tap memorizzato correttamente.")
 
             params["buffer"]["validazioni_raw"].pop(0)
             open_json(0, file_params, params)
