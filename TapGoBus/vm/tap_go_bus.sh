@@ -2,7 +2,7 @@
 
 
 PROJECT_DIR="/home/debian/Tap-Go"
-update = false
+update = "false"
 
 
 # Esegui git pull
@@ -14,7 +14,7 @@ git merge '@{u}'
 # Controlla se requirements.txt è cambiato
 cd TapGoBus
 if git diff --name-only HEAD@{1} HEAD | grep -q "requirements.txt"; then
-    update = true
+    update = "true"
     rm -r venv
     python3 -m venv venv
 fi
@@ -23,7 +23,7 @@ fi
 source "$PROJECT_DIR/TapGoBus/venv/bin/activate"
 
 # Se requirements.txt è cambiato, scarica i pacchetti
-if [ "$update" = true ]; then
+if [ "$update" == "true" ]; then
     pip install -r requirements.txt
 fi
 
