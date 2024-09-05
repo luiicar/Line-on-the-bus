@@ -5,11 +5,12 @@ import logging
 
 from .config import file_params
 from .file_opener import open_json
-from .parser import search_all, search_elem, search_by_ref, search_by_id, get_root
-from .coordinates import calculate_distance, calculate_middlepoint
+from .parser import search_all, search_elem, search_by_ref, search_by_id, get_root, get_code_svr
+from .coordinates import calculate_distance, calculate_middlepoint, get_comune_from_gps
 
 # Creazione di un logger specifico per questo modulo con nome personalizzato
 logger = logging.getLogger("[ VALIDATION ]")
+
 
 # Trova i valori della fermata fisica e tariffaria legati al tap
 def calculate_validation(validation):
@@ -87,10 +88,6 @@ def calculate_validation(validation):
         lon_stop = float(search_elem(stop, "Longitude", "text"))
         distance = calculate_distance(lat, lon, lat_stop, lon_stop)
         if distance <= delta:
-            tariff_zone_id = search_elem(stop, "TariffZoneRef", "ref")
-            tariff_zone = search_by_id(get_root(), "TariffZone", tariff_zone_id)
-            fermata_tariffaria = int(search_elem(tariff_zone, "Name", "text") or 000)
-            fermata_fisica = int(search_elem(stop, "PublicCode", "text") or 0000)
             found = True
             break
         else:
@@ -107,10 +104,17 @@ def calculate_validation(validation):
         elif validation["operazione"] == "check-out":
             idx = link_distance.index(min(link_distance)) + 1
         stop = search_by_id(get_root(), "ScheduledStopPoint", ref_linked[idx])
-        tariff_zone_id = search_elem(stop, "TariffZoneRef", "ref")
-        tariff_zone = search_by_id(get_root(), "TariffZone", tariff_zone_id)
-        fermata_tariffaria = int(search_elem(tariff_zone, "Name", "text") or 000)
-        fermata_fisica = int(search_elem(stop, "PublicCode", "text") or 0000)
+
+    # Calcolo fermata fisica
+    fermata_fisica = int(search_elem(stop, "PublicCode", "text") or 0000)
+    # Calcolo fermata tariffaria
+    tariff_zone_id = search_elem(stop, "TariffZoneRef", "ref")
+    tariff_zone = search_by_id(get_root(), "TariffZone", tariff_zone_id)
+    fermata_tariffaria = int(search_elem(tariff_zone, "Name", "text") or 000)
+    if fermata_tariffaria == 000:
+        comune = get_comune_from_gps(lat, lon)
+        fermata_tariffaria = get_code_svr(comune)
+    # Calcolo linea
     line = search_by_id(get_root(), "Line", line_id)
     linea = search_elem(line, "Name", "text")
     return fermata_fisica, fermata_tariffaria, linea

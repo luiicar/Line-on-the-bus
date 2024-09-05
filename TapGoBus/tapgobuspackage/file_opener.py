@@ -1,7 +1,7 @@
 import json
 
 
-# Apre il lettura o scrittura i file JSON
+# Apre in lettura o scrittura i file JSON
 def open_json(mode, filename, data="", option=""):
     if mode: # 1 lettura
         with open(filename, "r") as file:

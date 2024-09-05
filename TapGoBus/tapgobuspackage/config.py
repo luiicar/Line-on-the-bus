@@ -1,2 +1,2 @@
 file_log = "output.log"
-file_params = "params.json" 
+file_params = "database/params.json" 

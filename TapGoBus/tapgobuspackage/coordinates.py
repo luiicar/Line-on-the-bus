@@ -1,4 +1,5 @@
 from math import radians, degrees, sin, cos, atan2, sqrt
+from geopy.geocoders import Nominatim
 import gpsd
 import asyncio
 import logging
@@ -7,15 +8,17 @@ from .config import file_params
 from .file_opener import open_json
 
 # Configura il logger per ignorare i messaggi di debug
-logging.getLogger('gpsd').setLevel(logging.WARNING)
+logging.getLogger("gpsd").setLevel(logging.WARNING)
+logging.getLogger("geopy").setLevel(logging.WARNING)
 
 
+# Crea la connessione al gpsd Daemon
 async def get_gpsd_connection():
     params = open_json(1, file_params)
     connected = False
 
     try:
-        gpsd.connect() # Connessione al gpsd deamon
+        gpsd.connect()
         connected = True
     except:
         pass
@@ -37,6 +40,7 @@ def get_gps_data():
 
     open_json(0, file_params, params)
 
+
 # Calcolare la distanza tra due punti geografici
 # Formula di Haversine
 def calculate_distance(lat1, lon1, lat2, lon2):
@@ -48,6 +52,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     distanza = raggio_terra * c
     return distanza
+
 
 # Calcolare coordinate medie tra 2 punti
 def calculate_middlepoint(lat1, lon1, lat2, lon2):
@@ -62,3 +67,17 @@ def calculate_middlepoint(lat1, lon1, lat2, lon2):
     lat_medio, lon_medio = map(degrees, [lat_medio, lon_medio]) # Converte da radianti a gradi
 
     return lat_medio, lon_medio
+
+
+# Ottiene il nome del comune a partire dalle coordinate gps
+def get_comune_from_gps(lat, lon):
+    geolocator = Nominatim(user_agent="openstreetmap.org")
+    location = geolocator.reverse((lat, lon), language='it')
+    if location and 'address' in location.raw:
+        address = location.raw['address']
+        comune = address.get('town') or address.get('city') or address.get('village')
+        return comune
+    else:
+        return None
+    
+    

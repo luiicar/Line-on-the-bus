@@ -3,7 +3,7 @@ import asyncio
 
 from tapgobuspackage.config import file_log
 from tapgobuspackage.file_opener import open_json
-from tapgobuspackage.parser import init_lxml, clear_params
+from tapgobuspackage.parser import init_lxml, init_pd, clear_params
 from tapgobuspackage.coordinates import get_gpsd_connection
 from tapgobuspackage.tap import define_tap
 from tapgobuspackage.line import calculateLine
@@ -21,6 +21,7 @@ async def main():
     open_json(0, file_log, option="clear")
     logger.info("Inizializzazione Tap&Go on Bus in corso...")
     await init_lxml()
+    await init_pd()
     await clear_params()
     connected = await get_gpsd_connection()
     if connected:

@@ -2,12 +2,13 @@ from lxml import etree
 from datetime import datetime
 import asyncio
 import platform
+import pandas as pd
 
 from .config import file_params
 from .file_opener import open_json
 
 
-# Inizializza il root 
+# Effettua il parser del file lxml
 async def init_lxml():
     global ns, root
     params = open_json(1, file_params)
@@ -22,12 +23,16 @@ async def init_lxml():
     root = etree.parse(netex) # Carica il file XML
     await asyncio.sleep(params["repetition_wait_seconds"]["default"])
 
+
+# Ritorna la variabile root
 def get_root():
     return root
+
 
 # Ricerca nella struttura filtrando per id
 def search_by_id(node, path, id):
     return node.find(f".//ns:{path}[@id='{id}']", namespaces=ns)
+
 
 # Ricerca nella struttura filtrando per ref
 def search_by_ref(node, path, subpath, ref):
@@ -41,6 +46,7 @@ def search_by_ref(node, path, subpath, ref):
             lst.append(elem)
     return lst
 
+
 # trova tutti gli elementi
 def search_all(node, path):
     elems = node.xpath(f".//ns:{path}", namespaces=ns)
@@ -48,6 +54,7 @@ def search_all(node, path):
         return elems[0]
     else:
         return elems
+
 
 # Salva un valore di una foglia
 def search_elem(node, path, value):
@@ -61,6 +68,30 @@ def search_elem(node, path, value):
     except:
         element = None
     return element
+
+
+# Effettua il parser del file excel
+async def init_pd():
+    global df
+    params = open_json(1, file_params)
+    os = platform.system()
+    if os == "Windows":
+        excel = params["excel_file"]["path"]["win"] + params["excel_file"]["name"]
+    elif os == "Linux":
+        excel = params["excel_file"]["path"]["linux"] + params["excel_file"]["name"]
+    elif os == "Darwin":
+        excel = params["excel_file"]["path"]["mac"] + params["excel_file"]["name"]
+    df = pd.read_excel(excel)
+    await asyncio.sleep(params["repetition_wait_seconds"]["default"])
+
+
+# Cerca il comune nel DataFrame e restituisci l'ID corrispondente
+def get_code_svr(nome_comune):
+    comune = df[df["COMUNE"].str.upper() == nome_comune.upper()]
+    if not comune.empty:
+        return int(comune.iloc[0]["COD_SVR"])
+    else:
+        return None
 
 
 # Ripulisci il file params.json

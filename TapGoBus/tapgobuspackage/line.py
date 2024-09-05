@@ -8,6 +8,7 @@ from .parser import search_all, search_elem, get_root
 # Creazione di un logger specifico per questo modulo con nome personalizzato
 logger = logging.getLogger("[ LINE ]")
 
+
 # Trova il bus corrente e ne memorizza il valore
 def calculate_line():
     params = open_json(1, file_params)

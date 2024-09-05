@@ -22,7 +22,7 @@ async def main():
 
     while not exist:
         name = input(">>> Inserire il nome del bus: ").upper()
-        filename = "infomobility-" + name + ".json"
+        filename = "database/infomobility-" + name + ".json"
 
         for line in lines:
             if search_elem(line, "Name", "text") == name:
@@ -53,24 +53,20 @@ async def main():
                 }
                 stops.append(stopinfo)
             
+            departure_duration = {}
+
             if departure == "Y":
                 service_journeys = search_all(get_root(), "ServiceJourney")
                 for service_journey in service_journeys:
                     if search_elem(service_journey, "ServiceJourneyPatternRef", "ref") == pattern.get("id"):
                         temporal_info[search_elem(service_journey, "DepartureTime", "text")] = search_elem(service_journey, "JourneyDuration", "text")
-                journeyinfo = {
-                    "id": pattern.get("id"),
-                    #"direction": sjp.xpath("ns:DirectionType/text()", namespaces=ns)[0],
-                    "departure/duration": dict(sorted(temporal_info.items())),
-                    "stops": stops
-                }
-            else:
-                journeyinfo = {
-                    "id": stop_pattern,
-                    #"direction": sjp.xpath("ns:DirectionType/text()", namespaces=ns)[0],
-                    "departure/duration": {},
-                    "stops": stops
-                }
+                departure_duration = dict(sorted(temporal_info.items()))
+            journeyinfo = {
+                "id": stop_pattern,
+                #"direction": sjp.xpath("ns:DirectionType/text()", namespaces=ns)[0],
+                "departure/duration": departure_duration,
+                "stops": stops
+            }
             file["journeys"].append(journeyinfo)
     open_json(0, filename, file)
 
