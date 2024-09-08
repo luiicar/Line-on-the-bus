@@ -25,6 +25,7 @@
         "range_meters_approx": 5
     },
     "time_min_approx": 45,
+    "time_until_wait_default": 1080,
     "repetition_wait_seconds": {
         "default": 1,
         "calculate_stops": 60,
@@ -32,13 +33,12 @@
     },
     "buffer": {
         "nearby_stops_id": [],
-        "count_divide": 1,
         "validazioni_raw": []
     },
     "infomobility": {
         "line_id": "",
         "journey": {
-            "last_stop_time": "2024-09-05 05:20:06",
+            "last_stop_time": "2024-09-08 21:14:57",
             "stops": []
         }
     },

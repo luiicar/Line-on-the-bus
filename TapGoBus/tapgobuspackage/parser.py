@@ -109,7 +109,6 @@ async def clear_params():
     params["position_rt"]["longitude"] = 0
 
     params["buffer"]["nearby_stops_id"] = []
-    params["buffer"]["count_divide"] = 1
     params["buffer"]["validazioni_raw"] = []
 
     params["infomobility"]["line_id"] = ""

@@ -12,49 +12,31 @@ from .coordinates import calculate_distance, calculate_middlepoint, get_comune_f
 logger = logging.getLogger("[ VALIDATION ]")
 
 
-# Trova i valori della fermata fisica e tariffaria legati al tap
-def calculate_validation(validation):
+# Simula l'esperienza di un cliente capendo la direzione corretta da considerare
+def experience(linked_stops, validation, journey, stop, terminus):
     params = open_json(1, file_params)
-    # STEP 1
-    line_id = params["infomobility"]["line_id"]
-    reference_stop_id = validation["__added__"]["last_stop_id"]
-    linked_stops = []
-    found = False
-    # Creazione delle liste di link per ogni tratta
-    for journey in search_by_ref(get_root(), "ServiceJourneyPattern", "LineRef", line_id):
-        linked_stops. append({
-            "id": journey.get("id"),
-            "stops": search_all(journey, "ScheduledStopPointRef/@ref")
-        })
 
-        # Trovare StopPointInJourneyPattern della fermata di riferimento e del capolinea
-        for stop_in_journey in search_by_ref(journey, "StopPointInJourneyPattern", "ScheduledStopPointRef", reference_stop_id):
-            reference_journey_id = journey.get("id") # Prendo anche l'id della tratta
-            reference_journey_stop_id = stop_in_journey.get("id")
-            terminus_journey_stop = search_elem(journey, "StopPointInJourneyPattern", "last")
-            terminus_journey_stop_id = terminus_journey_stop.get("id")
-
-    # STEP 2
+    # Calcola il tempo medio dalla fermata di riferimento al capolinea
+    # Considera solo i ServiceJourney della tratta di riferimento di quella fascia oraria
     time_range = params["time_min_approx"]
     last_stop_date_str = validation["__added__"]["last_stop_time"]
     start_trim = last_stop_date_str.rfind(" ")
     last_stop_time_str = last_stop_date_str[start_trim + 1:]
     last_stop_time = datetime.strptime(last_stop_time_str, "%H:%M:%S")
     difference_times = []
-    # Calcola il tempo medio dalla fermata di riferimento al capolinea
-    # Considera solo i ServiceJourney della tratta di riferimento di quella fascia oraria
-    for service_journey in search_by_ref(get_root(), "ServiceJourney", "ServiceJourneyPatternRef", reference_journey_id):
-        for timetable_r in search_by_ref(service_journey, "TimetabledPassingTime", "StopPointInJourneyPatternRef", reference_journey_stop_id):
+    
+    for service_journey in search_by_ref(get_root(), "ServiceJourney", "ServiceJourneyPatternRef", journey):
+        for timetable_r in search_by_ref(service_journey, "TimetabledPassingTime", "StopPointInJourneyPatternRef", stop):
             stop_sj_time = datetime.strptime(search_elem(timetable_r, "DepartureTime", "text"), "%H:%M:%S")
             difference = (abs(stop_sj_time - last_stop_time).total_seconds() % 3600) // 60 
             if difference < time_range:
-                for timetable_t in search_by_ref(service_journey, "TimetabledPassingTime", "StopPointInJourneyPatternRef", terminus_journey_stop_id):
+                for timetable_t in search_by_ref(service_journey, "TimetabledPassingTime", "StopPointInJourneyPatternRef", terminus):
                     terminus_sj_time = datetime.strptime(search_elem(timetable_t, "DepartureTime", "text"), "%H:%M:%S")
                     stop_to_terminus_difference = (terminus_sj_time - stop_sj_time).total_seconds() % 3600 // 60
                     difference_times.append(stop_to_terminus_difference)
     time_stop_to_terminus_avg = sum(difference_times) / len(difference_times) 
 
-    # STEP 3
+    
     # Capire qual'è la tratta di riferimento per il calcolo della validazione
     # Se l'orario della validazione è minore del tempo medio per arrivare al capolinea, la tratta è quella, altrimenti è l'altra
     validation_date_str = validation["data_validazione"]
@@ -67,14 +49,39 @@ def calculate_validation(validation):
         
     if last_stop_time + time_stop_to_terminus_avg < validation_date_time:
         for item in linked_stops:
-            if item["id"] != reference_journey_id:
+            if item["id"] != journey:
                 ref_linked = item["stops"]  
     else:
         for item in linked_stops:
-            if item["id"] == reference_journey_id:
+            if item["id"] == journey:
                 ref_linked = item["stops"] 
+    return ref_linked
 
-    # STEP 4
+
+# Trova i valori della fermata fisica e tariffaria legati al tap
+def calculate_validation(validation):
+    params = open_json(1, file_params)
+    
+    # Creazione delle liste di link per ogni tratta e definizione riferimenti
+    line_id = params["infomobility"]["line_id"]
+    reference_stop_id = validation["__added__"]["last_stop_id"]
+    linked_stops = []
+    found = False
+
+    for journey in search_by_ref(get_root(), "ServiceJourneyPattern", "LineRef", line_id):
+        linked_stops. append({
+            "id": journey.get("id"),
+            "stops": search_all(journey, "ScheduledStopPointRef/@ref")
+        })
+
+        reference_journey_id = journey.get("id") # Riferimento tratta
+        stop_in_journey = search_by_ref(journey, "StopPointInJourneyPattern", "ScheduledStopPointRef", reference_stop_id)[-1]
+        reference_journey_stop_id = stop_in_journey.get("id") # Riferimento fermata
+        journey_terminus = search_elem(journey, "StopPointInJourneyPattern", "last")
+        reference_journey_terminus_id = journey_terminus.get("id") # Riferimento capolinea
+            
+    ref_linked = experience(linked_stops, validation, reference_journey_id, reference_journey_stop_id, reference_journey_terminus_id)
+
     # Calcolo link e fermata legata al tap
     lat = validation["__added__"]["latitude"]
     lon = validation["__added__"]["longitude"]

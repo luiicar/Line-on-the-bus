@@ -1,4 +1,5 @@
 from datetime import datetime
+from math import exp, log
 import asyncio
 import logging
 
@@ -9,6 +10,34 @@ from .coordinates import get_gps_data, calculate_distance
 
 # Creazione di un logger specifico per questo modulo con nome personalizzato
 logger = logging.getLogger("[ STOP ]")
+
+
+# Calcola il tempo di attesa per di riattivare calculateStops
+def define_line_asleep_seconds():
+    params = open_json(1, file_params)
+    asleep_default = params["repetition_wait_seconds"]["default"]
+    asleep_stops = params["repetition_wait_seconds"]["calculate_stops"]
+    asleep_line = params["repetition_wait_seconds"]["calculate_line"]
+    asleep_until_default = params["time_until_wait_default"]
+    last_stop_time = datetime.strptime(params["infomobility"]["journey"]["last_stop_time"], "%Y-%m-%d %H:%M:%S")
+    current_time = datetime.now()
+
+    difference_time = current_time - last_stop_time
+    m = (1 - asleep_stops) / (asleep_until_default - 0)
+    q = asleep_stops
+
+    # Se non trova una fermata entro un ciclo di calculateLine, diminuisci linearmente
+    if difference_time.seconds < asleep_line:
+        asleep = m * difference_time.seconds + q
+    # Dal secondo ciclo di calculateLine diminuisci esponenzialmente
+    elif asleep_line < difference_time.seconds > asleep_until_default:
+        a = m * asleep_line + q
+        k = log(1 / a) / (asleep_until_default - asleep_line)
+        asleep = a * exp(k * (difference_time.seconds - asleep_line))
+    # mantiene infine come valore di attesa minimo quello di default
+    elif asleep_until_default < difference_time.seconds:
+        asleep = asleep_default
+    return asleep
 
 
 # Trova il codice della fermata legata alle info gps
@@ -66,8 +95,6 @@ def calculate_stops():
 async def calculateStops():
     while True:
         params = open_json(1, file_params)
-        asleep_line = params["repetition_wait_seconds"]["calculate_line"]
-        asleep_stops = params["repetition_wait_seconds"]["calculate_stops"]
         found = False
         get_gps_data()
         stops = calculate_stops()
@@ -87,13 +114,7 @@ async def calculateStops():
         else:
             logger.info("Nessuna fermata trovata.")
 
-        current_time = datetime.now()
-        last_stop_time = datetime.strptime(params["infomobility"]["journey"]["last_stop_time"], "%Y-%m-%d %H:%M:%S")
-        difference_time = current_time - last_stop_time
-        if difference_time.total_seconds() > asleep_line and asleep_stops > asleep_stops/10:
-            asleep_stops = asleep_stops/(params["buffer"]["count_divide"]*2)
-            params["buffer"]["count_divide"] += 1
-        open_json(0, file_params, params)
+        asleep_stops = define_line_asleep_seconds()
         await asyncio.sleep(asleep_stops) # Attende prima di riattivarsi
 
 

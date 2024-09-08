@@ -26,6 +26,7 @@ async def main():
 
         for line in lines:
             if search_elem(line, "Name", "text") == name:
+                file["line"]["netex_publication_date"] = search_elem(get_root(), "PublicationTimestamp", "text")
                 file["line"]["id"] = line.get("id")
                 file["line"]["name"] = name
                 break
