@@ -12,6 +12,8 @@ per Debian:
 user: Debian
 pw: debian
 
+- il file tap_go_bus.sh si avvia in automatico all'avvio del pc (vedi caso 2a per intervenire sul processo)
+- per avviare il file infomobility.sh: sh infomobility.sh
 
 
 ---- Comandi utili aggiuntivi ----
@@ -41,14 +43,9 @@ sudo cp /home/debian/Tap-Go/TapGoBus/vm/tap_go_bus.sh /home/debian/Tap-Go/tap_go
 sudo chmod +x /home/debian/Tap-Go/tap_go_bus.py
 
 
-Caso 2c: Il file requirements.txt è modificato.
-cd /home/debian/Tap-Go/TapGoBus/
-rm -r venv
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-chmod +x tap_go_bus.py
-chmod +x infomobility.py
+Caso 2c: Il file infomobility.sh è modificato.
+sudo cp /home/debian/Tap-Go/TapGoBus/vm/infomobility.sh /home/debian/Tap-Go/infomobility.service
+sudo chmod +x /home/debian/Tap-Go/infomobility.py
 
 --------
 
