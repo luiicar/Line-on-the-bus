@@ -27,15 +27,15 @@ def define_line_asleep_seconds():
     q = asleep_stops
 
     # Se non trova una fermata entro un ciclo di calculateLine, diminuisci linearmente
-    if difference_time.seconds < asleep_line:
+    if difference_time.seconds <= asleep_line:
         asleep = m * difference_time.seconds + q
     # Dal secondo ciclo di calculateLine diminuisci esponenzialmente
-    elif asleep_line < difference_time.seconds > asleep_until_default:
+    elif asleep_line < difference_time.seconds < asleep_until_default:
         a = m * asleep_line + q
         k = log(1 / a) / (asleep_until_default - asleep_line)
         asleep = a * exp(k * (difference_time.seconds - asleep_line))
     # mantiene infine come valore di attesa minimo quello di default
-    elif asleep_until_default < difference_time.seconds:
+    elif difference_time.seconds >= asleep_until_default:
         asleep = asleep_default
     return asleep
 
@@ -113,6 +113,7 @@ async def calculateStops():
                 params["infomobility"]["journey"]["stops"].append(stops[idx])
         else:
             logger.info("Nessuna fermata trovata.")
+        open_json(0, file_params, params)
 
         asleep_stops = define_line_asleep_seconds()
         await asyncio.sleep(asleep_stops) # Attende prima di riattivarsi

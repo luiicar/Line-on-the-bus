@@ -39,12 +39,12 @@ sudo systemctl status tap_go_bus (per monitorare lo stato del processo)
 
 Caso 2b: Il file tap_go_bus.sh è modificato.
 
-sudo cp /home/debian/Tap-Go/TapGoBus/vm/tap_go_bus.sh /home/debian/Tap-Go/tap_go_bus.service
+sudo cp /home/debian/Tap-Go/TapGoBus/vm/tap_go_bus.sh /home/debian/Tap-Go/tap_go_bus.sh
 sudo chmod +x /home/debian/Tap-Go/tap_go_bus.py
 
 
 Caso 2c: Il file infomobility.sh è modificato.
-sudo cp /home/debian/Tap-Go/TapGoBus/vm/infomobility.sh /home/debian/Tap-Go/infomobility.service
+sudo cp /home/debian/Tap-Go/TapGoBus/vm/infomobility.sh /home/debian/Tap-Go/infomobility.sh
 sudo chmod +x /home/debian/Tap-Go/infomobility.py
 
 --------
