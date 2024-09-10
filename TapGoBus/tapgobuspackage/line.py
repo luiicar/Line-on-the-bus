@@ -51,6 +51,8 @@ async def calculateLine():
                     else:
                         lines_id.insert(0, params["infomobility"]["line_id"])
                         found = True
+                else: 
+                    delete = True
             elif len(lines_id) > 1:
                 if params["infomobility"]["line_id"] != "":
                     # Verifica se tra gli autobus c'è quello precedentemente trovato in cerca di continuità

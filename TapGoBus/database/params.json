@@ -20,8 +20,8 @@
         }
     },
     "position_rt": {
-        "latitude": 40.8524796220229,
-        "longitude": 14.2517072994577,
+        "latitude": 40.8530144680904,
+        "longitude": 14.2502165952775,
         "range_meters_approx": 5
     },
     "time_min_approx": 45,
@@ -33,15 +33,26 @@
     },
     "buffer": {
         "nearby_stops_id": [],
-        "validazioni_raw": [],
-        "count_divide": 1
+        "validazioni_raw": []
     },
     "infomobility": {
         "line_id": "IT:Line:C63",
         "journey": {
-            "last_stop_time": "2024-09-09 01:48:26",
+            "last_stop_time": "2024-09-10 02:21:27",
             "stops": [
-                "IT:ScheduledStopPoint:_x0031_130_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
+                "IT:ScheduledStopPoint:_x0031_425_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0031_203_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0031_456_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0033_011_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0033_530_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0033_946_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0033_582_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0033_250_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0033_357_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0033_119_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0031_061_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0035_004_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "IT:ScheduledStopPoint:_x0031_246_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
             ]
         }
     },

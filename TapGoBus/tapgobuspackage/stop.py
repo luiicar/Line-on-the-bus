@@ -107,7 +107,6 @@ async def calculateStops():
             
         if found:
             logger.info("I codici delle fermate sono: %s", ', '.join(stops))
-            params["buffer"]["count_divide"] = 1
             params["infomobility"]["journey"]["last_stop_time"] = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             for idx in range(len(stops)):
                 params["infomobility"]["journey"]["stops"].append(stops[idx])

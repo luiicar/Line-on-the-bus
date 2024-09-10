@@ -6,7 +6,7 @@
     },
     "journeys": [
         {
-            "id": "IT:ScheduledStopPoint:_x0031_061_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+            "id": "IT:ServiceJourneyPattern:C63_4344_1_1_1_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
             "departure/duration": {},
             "stops": [
                 {
@@ -187,7 +187,7 @@
             ]
         },
         {
-            "id": "IT:ScheduledStopPoint:_x0031_425_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+            "id": "IT:ServiceJourneyPattern:C63_4344_1_1_2_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
             "departure/duration": {},
             "stops": [
                 {

@@ -63,7 +63,7 @@ async def main():
                         temporal_info[search_elem(service_journey, "DepartureTime", "text")] = search_elem(service_journey, "JourneyDuration", "text")
                 departure_duration = dict(sorted(temporal_info.items()))
             journeyinfo = {
-                "id": stop_pattern,
+                "id": pattern.get("id"),
                 #"direction": sjp.xpath("ns:DirectionType/text()", namespaces=ns)[0],
                 "departure/duration": departure_duration,
                 "stops": stops

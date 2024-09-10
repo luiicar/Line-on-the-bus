@@ -9,6 +9,7 @@ from tapgobuspackage.tap import define_tap
 from tapgobuspackage.line import calculateLine
 from tapgobuspackage.stop import calculateStops
 from tapgobuspackage.validation import calculateValidations
+from tapgobuspackage.simulation import simulate
 
 # Configurazione del logging
 logging.basicConfig(filename=file_log, level=logging.DEBUG, format='%(asctime)s - %(name)s %(message)s')
@@ -18,6 +19,8 @@ logger = logging.getLogger(" ")
 
 
 async def main():
+    sim_file = "database/infomobility-C63.json"
+
     open_json(0, file_log, option="clear")
     logger.info("Inizializzazione Tap&Go on Bus in corso...")
     await init_lxml()
@@ -27,7 +30,7 @@ async def main():
     if connected:
         logger.info("Connessione al GPS Deamon riuscita.")
     else:
-        logger.info("Connessione al GPS Deamon fallita. Inserire manualmente le coordinate.")
+        logger.info("Connessione al GPS Deamon fallita.")
     logger.info("Inizializzazione Tap&Go on Bus completata!")
 
     # Crea i task per le funzioni
@@ -35,7 +38,11 @@ async def main():
     stops_task = asyncio.create_task(calculateStops())
     validations_task = asyncio.create_task(calculateValidations())
     tap_task = asyncio.create_task(define_tap())
-    await asyncio.gather(line_task, stops_task, validations_task, tap_task) # Attende che tutti i task sia completati
+    if sim_file == None or sim_file == "":
+        await asyncio.gather(stops_task, line_task, tap_task, validations_task) # Attende che tutti i task sia completati
+    else:
+        simulate_task = asyncio.create_task(simulate(sim_file))
+        await asyncio.gather(simulate_task, stops_task, line_task, tap_task, validations_task) # Attende che tutti i task sia completati
 
 
 # Esegue il loop principale

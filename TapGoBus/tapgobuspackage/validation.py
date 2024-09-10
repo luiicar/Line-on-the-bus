@@ -74,11 +74,13 @@ def calculate_validation(validation):
             "stops": search_all(journey, "ScheduledStopPointRef/@ref")
         })
 
-        reference_journey_id = journey.get("id") # Riferimento tratta
-        stop_in_journey = search_by_ref(journey, "StopPointInJourneyPattern", "ScheduledStopPointRef", reference_stop_id)[-1]
-        reference_journey_stop_id = stop_in_journey.get("id") # Riferimento fermata
-        journey_terminus = search_elem(journey, "StopPointInJourneyPattern", "last")
-        reference_journey_terminus_id = journey_terminus.get("id") # Riferimento capolinea
+        items = search_by_ref(journey, "StopPointInJourneyPattern", "ScheduledStopPointRef", reference_stop_id)
+        if items:
+            reference_journey_id = journey.get("id") # Riferimento tratta
+            stop_in_journey = items[-1]
+            reference_journey_stop_id = stop_in_journey.get("id") # Riferimento fermata
+            journey_terminus = search_elem(journey, "StopPointInJourneyPattern", "last")
+            reference_journey_terminus_id = journey_terminus.get("id") # Riferimento capolinea
             
     ref_linked = experience(linked_stops, validation, reference_journey_id, reference_journey_stop_id, reference_journey_terminus_id)
 
