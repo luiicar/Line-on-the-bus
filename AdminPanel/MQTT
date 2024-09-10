@@ -1,0 +1,16 @@
+
+    l’utente aziona l’interruttore presso l’HUB personale (da interfaccia web, app mobile, comando vocale – quel che è);
+    l’HUB personale formatta e invia un messaggio di comando MQTT destinato all’interruttore intelligente in base alla configurazione attribuitagli:
+        col topic contenente le informazioni relative al tipo di comando e al destinatario;
+        col payload contenente l’azione da eseguire
+    il broker riceve il messaggio MQTT;
+    il broker verifica se e quale client MQTT abbia sottoscritto il topic contenuto nel messaggio (in questo caso, il dispositivo da comandare);
+    il broker gira al client MQTT (il componente/dispositivo) il messaggio MQTT;
+    il dispositivo, che sa cosa fare alla ricezione di un messaggio dal tale topic e dal tale payload, esegue l’azione;
+    il dispositivo formatta e invia un messaggio telemetrico MQTT a grandi linee così concepito:
+        contenente un topic che identifica il messaggio come telemetrico e il fatto che sia prodotto da lui (non ha un “destinatario”, è semplicemente un “alzare la mano per comunicare qualcosa”);
+        contenente un payload contenente la risposta all’azione appena eseguita;
+    il broker riceve il messaggio MQTT;
+    il broker verifica se e quale client MQTT abbia sottoscritto il topic contenuto nel messaggio (in questo caso, l’HUB personale, che avrà nella configurazione dell’interruttore appena comandato non solo il topic di comando, ma anche il topic telemetrico da sottoscrivere per ottenere le risposte);
+    il broker gira al client MQTT (l’HUB personale) il messaggio MQTT;
+    l’HUB personale assume la risposta in base al contenuto del payload e relativa interpretazione (eg. “ON” indicherà, banalmente, l’avvenuta accensione dell’interruttore).
