@@ -5,12 +5,13 @@ import logging
 from .config import file_params
 from .file_opener import open_json
 from .coordinates import get_gps_data
+from .simulation import sim_gps_tap
 
 # Creazione di un logger specifico per questo modulo con nome personalizzato
 logger = logging.getLogger("[ TAP ]")
 
 
-async def define_tap():
+async def define_tap(flag, sim_file):
     while True:
         params = open_json(1, file_params)
         validazioni_raw = params["buffer"]["validazioni_raw"]
@@ -22,7 +23,14 @@ async def define_tap():
                     operazione = "check-in"
                 else:
                     operazione = "check-out"
-                get_gps_data()
+                
+                if flag:
+                    lat, lon = sim_gps_tap(params["infomobility"]["journey"]["stops"][-1], sim_file)
+                else:
+                    get_gps_data()
+                    lat = params["position_rt"]["latitude"]
+                    lon = params["position_rt"]["longitude"]
+
                 params["validazioni"].append(
                     {
                         "data_validazione": str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
@@ -39,8 +47,8 @@ async def define_tap():
                         "codice_fermata_tariffaria": 0,
                         "codice_linea": "",
                         "__added__": {
-                            "latitude": params["position_rt"]["latitude"],
-                            "longitude": params["position_rt"]["longitude"],
+                            "latitude": lat,
+                            "longitude": lon,
                             "last_stop_id": params["infomobility"]["journey"]["stops"][-1],
                             "last_stop_time": params["infomobility"]["journey"]["last_stop_time"]
                         }

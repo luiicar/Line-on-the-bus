@@ -28,8 +28,8 @@
     "time_until_wait_default": 1080,
     "repetition_wait_seconds": {
         "default": 1,
-        "calculate_stops": 60,
-        "calculate_line": 300
+        "calculate_stops": 30,
+        "calculate_line": 150
     },
     "buffer": {
         "nearby_stops_id": [],
@@ -38,19 +38,8 @@
     "infomobility": {
         "line_id": "IT:Line:C63",
         "journey": {
-            "last_stop_time": "2024-09-10 02:21:27",
+            "last_stop_time": "2024-09-11 00:39:05",
             "stops": [
-                "IT:ScheduledStopPoint:_x0031_425_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0031_203_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0031_456_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0033_011_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0033_530_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0033_946_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0033_582_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0033_250_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0033_357_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0033_119_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
-                "IT:ScheduledStopPoint:_x0031_061_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
                 "IT:ScheduledStopPoint:_x0035_004_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
                 "IT:ScheduledStopPoint:_x0031_246_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
             ]

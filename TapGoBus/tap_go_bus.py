@@ -20,6 +20,7 @@ logger = logging.getLogger(" ")
 
 async def main():
     sim_file = "database/infomobility-C63.json"
+    sim = False
 
     open_json(0, file_log, option="clear")
     logger.info("Inizializzazione Tap&Go on Bus in corso...")
@@ -29,16 +30,19 @@ async def main():
     connected = await get_gpsd_connection()
     if connected:
         logger.info("Connessione al GPS Deamon riuscita.")
+    elif not connected and (sim_file == None or sim_file == ""):
+        logger.info("Connessione al GPS Deamon fallita. Le coordinate dovrenno essere inserite manualmente.")
     else:
-        logger.info("Connessione al GPS Deamon fallita.")
+        logger.info("Connessione al GPS Deamon fallita. Le coordinate verranno simulate.")
+        sim = True
     logger.info("Inizializzazione Tap&Go on Bus completata!")
 
     # Crea i task per le funzioni
     line_task = asyncio.create_task(calculateLine())
     stops_task = asyncio.create_task(calculateStops())
     validations_task = asyncio.create_task(calculateValidations())
-    tap_task = asyncio.create_task(define_tap())
-    if sim_file == None or sim_file == "":
+    tap_task = asyncio.create_task(define_tap(sim, sim_file))
+    if not sim:
         await asyncio.gather(stops_task, line_task, tap_task, validations_task) # Attende che tutti i task sia completati
     else:
         simulate_task = asyncio.create_task(simulate(sim_file))

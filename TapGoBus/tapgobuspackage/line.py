@@ -62,7 +62,7 @@ async def calculateLine():
         if found:
             logger.info("Il codice della linea: %s", lines_id[0])
             params["infomobility"]["line_id"] = lines_id[0] 
-        if not found:
+        else:
             logger.info("Troppe poche fermate conosciute.")
         if delete:
             logger.info("Tratta inesistente. Cancellazione dati temporanei sulle fermate in corso...")
