@@ -39,7 +39,7 @@ async def simulate(file):
 
         params["position_rt"]["latitude"] = stops[idx]["latitude"]
         params["position_rt"]["longitude"] = stops[idx]["longitude"]
-        logger.info("In simulazione le coordinate della fermata con codice: " + stops[idx]["Code"])
+        logger.info("In simulazione le coordinate della fermata "+ stops[idx]["Name"] + " con codice: " + stops[idx]["Code"])
         open_json(0, file_params, params)
         await asyncio.sleep(params["repetition_wait_seconds"]["calculate_stops"]-5) 
 
