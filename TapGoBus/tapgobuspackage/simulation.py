@@ -31,8 +31,8 @@ async def simulate(file):
                 idx = (idx + random.randint(1, 3)) % len(stops)
             elif probability < 0.98:
                 idx = (idx + random.randint(4, 5)) % len(stops)
-            else:
-                idx = (idx + random.randint(1, len(stops)-1)) % len(stops)
+            #else:
+            #    idx = (idx + random.randint(1, len(stops)-1)) % len(stops)
         else:
             if idx == -1:
                 idx = 0
