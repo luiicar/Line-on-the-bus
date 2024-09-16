@@ -13,7 +13,7 @@ logger = logging.getLogger("[ STOP ]")
 
 
 # Calcola il tempo di attesa per di riattivare calculateStops
-def define_line_asleep_seconds():
+def optimize_asleep():
     params = open_json(1, file_params)
     asleep_default = params["repetition_wait_seconds"]["default"]
     asleep_stops = params["repetition_wait_seconds"]["calculate_stops"]
@@ -114,7 +114,7 @@ async def calculateStops():
             logger.info("Nessuna fermata trovata.")
         open_json(0, file_params, params)
 
-        asleep_stops = define_line_asleep_seconds()
+        asleep_stops = optimize_asleep()
         await asyncio.sleep(asleep_stops) # Attende prima di riattivarsi
 
 
