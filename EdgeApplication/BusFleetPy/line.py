@@ -44,7 +44,7 @@ async def calculateLine():
                 if buffer["line_id"] != "":
                     # Verifica se l'ultima fermata trovata è attraversata dall'autobus precedentemente trovato in cerca di continuità
                     buffer["journey"]["stops"] = buffer["journey"]["stops"][-1:]
-                    open_json(0, file_params, params)
+                    open_json(0, file_buffer, buffer)
                     lines_id = calculate_line()
                     if buffer["line_id"] not in lines_id:
                         delete = True

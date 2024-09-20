@@ -60,7 +60,7 @@ async def simulate():
         logger.info("In simulazione le coordinate della fermata "+ stops[idx]["Name"] + " con codice: " + stops[idx]["Code"])
         open_json(0, file_buffer, buffer)
 
-        await asyncio.sleep(params["await_seconds"]["calculate_stops"]-5) 
+        await asyncio.sleep(params["await_seconds"]["calculate_stops"]-2) 
 
 
 # Simula delle coordinate gps tra 2 fermate conseguenziali

@@ -20,7 +20,7 @@
     "time_until_await_default": 1080,
     "await_seconds": {
         "default": 1,
-        "calculate_stops": 30,
-        "calculate_line": 150
+        "calculate_stops": 20,
+        "calculate_line": 100
     }
 }
