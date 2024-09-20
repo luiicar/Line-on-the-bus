@@ -5,10 +5,10 @@ After=network-online.target
 
 [Service]
 ExecStart=bash /home/debian/Tap-Go/EdgeApplication/vm/bus_tracker.sh
-WorkingDirectory=/home/debian/Tap-Go
+WorkingDirectory=/home/debian/Line-on-the-edge
 Restart=always
 User=debian
-Environment=PATH=/home/debian/Tap-Go/EdgeApplication/venv/bin:/usr/bin:/bin
+Environment=PATH=/home/debian/Line-on-the-edge/EdgeApplication/venv/bin:/usr/bin:/bin
 
 [Install]
 WantedBy=multi-user.target

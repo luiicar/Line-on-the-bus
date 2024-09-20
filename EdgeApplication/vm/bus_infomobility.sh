@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-PROJECT_DIR="/home/debian/Tap-Go"
+PROJECT_DIR="/home/debian/Line-on-the-edge"
 
 # Attiva l'ambiente virtuale
 source "$PROJECT_DIR/EdgeApplication/venv/bin/activate"

@@ -18,7 +18,7 @@ async def main():
     for line in lines:
         linee.append(search_elem(line, "Name", "text"))
     print("Lista degli autobus:")
-    print(linee)
+    print(sorted(linee))
 
     while not exist:
         name = input(">>> Inserire il nome del bus: ").upper()
