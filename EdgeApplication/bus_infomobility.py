@@ -1,7 +1,7 @@
 import asyncio
 
-from tapgobuspackage.file_opener import open_json
-from tapgobuspackage.parser import init_lxml, get_root, search_all, search_elem, search_by_id
+from BusFleetPy.file_opener import open_json
+from BusFleetPy.parser import init_lxml, get_root, search_all, search_elem, search_by_id
 
 
 # Crea un file json che, dato in input il nome di un bus, ci da tutte le informaziono utili

@@ -1,10 +1,9 @@
 from lxml import etree
 from datetime import datetime
 import asyncio
-import platform
 import pandas as pd
 
-from .config import file_params
+from .config import file_params, file_buffer
 from .file_opener import open_json
 
 
@@ -12,16 +11,10 @@ from .file_opener import open_json
 async def init_lxml():
     global ns, root
     params = open_json(1, file_params)
-    os = platform.system()
-    if os == "Windows":
-        netex = params["netex_file"]["path"]["win"] + params["netex_file"]["name"]
-    elif os == "Linux":
-        netex = params["netex_file"]["path"]["linux"] + params["netex_file"]["name"]
-    elif os == "Darwin":
-        netex = params["netex_file"]["path"]["mac"] + params["netex_file"]["name"]
+    netex = params["netex_file"]["path"] + params["netex_file"]["name"]
     ns = {'ns': params["netex_file"]["namespace"]}
     root = etree.parse(netex) # Carica il file XML
-    await asyncio.sleep(params["repetition_wait_seconds"]["default"])
+    await asyncio.sleep(params["await_seconds"]["default"])
 
 
 # Ritorna la variabile root
@@ -74,15 +67,9 @@ def search_elem(node, path, value):
 async def init_pd():
     global df
     params = open_json(1, file_params)
-    os = platform.system()
-    if os == "Windows":
-        excel = params["excel_file"]["path"]["win"] + params["excel_file"]["name"]
-    elif os == "Linux":
-        excel = params["excel_file"]["path"]["linux"] + params["excel_file"]["name"]
-    elif os == "Darwin":
-        excel = params["excel_file"]["path"]["mac"] + params["excel_file"]["name"]
+    excel = params["excel_file"]["path"] + params["excel_file"]["name"]
     df = pd.read_excel(excel)
-    await asyncio.sleep(params["repetition_wait_seconds"]["default"])
+    await asyncio.sleep(params["await_seconds"]["default"])
 
 
 # Cerca il comune nel DataFrame e restituisci l'ID corrispondente
@@ -94,8 +81,9 @@ def get_code_svr(nome_comune):
         return None
 
 
-# Ripulisci il file params.json
-async def clear_params():
+# Inizializza tutti i file json
+async def init_database():
+    # params.json
     params = open_json(1, file_params)
     
     operator = search_all(root, "Operator")
@@ -105,17 +93,22 @@ async def clear_params():
     params["netex_file"]["valid_until"] = search_elem(validation, "ToDate", "text")
     params["netex_file"]["publication_timestamp"] = search_elem(root, "PublicationTimestamp", "text")
 
-    params["position_rt"]["latitude"] = 0
-    params["position_rt"]["longitude"] = 0
-
-    params["buffer"]["nearby_stops_id"] = []
-    params["buffer"]["validazioni_raw"] = []
-
-    params["infomobility"]["line_id"] = ""
-    params["infomobility"]["journey"]["last_stop_time"] = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    params["infomobility"]["journey"]["stops"] = []
-
-    params["validazioni"] = []
-    
     open_json(0, file_params, params)
-    await asyncio.sleep(params["repetition_wait_seconds"]["default"])
+
+    # buffer.json
+    buffer = open_json(1, file_buffer)
+
+    buffer["position_rt"]["latitude"] = 0
+    buffer["position_rt"]["longitude"] = 0
+
+    buffer["line_id"] = ""
+    buffer["journey"]["last_stop_time"] = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    buffer["journey"]["stops"] = []
+
+    buffer["nearby_stops_id"] = []
+    buffer["validazioni_raw"] = []
+    buffer["validazioni"] = []
+    
+    open_json(0, file_buffer, buffer)
+
+    await asyncio.sleep(params["await_seconds"]["default"])

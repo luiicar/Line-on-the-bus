@@ -4,7 +4,7 @@ import gpsd
 import asyncio
 import logging
 
-from .config import file_params
+from .config import file_params, file_buffer
 from .file_opener import open_json
 
 # Configura il logger per ignorare i messaggi di debug
@@ -23,22 +23,22 @@ async def get_gpsd_connection():
     except:
         pass
 
-    await asyncio.sleep(params["repetition_wait_seconds"]["default"]) 
+    await asyncio.sleep(params["await_seconds"]["default"]) 
     return connected
 
 
 # Funzione per ottenere e stampare i dati GPS
 def get_gps_data():
-    params = open_json(1, file_params)
+    buffer = open_json(1, file_buffer)
     # Ottenere il pacchetto GPS
     try:
         packet = gpsd.get_current()
-        params["position_rt"]["latitude"] = float(packet.lat)
-        params["position_rt"]["longitude"] = float(packet.lon)
+        buffer["position_rt"]["latitude"] = float(packet.lat)
+        buffer["position_rt"]["longitude"] = float(packet.lon)
     except:
         pass
 
-    open_json(0, file_params, params)
+    open_json(0, file_buffer, buffer)
 
 
 # Calcolare la distanza tra due punti geografici

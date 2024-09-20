@@ -3,7 +3,7 @@ import json
 import asyncio
 import logging
 
-from .config import file_params
+from .config import file_params, file_buffer
 from .file_opener import open_json
 from .parser import search_all, search_elem, search_by_ref, search_by_id, get_root, get_code_svr
 from .coordinates import calculate_distance, calculate_middlepoint, get_comune_from_gps
@@ -18,7 +18,7 @@ def experience(linked_stops, validation, journey, stop, terminus):
 
     # Calcola il tempo medio dalla fermata di riferimento al capolinea
     # Considera solo i ServiceJourney della tratta di riferimento di quella fascia oraria
-    time_range = params["time_min_approx"]
+    time_range = params["time_slot_minutes"]
     last_stop_date_str = validation["__added__"]["last_stop_time"]
     start_trim = last_stop_date_str.rfind(" ")
     last_stop_time_str = last_stop_date_str[start_trim + 1:]
@@ -60,10 +60,11 @@ def experience(linked_stops, validation, journey, stop, terminus):
 
 # Trova i valori della fermata fisica e tariffaria legati al tap
 def calculate_validation(validation):
-    params = open_json(1, file_params)
+    buffer = open_json(1, file_buffer)
+    èarams = open_json(1, file_params)
     
     # Creazione delle liste di link per ogni tratta e definizione riferimenti
-    line_id = params["infomobility"]["line_id"]
+    line_id = buffer["line_id"]
     reference_stop_id = validation["__added__"]["last_stop_id"]
     linked_stops = []
     found = False
@@ -87,7 +88,7 @@ def calculate_validation(validation):
     # Calcolo link e fermata legata al tap
     lat = validation["__added__"]["latitude"]
     lon = validation["__added__"]["longitude"]
-    delta = params["position_rt"]["range_meters_approx"]
+    delta = params["interception_radius_gps_meters"]
     link_distance = []
     found = False
 
@@ -131,23 +132,25 @@ def calculate_validation(validation):
 
 async def calculateValidations():
     while True:
-        params = open_json(1, file_params)
-        validazioni = params["validazioni"]
-        line_id = params["infomobility"]["line_id"]
+        buffer = open_json(1, file_buffer)
+        validazioni = buffer["validazioni"]
+        line_id = buffer["line_id"]
 
         if line_id == "":
             pass
         elif not validazioni:
             pass
 
-        elif params["infomobility"]["line_id"] != "" and validazioni:
+        elif buffer["line_id"] != "" and validazioni:
             fermata_fisica, fermata_tariffaria, linea = calculate_validation(validazioni[0])
-            params["validazioni"][0]["fermata"] = fermata_fisica
-            params["validazioni"][0]["codice_fermata_tariffaria"] = fermata_tariffaria
-            params["validazioni"][0]["codice_linea"] = linea
-            params["validazioni"][0].pop("__added__")
+            buffer["validazioni"][0]["fermata"] = fermata_fisica
+            buffer["validazioni"][0]["codice_fermata_tariffaria"] = fermata_tariffaria
+            buffer["validazioni"][0]["codice_linea"] = linea
+            buffer["validazioni"][0].pop("__added__")
             logger.info("Validazione in output!")
-            logger.info("%s", json.dumps(params["validazioni"][0]))
-            params["validazioni"].pop(0)
-            open_json(0, file_params, params)
-        await asyncio.sleep(params["repetition_wait_seconds"]["default"])  
+            logger.info("%s", json.dumps(buffer["validazioni"][0]))
+            buffer["validazioni"].pop(0)
+            open_json(0, file_buffer, buffer)
+        
+        params = open_json(1, file_params)
+        await asyncio.sleep(params["await_seconds"]["default"])  

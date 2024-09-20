@@ -4,6 +4,7 @@
 PROJECT_DIR="/home/debian/Tap-Go"
 update="false"
 
+cd ~
 
 # Esegui git pull
 cd "$PROJECT_DIR"
@@ -12,7 +13,7 @@ git reset --hard HEAD
 git merge '@{u}'
 
 # Controlla se requirements.txt è cambiato
-cd TapGoBus
+cd EdgeApplication
 if git diff --name-only HEAD@{1} HEAD | grep -q "requirements.txt"; then
     update="true"
     rm -r venv
@@ -20,7 +21,7 @@ if git diff --name-only HEAD@{1} HEAD | grep -q "requirements.txt"; then
 fi
 
 # Attiva l'ambiente virtuale
-source "$PROJECT_DIR/TapGoBus/venv/bin/activate"
+source "$PROJECT_DIR/EdgeApplication/venv/bin/activate"
 
 # Se requirements.txt è cambiato, scarica i pacchetti
 if [ "$update" == "true" ]; then
@@ -28,4 +29,4 @@ if [ "$update" == "true" ]; then
 fi
 
 # Avvia il programma
-"$PROJECT_DIR/TapGoBus/venv/bin/python" "$PROJECT_DIR/TapGoBus/tap_go_bus.py"
+"$PROJECT_DIR/EdgeApplication/venv/bin/python" "$PROJECT_DIR/EdgeApplication/bus_tracker.py"

@@ -1,0 +1,26 @@
+{
+    "vector": "ANM",
+    "netex_file": {
+        "name": "IT-IT-ITF3-ANM_GOMMANeTEx_L1.xml",
+        "path": "database/",
+        "namespace": "http://www.netex.org.uk/netex",
+        "publication_timestamp": "2024-03-25T00:00:00+01:00",
+        "valid_until": "2024-03-31T00:00:00"
+    },
+    "excel_file": {
+        "name": "COD_COMUNI_SVR.xlsx",
+        "path": "database/"
+    },
+    "simulator_file": {
+        "name_line": "C63",
+        "path": "database/"
+    },
+    "interception_radius_gps_meters": 5,
+    "time_slot_minutes": 60,
+    "time_until_await_default": 1080,
+    "await_seconds": {
+        "default": 1,
+        "calculate_stops": 30,
+        "calculate_line": 150
+    }
+}
