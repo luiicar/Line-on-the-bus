@@ -1,8 +1,11 @@
-2024-09-20 20:08:18,087 -   Inizializzazione Tap&Go on Bus in corso...
-2024-09-20 20:08:27,475 -   Connessione al GPS Deamon fallita. Le coordinate verranno simulate.
-2024-09-20 20:08:27,476 -   Inizializzazione Tap&Go on Bus completata!
-2024-09-20 20:08:27,479 - [ LINE ] Troppe poche fermate conosciute.
-2024-09-20 20:08:27,746 - [ STOP ] Nessuna fermata trovata.
-2024-09-20 20:08:27,759 -   In simulazione le coordinate della fermata GIOVAN BATTISTA VICO con codice: 1425
-2024-09-20 20:08:52,780 -   In simulazione le coordinate della fermata TANUCCI  con codice: 1373
-2024-09-20 20:08:57,894 - [ STOP ] I codici delle fermate sono: IT:ScheduledStopPoint:_x0031_373_ANM_x0020_2023-24_x0020_-_x0020_GOMMA
+2024-09-20 23:30:10,979 -   Inizializzazione Tap&Go on Bus in corso...
+2024-09-20 23:30:19,794 -   Connessione al GPS Deamon fallita. Le coordinate verranno simulate.
+2024-09-20 23:30:19,795 -   Inizializzazione Tap&Go on Bus completata!
+2024-09-20 23:30:19,796 - [ LINE ] Troppe poche fermate conosciute.
+2024-09-20 23:30:20,037 - [ STOP ] Nessuna fermata trovata.
+2024-09-20 23:30:20,047 -   In simulazione le coordinate della fermata GIOVAN BATTISTA VICO con codice: 1425
+2024-09-20 23:30:45,063 -   In simulazione le coordinate della fermata GIOVAN BATTISTA VICO con codice: 1425
+2024-09-20 23:30:50,161 - [ STOP ] I codici delle fermate sono: IT:ScheduledStopPoint:_x0031_425_ANM_x0020_2023-24_x0020_-_x0020_GOMMA
+2024-09-20 23:30:50,175 - [ TAP ] Tap memorizzato correttamente.
+2024-09-20 23:31:10,077 -   In simulazione le coordinate della fermata GIOVAN BATTISTA VICO con codice: 1425
+2024-09-20 23:31:20,427 - [ STOP ] Nessuna fermata trovata.

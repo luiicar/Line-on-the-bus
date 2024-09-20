@@ -1,16 +1,38 @@
 {
     "line_id": "",
     "position_rt": {
-        "latitude": 40.8649265305085,
-        "longitude": 14.2668421066632
+        "latitude": 40.8660102006954,
+        "longitude": 14.2651392252182
     },
     "journey": {
-        "last_stop_time": "2024-09-20 20:08:57",
+        "last_stop_time": "2024-09-20 23:30:50",
         "stops": [
-            "IT:ScheduledStopPoint:_x0031_373_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
+            "IT:ScheduledStopPoint:_x0031_425_ANM_x0020_2023-24_x0020_-_x0020_GOMMA"
         ]
     },
     "nearby_stops_id": [],
     "validazioni_raw": [],
-    "validazioni": []
+    "validazioni": [
+        {
+            "data_validazione": "2024-09-20 23:30:50",
+            "vettore_validazione": "ANM",
+            "veicolo": "",
+            "dispositivo": "",
+            "pnr_seriale": 0,
+            "supporto": "",
+            "operazione": "check-out",
+            "esito": "",
+            "emv_terminal_id": 0,
+            "emv_hashpan": "",
+            "fermata": 0,
+            "codice_fermata_tariffaria": 0,
+            "codice_linea": "",
+            "__added__": {
+                "latitude": 40.86542861784714,
+                "longitude": 14.26605312564012,
+                "last_stop_id": "IT:ScheduledStopPoint:_x0031_425_ANM_x0020_2023-24_x0020_-_x0020_GOMMA",
+                "last_stop_time": "2024-09-20 23:30:50"
+            }
+        }
+    ]
 }

@@ -64,7 +64,7 @@ async def simulate():
 # Simula delle coordinate gps tra 2 fermate conseguenziali
 def sim_gps_tap(ref_stop_id, file):
     try:
-        infos = open_json(1, sim_file)
+        infos = open_json(1, file)
     except:
         print("Linea da simulare non presente nel database.")
         print("Per favore, creala richiamando il programma opportuno oppure cambia la linea.")
