@@ -4,7 +4,7 @@ Tap&Go on Bus all'avvio
 After=network-online.target
 
 [Service]
-ExecStart=bash /home/debian/Tap-Go/EdgeApplication/vm/bus_tracker.sh
+ExecStart=bash /home/debian/Line-on-the-edge/EdgeApplication/vm/bus_tracker.sh
 WorkingDirectory=/home/debian/Line-on-the-edge
 Restart=always
 User=debian
