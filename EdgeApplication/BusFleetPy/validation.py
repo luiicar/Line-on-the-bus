@@ -61,7 +61,7 @@ def experience(linked_stops, validation, journey, stop, terminus):
 # Trova i valori della fermata fisica e tariffaria legati al tap
 def calculate_validation(validation):
     buffer = open_json(1, file_buffer)
-    èarams = open_json(1, file_params)
+    params = open_json(1, file_params)
     
     # Creazione delle liste di link per ogni tratta e definizione riferimenti
     line_id = buffer["line_id"]

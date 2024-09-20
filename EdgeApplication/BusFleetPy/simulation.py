@@ -45,8 +45,10 @@ async def simulate():
                 idx = idx + 1
             elif probability < 0.75: 
                 idx = (idx + random.randint(1, 2)) % len(stops)
+            elif probability < 0.9:
+                idx = (idx + random.randint(2, 3)) % len(stops)
             elif probability < 0.98:
-                idx = (idx + random.randint(1, 3)) % len(stops)
+                idx = (idx + random.randint(3, 4)) % len(stops)
             elif probability > 0.98:
                 idx = (idx + random.randint(4, 5)) % len(stops)
         else:
