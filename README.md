@@ -1,18 +1,14 @@
 # Line-on-the-edge
-Progetto in collaborazione con Unico Campania
+Progetto in collaborazione con il Consorzio Unico Campania
 #
 
 Per l'uso del codice è necessario scaricare in locale il codice in XML a questo link: https://www.cciss.it/nap/mmtis/public/catalog/Dataset/1481.
 
-Estrarre il file e aggiungerlo alla cartella /Tap-Go/TapGoBus/database.
+Estrarre il file e aggiungerlo alla cartella /Line-on-the-edge/EdgeApplication/database.
 
-Nota: cambia il path e il nome del file netex se necessario!
 
-per Debian:
-user: Debian
-pw: debian
-
-- il file tap_go_bus.sh si avvia in automatico all'avvio del pc (vedi caso 2a per intervenire sul processo)
+- (per Debian)    user: Debian       pw:   debian
+- bus_tracker.sh si avvia in automatico all'avvio del pc (vedi caso 2a per intervenire sul processo)
 - per avviare il file infomobility.sh: sh infomobility.sh
 
 
@@ -25,34 +21,33 @@ git merge '@{u}'
 
 --------
 
-Caso 2a: Il file tap_go_bus.service è modificato o bisogna intervenire sul processo.
+Caso 2a: Il file bus_tracker.service è modificato o bisogna intervenire sul processo.
 
-sudo cp /home/debian/Tap-Go/TapGoBus/vm/tap_go_bus.service /etc/systemd/system/tap_go_bus.service
-sudo chmod +x /home/debian/Tap-Go/tap_go_bus.service
+sudo cp /home/debian/Line-on-the-edge/EdgeApplication/vm/bus_tracker.service /etc/systemd/system/bus_tracker.service
+sudo chmod +x /etc/systemd/system/bus_tracker.service
 sudo systemctl daemon-reload
-sudo systemctl enable tap_go_bus
-sudo systemctl start tap_go_bus
-sudo systemctl stop tap_go_bus (per stoppare il processo)
-sudo systemctl restart tap_go_bus (per riavviare il processo)
-sudo systemctl status tap_go_bus (per monitorare lo stato del processo)
+sudo systemctl enable bus_tracker
+sudo systemctl start bus_tracker
+sudo systemctl stop bus_tracker (per stoppare il processo)
+sudo systemctl restart bus_tracker (per riavviare il processo)
+sudo systemctl status bus_tracker (per monitorare lo stato del processo)
 
 
-Caso 2b: Il file tap_go_bus.sh è modificato.
+Caso 2b: Il file bus_tracker.sh è modificato.
 
-sudo cp /home/debian/Tap-Go/TapGoBus/vm/tap_go_bus.sh /home/debian/Tap-Go/tap_go_bus.sh
-sudo chmod +x /home/debian/Tap-Go/tap_go_bus.py
+sudo chmod +x /home/debian/Line-on-the-edge/EdgeApplication/bus_tracker.py
 
 
-Caso 2c: Il file infomobility.sh è modificato.
-sudo cp /home/debian/Tap-Go/TapGoBus/vm/infomobility.sh /home/debian/Tap-Go/infomobility.sh
-sudo chmod +x /home/debian/Tap-Go/infomobility.py
+Caso 2c: Il file bus_infomobility.sh è modificato.
+
+sudo chmod +x /home/debian/Line-on-the-edge/EdgeApplication/bus_infomobility.py
 
 --------
 
 Caso 3: Bisogna riclonare manualmente il git in VM.
 
-git clone --no-checkout https://github.com/luiicar/Tap-Go.git
-cd Tap-Go
+git clone --no-checkout https://github.com/luiicar/Line-on-the-edge.git
+cd Line-on-the-edge
 git config core.sparseCheckout true
 nano .git/info/sparse-checkout (e scrivere al suo interno incolonnati i file e cartelle da clonare)
 git checkout
