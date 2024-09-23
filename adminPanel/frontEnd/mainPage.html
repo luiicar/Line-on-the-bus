@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line on the edge</title>
+    <link rel="icon" href="logounico2.png" type="image/x-icon" sizes="16x16">
+    <!-- Includo link per l'uso di Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="style_mainPage.css"> <!-- Link al file CSS -->
+</head>
+<body>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js">
+        console.log(window.location.pathname);
+    </script> <!-- Link al file JavaScript -->
+    <div class="header">
+        <img src="logounico.png" alt="Logo"> <!-- Immagine a sinistra -->
+        <div class="header-text">Line on the edge: Admin Panel</div> <!-- Testo a destra -->
+    </div>
+
+    <div class="content">
+        <div class="left-section">
+            <div class="left-text">Management of on-board computer</div>
+            <button onclick="showRouterSection('BUS 1')" data-title="BUS 1">BUS 1</button>
+            <button onclick="showRouterSection('BUS 2')" data-title="BUS 2">BUS 2</button>
+            <button onclick="showRouterSection('BUS 3')" data-title="BUS 3">BUS 3</button>
+            <button onclick="showRouterSection('BUS 4')" data-title="BUS 4">BUS 4</button>
+            <button onclick="showRouterSection('BUS 5')" data-title="BUS 5">BUS 5</button>
+            <button onclick="showRouterSection('BUS 6')" data-title="BUS 6">BUS 6</button>
+        </div>
+        <div class="right-section">
+            <h2>INFO</h2>
+            <p class="p-right-section">
+                Nella colonna di sinistra del pannello, è disponibile un elenco di bus che possono essere monitorati e gestiti.<br>
+                Il sistema permette di ottenere e visualizzare i dati GPS relativi alla posizione attuale del veicolo connesso al router selezionato.<br>
+                Il pannello amministrativo <b>"Line on the edge"</b> fornisce un'interfaccia intuitiva per monitorare e gestire i CdB e i dispositivi GPS associati.<br>
+                Utilizzando il sistema in modo efficace, puoi garantire la connettività dei dispositivi e monitorare le posizioni dei veicoli in tempo reale.
+            </p>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="router-section">
+            <div class="router-section-content">
+                <p class="h-router-section" id="titleSection">BUS 1</p>
+                <button class="router-section-button" onclick="checkRouterStatus('192.168.1.1')">Router Check</button>
+                <div class="status-section">
+                    <span class="status-circle" id="status-circle"></span>
+                    <span class="status-text" id="connection-status">Connection status:</span>
+                    <span class="status-time" id="status-time">Last check: -</span>
+                </div>
+
+                <div class="status-section">
+                    <span class="status-text">GPS data check:</span>
+                    <button class="router-section-button" id="getGPSButton">Position Check</button>
+                    <div id="map"></div>
+                </div>
+
+                <p id="gpsData">GPS data: <span id="gpsResult">No data available</span></p>
+                <div id="cityResult"></div>
+
+                <div class="status-section">
+                    <button class="router-section-button" onclick="checkBusLine()">Check Bus Line</button>
+                    <span class="status-text" id="busLine">Line:</span>
+                </div>
+            </div>
+
+            <button class="logout-button" onclick="logout()">Logout</button>
+            <button class="back-button" onclick="showRightSection()">Back to Home Page</button>
+        </div>
+    </div>
+
+    <div data-page="mainPage"></div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+A scopo dimostrativo, questa demo del Pannello Amministrativo vuole gestire in sicurezza una comunicazione tra il Router con l'applicazione in edge.
+Tecnologie usate:
+1. HTTP
+2. Backend per la comunicazione con il BrokerMQTT.
+Siccome la demo dell'Admin Panel è in locale è bene seguire i seguenti passaggi per la dimostrazione pratica:
+1. Attivare un server in locale su una determinata porta (localhost:8080) per poter avviare login.html e consentire la comunicazione con mainPage.html 
+2. Attivare il server.js tramite il comando node server.js
+3. Avviare le applicazioni python per l'invio dei dati GPS (python_gps.py) al broker e per il calcolo del nome della città a partire dalle coordinate lette (pythone_city.py).
+
+Info BROKER
+La macchine utilizzata come server per l'host del broker è all'indirizzo 192.168.1.80, il topic: router/gps per la comunicazione dei dati gps.
+

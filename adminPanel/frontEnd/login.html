@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="icon" href="logounico2.png" type="image/x-icon" sizes="16x16">
+    <link rel="stylesheet" href="style_login.css"> <!-- Collegamento al CSS -->
+</head>
+<body>
+    
+    <div class="header">
+        <img src="logounico.png" alt="Logo"> <!-- Immagine a sinistra -->
+        <div class="header-text">Line on the edge: Admin Panel</div> <!-- Testo a destra -->
+    </div>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Nome utente" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Accedi</button>
+        </form>
+    </div>
+
+    <script> 
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+    
+        // Per semplicità, usiamo credenziali predefinite (questo non è sicuro per la produzione)
+        const validUsername = 'admin';
+        const validPassword = 'password';
+    
+        if (username === validUsername && password === validPassword) {
+            console.log('Credenziali valide, reindirizzamento in corso...');
+            localStorage.setItem('authenticated', 'true');
+            window.location.href = 'mainPage.html'; // Reindirizza alla pagina principale
+        } else {
+            console.log('Credenziali non valide');
+            alert('Nome utente o password non validi');
+        }
+    });
+    </script> 
+</body>
+</html>
